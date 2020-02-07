@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.view.marginStart
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -49,18 +51,16 @@ class WordsAdapter(context : Context, wordViewModel: WordViewModel, lifecycle : 
 
     override fun onBindViewHolder(holder: WordsViewHolder, position: Int) {
         holder.etEnglish!!.text = wordsList[position].english
-        holder.etTimeStamp!!.text = wordsList[position].timestamp
 
     }
-
     inner class WordsViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         var etEnglish: TextView? = null
-        var etTimeStamp: TextView? = null
+        var cvParent: CardView? = null
         init {
             Log.v("ViewHolder", "Viewholder")
             etEnglish = itemView.findViewById(R.id.wordlist_english)
-            etTimeStamp = itemView.findViewById(R.id.wordlist_timestamp)
+            cvParent = itemView.findViewById(R.id.cardView_wordlist_parent)
             itemView.setOnClickListener(this)
         }
 

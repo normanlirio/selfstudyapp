@@ -30,7 +30,6 @@ class WordViewModel : ViewModel() {
     }
 
 
-
     fun displayWordsToList() : LiveData<List<Word>> {
         getWordsFromDB()
         return wordList
@@ -47,9 +46,8 @@ class WordViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 displayWordsToList()
-
             }, {
-                Log.v("DB", "Error on " + it.localizedMessage)
+
                 it.localizedMessage
             }).let {
                 compositeDisposable.add(it)

@@ -4,5 +4,10 @@
         android:icon="@drawable/ic_add_circle"
         android:title="Add Vocabulary"
         />
+    <item
+        android:id="@+id/quiz"
+        android:icon="@drawable/ic_pencil"
+        android:title="Generate Quiz"
+        />
 
 </menu>

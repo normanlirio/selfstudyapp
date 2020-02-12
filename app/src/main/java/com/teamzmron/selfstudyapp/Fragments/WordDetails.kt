@@ -15,6 +15,7 @@ import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Database.WordDatabase
 import com.teamzmron.selfstudyapp.Room.Entity.Word
 import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
+import com.teamzmron.selfstudyapp.ViewModel.WordDetailsViewModel
 import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
 import kotlinx.android.synthetic.main.fragment_worddetails.*
 
@@ -23,9 +24,8 @@ import kotlinx.android.synthetic.main.fragment_worddetails.*
  */
 class WordDetails : Fragment() {
     private lateinit var wordViewModel : WordViewModel
-    private lateinit var wordsAdapter: WordsAdapter
     private lateinit var pageViewModel: PageViewModel
-    private lateinit var words : Word
+    private lateinit var wordDetailsViewModel: WordDetailsViewModel
     private var wordID : Int = 0
 
     override fun onCreateView(
@@ -42,12 +42,16 @@ class WordDetails : Fragment() {
 
         initViewModels()
 
-
         wordID = arguments!!.getInt("id")
-        Log.v("Properties", "Words ID:  " + wordID)
+        wordDetailsViewModel.getMutableId().observe(this, Observer {
+
+            Log.v("Observer", "Word ID: " + it)
+        })
+
+
         wordViewModel.getWordById(wordID).observe(this, Observer {
             editText_editVocabulary_addword.setText(it[0].japanese)
-            editText_editVocabulary_addEnglish.setText(it.get(0).english)
+            editText_editVocabulary_addEnglish.setText(it[0].english)
             editText_editVocabulary_hiragana.setText(it[0].hiragana)
             editText_editVocabulary_kanji.setText(it[0].kanji)
             editText_editVocabulary_sentence.setText(it[0].sentence)
@@ -57,11 +61,19 @@ class WordDetails : Fragment() {
 
     }
 
+    private fun initViewModels() {
+        wordViewModel = ViewModelProviders.of(this).get(WordViewModel::class.java)
+        pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java)
+        wordDetailsViewModel = ViewModelProviders.of(activity!!).get(WordDetailsViewModel::class.java)
+
+
+    }
+
     private fun buttonActions() {
 
         button_editVocabulary_save.setOnClickListener {
-            Log.v("Update","Update button clicked.")
-            pageViewModel.getFragmentTransaction(context!!).remove(this).commit()
+
+          goHome()
             wordViewModel.updateWord(Word(
                 id = wordID,
                 japanese = editText_editVocabulary_addword.text.toString(),
@@ -75,16 +87,12 @@ class WordDetails : Fragment() {
         }
 
         button_editVocabulary_cancel.setOnClickListener {
-            pageViewModel.getFragmentTransaction(context!!).remove(this).commit()
+            goHome()
         }
     }
 
-    private fun initViewModels() {
-        wordViewModel = ViewModelProviders.of(this).get(WordViewModel::class.java)
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java)
-        var dbInstance = WordDatabase.getDatabasenIstance(context!!)
-        wordViewModel.setInstanceOfDB(dbInstance)
-
+    private fun goHome() {
+        pageViewModel.getFragmentTransaction(context!!).replace(pageViewModel.fragmentContainer, Home()).commit()
     }
 
 }

@@ -12,11 +12,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <EditText
-                android:padding="10dp"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/editText_editVocabulary_addword"
-                android:hint="Add word"/>
+                android:hint="Japanese word"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

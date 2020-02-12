@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,10 +20,12 @@ import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Database.WordDatabase
 import com.teamzmron.selfstudyapp.Room.Entity.Word
 import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
+import com.teamzmron.selfstudyapp.ViewModel.WordDetailsViewModel
 import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.sql.Timestamp
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -33,6 +36,8 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
     private lateinit var wordViewModel: WordViewModel
     private lateinit var wordsAdapter: WordsAdapter
     private lateinit var pageViewModel: PageViewModel
+    private lateinit var wordDetailsViewModel: WordDetailsViewModel
+    private  var wordsList : ArrayList<Word> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,20 +54,17 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         initViewModels()
         initRecyclerView()
 
-        wordViewModel.displayWordsToList().observe(this, Observer<List<Word>> {
-            Log.v("Observer", "Observed")
+        wordViewModel.getWordsFromRepo().observe(this, Observer {
+            wordsList.addAll(it)
             wordsAdapter.notifyDataSetChanged()
         })
-
     }
 
 
     private fun initViewModels() {
         wordViewModel = ViewModelProviders.of(this).get(WordViewModel::class.java)
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java)
-        wordViewModel.init()
-        var dbInstance = WordDatabase.getDatabasenIstance(context!!)
-        wordViewModel.setInstanceOfDB(dbInstance)
+        wordDetailsViewModel = ViewModelProviders.of(activity!!).get(WordDetailsViewModel::class.java)
     }
 
     private fun initRecyclerView() {
@@ -72,23 +74,21 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         recycler_home.layoutManager = LinearLayoutManager(context!!)
 
         image_home_gridlist.setOnClickListener {
-            Log.v("TOGgle","Toggleed!")
             if(isGridView) {
                 recycler_home.layoutManager = LinearLayoutManager(context!!)
-                image_home_gridlist.background = resources.getDrawable(R.drawable.ic_grid)
+                image_home_gridlist.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_grid, null)
                 isGridView = false
             } else {
                 recycler_home.layoutManager = GridLayoutManager(context!!, 4)
-                image_home_gridlist.background = resources.getDrawable(R.drawable.ic_list)
-
+                image_home_gridlist.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_list, null)
                 isGridView = true
-
             }
         }
         recycler_home.adapter = wordsAdapter
 
         var itemTouchHelper = ItemTouchHelper(
             SwipeToDeleteHelper(
+                this,
                 wordViewModel,
                 wordsAdapter, 0, ItemTouchHelper.RIGHT
             )
@@ -111,6 +111,13 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
                 inflateAddForm()
                 true
             }
+            R.id.quiz -> {
+                pageViewModel.setFragment(QuizSettings())
+                pageViewModel.getFragmentTransaction(context!!)
+                    .add(pageViewModel.getFragmentContainer_(), pageViewModel.getFragment().value!!)
+                    .commit()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -126,13 +133,13 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT
         dialog.window!!.attributes = lp
 
-        var etJapanese = dialog.findViewById(R.id.editText_addVocabulary_addword) as TextView
-        var etEnglish = dialog.findViewById(R.id.editText_addVocabulary_addEnglish) as TextView
-        var etHiraKata = dialog.findViewById(R.id.editText_addVocabulary_hiragana) as TextView
-        var etKanji = dialog.findViewById(R.id.editText_addVocabulary_kanji) as TextView
-        var etSampleSentence = dialog.findViewById(R.id.editText_addVocabulary_sentence) as TextView
-        var btnCancel = dialog.findViewById<TextView>(R.id.button_addForm_cancel) as Button
-        var btnSave = dialog.findViewById<TextView>(R.id.button_addForm_save) as Button
+        val etJapanese = dialog.findViewById(R.id.editText_addVocabulary_addword) as TextView
+        val etEnglish = dialog.findViewById(R.id.editText_addVocabulary_addEnglish) as TextView
+        val etHiraKata = dialog.findViewById(R.id.editText_addVocabulary_hiragana) as TextView
+        val etKanji = dialog.findViewById(R.id.editText_addVocabulary_kanji) as TextView
+        val etSampleSentence = dialog.findViewById(R.id.editText_addVocabulary_sentence) as TextView
+        val btnCancel = dialog.findViewById<TextView>(R.id.button_addForm_cancel) as Button
+        val btnSave = dialog.findViewById<TextView>(R.id.button_addForm_save) as Button
 
         btnSave.setOnClickListener {
             Log.v("Timestamp", getTimeStamp())
@@ -154,8 +161,6 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
             dialog.dismiss()
         }
         dialog.show()
-
-
     }
 
 
@@ -167,15 +172,15 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
     }
 
     override fun onWordClick(id: Int) {
-        Log.v("CLICK", "LISTENER :" + id)
-        val bundle: Bundle = Bundle()
+        wordDetailsViewModel.setMutableId(id)
+        val bundle = Bundle()
         bundle.putInt("id", id)
         pageViewModel.setBundle(bundle)
         val fragment = WordDetails()
         fragment.arguments = pageViewModel.getBundle().value
         pageViewModel.setFragment(fragment)
         pageViewModel.getFragmentTransaction(context!!)
-            .add(R.id.fragment_container, pageViewModel.getFragment().value!!, "WordDetails")
+            .replace(R.id.fragment_container, pageViewModel.getFragment().value!!, "WordDetails")
             .commit()
     }
 

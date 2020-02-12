@@ -8,10 +8,13 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.teamzmron.selfstudyapp.R
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 class PageViewModel : ViewModel() {
     var mutableFragment : MutableLiveData<Fragment> = MutableLiveData()
     var mutableBundle : MutableLiveData<Bundle> = MutableLiveData()
+    var fragmentContainer = R.id.fragment_container
 
     fun setBundle(bundle: Bundle) {
         mutableBundle.value = bundle
@@ -31,6 +34,10 @@ class PageViewModel : ViewModel() {
 
     fun getFragmentTransaction( context: Context) : FragmentTransaction {
         return (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+    }
+
+    fun getFragmentContainer_() : Int {
+        return fragmentContainer
     }
 
 

@@ -1,39 +1,52 @@
 package com.teamzmron.selfstudyapp.Helper
 
 import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.teamzmron.selfstudyapp.Adapters.WordsAdapter
 import com.teamzmron.selfstudyapp.Room.Entity.Word
 import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
 
-class SwipeToDeleteHelper(val wordViewModel: WordViewModel,adapter: WordsAdapter, dragDirs: Int, swipeDirs: Int) : ItemTouchHelper.SimpleCallback(
+class SwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val wordViewModel: WordViewModel,adapter: WordsAdapter, dragDirs: Int, swipeDirs: Int) : ItemTouchHelper.SimpleCallback(
     dragDirs, swipeDirs
 ) {
     private var wordsAdapter: WordsAdapter = adapter
+    var wordsList : ArrayList<Word> = ArrayList()
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        Log.v("Swipe", "Swiped!")
        return false
+    }
+
+    init {
+        wordViewModel.getWordsFromRepo().observe(lifecycleOwner, Observer<List<Word>> {
+            wordsList.clear()
+            if(it.isNotEmpty()) {
+                wordsList.addAll(it)
+            }
+
+        })
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
        var pos = viewHolder.adapterPosition
         wordsAdapter.notifyItemRemoved(pos)
-        var word = wordViewModel.displayWordsToList().value!![pos]
+       Log.v("Word list", "Word Val: " + wordsList[pos].english)
         wordViewModel.deleteWordById(Word(
-            id = word.id,
-            english = word.english,
-            japanese = word.japanese,
-            hiragana = word.hiragana,
-            kanji = word.kanji,
-            sentence = word.sentence
+            id = wordsList[pos].id,
+            english = wordsList[pos].english,
+            japanese = wordsList[pos].japanese,
+            hiragana = wordsList[pos].hiragana,
+            kanji = wordsList[pos].kanji,
+            sentence = wordsList[pos].sentence
         ))
+
     }
 
 }

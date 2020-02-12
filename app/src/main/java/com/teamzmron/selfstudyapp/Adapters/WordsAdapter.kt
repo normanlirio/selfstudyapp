@@ -18,7 +18,7 @@ class WordsAdapter(context : Context, wordViewModel: WordViewModel, lifecycle : 
     private var context: Context? = null
 
     companion object {
-        private var wordsList : ArrayList<Word> = ArrayList()
+         var wordsList : ArrayList<Word> = ArrayList()
     }
 
     init {
@@ -27,10 +27,6 @@ class WordsAdapter(context : Context, wordViewModel: WordViewModel, lifecycle : 
             wordsList.clear()
             if(it.isNotEmpty()) {
                 wordsList.addAll(it)
-                wordsList.forEach {
-                    Log.v("WORDS", "Words: " + it.english)
-                }
-
             }
             notifyDataSetChanged()
         })

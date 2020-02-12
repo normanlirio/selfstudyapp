@@ -51,7 +51,7 @@ class WordDetails : Fragment() {
 
         wordViewModel.getWordById(wordID).observe(this, Observer {
             editText_editVocabulary_addword.setText(it[0].japanese)
-            editText_editVocabulary_addEnglish.setText(it.get(0).english)
+            editText_editVocabulary_addEnglish.setText(it[0].english)
             editText_editVocabulary_hiragana.setText(it[0].hiragana)
             editText_editVocabulary_kanji.setText(it[0].kanji)
             editText_editVocabulary_sentence.setText(it[0].sentence)
@@ -65,8 +65,7 @@ class WordDetails : Fragment() {
         wordViewModel = ViewModelProviders.of(this).get(WordViewModel::class.java)
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java)
         wordDetailsViewModel = ViewModelProviders.of(activity!!).get(WordDetailsViewModel::class.java)
-        var dbInstance = WordDatabase.getDatabasenIstance(context!!)
-        wordViewModel.setInstanceOfDB(dbInstance)
+
 
     }
 

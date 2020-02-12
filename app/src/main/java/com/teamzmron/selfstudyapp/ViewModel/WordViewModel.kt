@@ -42,6 +42,7 @@ class WordViewModel : ViewModel() {
 
     fun deleteWordById(word: Word) {
         getWordRepoInstance().deleteWordRepo(word)
+        getWordsFromRepo()
     }
 
 

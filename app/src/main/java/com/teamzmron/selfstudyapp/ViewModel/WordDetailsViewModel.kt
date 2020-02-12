@@ -8,7 +8,7 @@ class WordDetailsViewModel : ViewModel() {
     private var mutableId = MutableLiveData<Int>()
 
     fun setMutableId(id : Int) {
-        mutableId.value = id
+        mutableId.postValue(id)
     }
 
     fun getMutableId() : LiveData<Int> {

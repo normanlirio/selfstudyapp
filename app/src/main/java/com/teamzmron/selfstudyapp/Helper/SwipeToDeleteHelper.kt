@@ -1,8 +1,6 @@
 package com.teamzmron.selfstudyapp.Helper
 
 import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.teamzmron.selfstudyapp.Adapters.WordsAdapter
@@ -25,7 +23,7 @@ class SwipeToDeleteHelper(val wordViewModel: WordViewModel,adapter: WordsAdapter
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
        var pos = viewHolder.adapterPosition
         wordsAdapter.notifyItemRemoved(pos)
-        var word = wordViewModel.displayWordsToList().value!![pos]
+        var word = wordViewModel.getWordsFromRepo().value!![pos]
         wordViewModel.deleteWordById(Word(
             id = word.id,
             english = word.english,

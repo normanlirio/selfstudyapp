@@ -42,20 +42,20 @@ class WordDetails : Fragment() {
 
         initViewModels()
 
-      //  wordID = arguments!!.getInt("id")
+        wordID = arguments!!.getInt("id")
         wordDetailsViewModel.getMutableId().observe(this, Observer {
-            wordID = it
 
+            Log.v("Observer", "Word ID: " + it)
         })
-        Log.v("Properties", "Words ID:  " + wordID)
-//
-//        wordViewModel.getWordById(wordID).observe(this, Observer {
-//            editText_editVocabulary_addword.setText(it[0].japanese)
-//            editText_editVocabulary_addEnglish.setText(it.get(0).english)
-//            editText_editVocabulary_hiragana.setText(it[0].hiragana)
-//            editText_editVocabulary_kanji.setText(it[0].kanji)
-//            editText_editVocabulary_sentence.setText(it[0].sentence)
-//        })
+
+
+        wordViewModel.getWordById(wordID).observe(this, Observer {
+            editText_editVocabulary_addword.setText(it[0].japanese)
+            editText_editVocabulary_addEnglish.setText(it.get(0).english)
+            editText_editVocabulary_hiragana.setText(it[0].hiragana)
+            editText_editVocabulary_kanji.setText(it[0].kanji)
+            editText_editVocabulary_sentence.setText(it[0].sentence)
+        })
 
         buttonActions()
 

@@ -16,6 +16,7 @@ abstract class WordDatabase : RoomDatabase()  {
         @Volatile
         private var databseInstance: WordDatabase? = null
 
+        @JvmStatic
         fun getDatabasenIstance(mContext: Context): WordDatabase =
             databseInstance ?: synchronized(this) {
                 databseInstance ?: buildDatabaseInstance(mContext).also {

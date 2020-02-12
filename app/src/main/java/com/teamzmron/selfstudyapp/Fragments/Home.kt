@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -51,11 +52,9 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         initViewModels()
         initRecyclerView()
 
-        wordViewModel.displayWordsToList().observe(this, Observer<List<Word>> {
-            Log.v("Observer", "Observed")
+        wordViewModel.getWordsFromRepo().observe(this, Observer {
             wordsAdapter.notifyDataSetChanged()
         })
-
     }
 
 
@@ -75,17 +74,14 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         recycler_home.layoutManager = LinearLayoutManager(context!!)
 
         image_home_gridlist.setOnClickListener {
-            Log.v("TOGgle","Toggleed!")
             if(isGridView) {
                 recycler_home.layoutManager = LinearLayoutManager(context!!)
-                image_home_gridlist.background = resources.getDrawable(R.drawable.ic_grid)
+                image_home_gridlist.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_grid, null)
                 isGridView = false
             } else {
                 recycler_home.layoutManager = GridLayoutManager(context!!, 4)
-                image_home_gridlist.background = resources.getDrawable(R.drawable.ic_list)
-
+                image_home_gridlist.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_list, null)
                 isGridView = true
-
             }
         }
         recycler_home.adapter = wordsAdapter

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.view.marginStart
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +23,7 @@ class WordsAdapter(context : Context, wordViewModel: WordViewModel, lifecycle : 
 
     init {
         this.context = context
-        wordViewModel.displayWordsToList().observe(lifecycle, Observer<List<Word>> {
+        wordViewModel.getWordsFromRepo().observe(lifecycle, Observer<List<Word>> {
             wordsList.clear()
             if(!it.isEmpty()) {
                 wordsList.addAll(it)
@@ -34,7 +33,7 @@ class WordsAdapter(context : Context, wordViewModel: WordViewModel, lifecycle : 
     }
 
     interface OnWordClickListener {
-        fun onWordClick(position: Int)
+        fun onWordClick(id: Int)
 
     }
 

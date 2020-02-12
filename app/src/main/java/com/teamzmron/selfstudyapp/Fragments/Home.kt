@@ -37,7 +37,7 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
     private lateinit var wordsAdapter: WordsAdapter
     private lateinit var pageViewModel: PageViewModel
     private lateinit var wordDetailsViewModel: WordDetailsViewModel
-    private  var wordsList : ArrayList<Word> = ArrayList()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +55,6 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         initRecyclerView()
 
         wordViewModel.getWordsFromRepo().observe(this, Observer {
-            wordsList.addAll(it)
             wordsAdapter.notifyDataSetChanged()
         })
     }

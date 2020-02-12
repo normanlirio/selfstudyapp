@@ -30,14 +30,12 @@ class SwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val wordViewModel: Wor
             if(it.isNotEmpty()) {
                 wordsList.addAll(it)
             }
-
         })
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
        var pos = viewHolder.adapterPosition
         wordsAdapter.notifyItemRemoved(pos)
-       Log.v("Word list", "Word Val: " + wordsList[pos].english)
         wordViewModel.deleteWordById(Word(
             id = wordsList[pos].id,
             english = wordsList[pos].english,

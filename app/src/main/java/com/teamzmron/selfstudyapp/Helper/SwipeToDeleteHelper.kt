@@ -16,7 +16,6 @@ class SwipeToDeleteHelper(val wordViewModel: WordViewModel,adapter: WordsAdapter
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        Log.v("Swipe", "Swiped!")
        return false
     }
 

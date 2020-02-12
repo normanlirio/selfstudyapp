@@ -62,9 +62,6 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         wordViewModel = ViewModelProviders.of(this).get(WordViewModel::class.java)
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java)
         wordDetailsViewModel = ViewModelProviders.of(activity!!).get(WordDetailsViewModel::class.java)
-        wordViewModel.init()
-        var dbInstance = WordDatabase.getDatabasenIstance(context!!)
-        wordViewModel.setInstanceOfDB(dbInstance)
     }
 
     private fun initRecyclerView() {

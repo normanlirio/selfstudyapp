@@ -30,7 +30,7 @@ class WordRepository {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-              list.postValue(it)
+                list.postValue(it)
             }, {exception ->
                 exception.localizedMessage
             }).let {
@@ -54,7 +54,7 @@ class WordRepository {
          return list
     }
 
-    fun saveWordToDBRepo(word : Word) {
+    fun saveWordRepo(word : Word) {
         getDBInstance().wordDao().insertWord(word)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -64,6 +64,30 @@ class WordRepository {
 
                 it.localizedMessage
             }).let {
+                compositeDisposable.add(it)
+            }
+    }
+
+    fun deleteWordRepo(word: Word) {
+        getDBInstance().wordDao().deleteWord(word)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+
+            }, {
+                it.localizedMessage
+            }).let {
+                compositeDisposable.add(it)
+            }
+    }
+
+    fun updateWordRepo(word: Word) {
+        getDBInstance().wordDao().updateWord(word)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+
+            }.let {
                 compositeDisposable.add(it)
             }
     }

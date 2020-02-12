@@ -25,8 +25,12 @@ class WordsAdapter(context : Context, wordViewModel: WordViewModel, lifecycle : 
         this.context = context
         wordViewModel.getWordsFromRepo().observe(lifecycle, Observer<List<Word>> {
             wordsList.clear()
-            if(!it.isEmpty()) {
+            if(it.isNotEmpty()) {
                 wordsList.addAll(it)
+                wordsList.forEach {
+                    Log.v("WORDS", "Words: " + it.english)
+                }
+
             }
             notifyDataSetChanged()
         })

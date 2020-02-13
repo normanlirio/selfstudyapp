@@ -92,7 +92,7 @@ class WordDetails : Fragment() {
     }
 
     private fun goHome() {
-        pageViewModel.getFragmentTransaction(context!!).replace(pageViewModel.fragmentContainer, Home()).commit()
+        pageViewModel.getFragmentTransaction(context!!).remove(this).commit()
     }
 
 }

@@ -9,17 +9,8 @@ import com.teamzmron.selfstudyapp.Room.Entity.Word
 import io.reactivex.disposables.CompositeDisposable
 
 class WordViewModel : ViewModel() {
-    private var wordRepository: WordRepository? = null
-    private val compositeDisposable = CompositeDisposable()
-    private var wordList = MutableLiveData<List<Word>>()
-    private var wordDatabaseInstance: WordDatabase? = null
-    private var wordDetails = MutableLiveData<List<Word>>()
 
-    fun setInstanceOfDB(dbInstance: WordDatabase) {
-        this.wordDatabaseInstance = dbInstance
-    }
-
-    fun getWordRepoInstance() : WordRepository {
+    private fun getWordRepoInstance() : WordRepository {
         return WordRepository().getWordRepositoryInstance()
     }
 
@@ -47,8 +38,7 @@ class WordViewModel : ViewModel() {
 
 
     override fun onCleared() {
-        compositeDisposable.dispose()
-        compositeDisposable.clear()
+        getWordRepoInstance().onClearDisposable()
         super.onCleared()
     }
     

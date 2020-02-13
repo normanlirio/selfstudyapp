@@ -37,7 +37,7 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
     private lateinit var wordsAdapter: WordsAdapter
     private lateinit var pageViewModel: PageViewModel
     private lateinit var wordDetailsViewModel: WordDetailsViewModel
-
+    private var isGridView = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,21 +67,12 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
     }
 
     private fun initRecyclerView() {
-        var isGridView = false
 
         wordsAdapter = WordsAdapter(context!!, wordViewModel, this, this)
         recycler_home.layoutManager = LinearLayoutManager(context!!)
 
         image_home_gridlist.setOnClickListener {
-            if(isGridView) {
-                recycler_home.layoutManager = LinearLayoutManager(context!!)
-                image_home_gridlist.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_grid, null)
-                isGridView = false
-            } else {
-                recycler_home.layoutManager = GridLayoutManager(context!!, 4)
-                image_home_gridlist.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_list, null)
-                isGridView = true
-            }
+           gridOrListView()
         }
         recycler_home.adapter = wordsAdapter
 
@@ -97,6 +88,20 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         wordsAdapter.notifyDataSetChanged()
 
     }
+
+    private fun gridOrListView() {
+
+        if(isGridView) {
+            recycler_home.layoutManager = LinearLayoutManager(context!!)
+            image_home_gridlist.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_grid, null)
+            isGridView = false
+        } else {
+            recycler_home.layoutManager = GridLayoutManager(context!!, 4)
+            image_home_gridlist.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_list, null)
+            isGridView = true
+        }
+    }
+
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -179,7 +184,7 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         fragment.arguments = pageViewModel.getBundle().value
         pageViewModel.setFragment(fragment)
         pageViewModel.getFragmentTransaction(context!!)
-            .replace(R.id.fragment_container, pageViewModel.getFragment().value!!, "WordDetails")
+            .add(R.id.fragment_container, pageViewModel.getFragment().value!!, "WordDetails")
             .commit()
     }
 

@@ -2,6 +2,7 @@ package com.teamzmron.selfstudyapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.teamzmron.selfstudyapp.Fragments.Home
 import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
@@ -13,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java)
+        pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java)
         pageViewModel.setFragment(Home())
 
 

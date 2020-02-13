@@ -9,15 +9,16 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.WordsAdapter
 import com.teamzmron.selfstudyapp.Helper.SwipeToDeleteHelper
 import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.Room.Database.WordDatabase
 import com.teamzmron.selfstudyapp.Room.Entity.Word
 import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
 import com.teamzmron.selfstudyapp.ViewModel.WordDetailsViewModel
@@ -25,7 +26,6 @@ import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.sql.Timestamp
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 /**
@@ -36,8 +36,8 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
     private lateinit var wordViewModel: WordViewModel
     private lateinit var wordsAdapter: WordsAdapter
     private lateinit var pageViewModel: PageViewModel
-    private lateinit var wordDetailsViewModel: WordDetailsViewModel
-
+    private val wordDetailsViewModel : WordDetailsViewModel by activityViewModels()
+    private var isGridView = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,34 +54,24 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         initViewModels()
         initRecyclerView()
 
-        wordViewModel.getWordsFromRepo().observe(this, Observer {
+        wordViewModel.getWordsFromRepo().observe(viewLifecycleOwner, Observer {
             wordsAdapter.notifyDataSetChanged()
         })
     }
 
 
     private fun initViewModels() {
-        wordViewModel = ViewModelProviders.of(this).get(WordViewModel::class.java)
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java)
-        wordDetailsViewModel = ViewModelProviders.of(activity!!).get(WordDetailsViewModel::class.java)
+        wordViewModel = ViewModelProvider(this).get(WordViewModel::class.java)
+        pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java)
     }
 
     private fun initRecyclerView() {
-        var isGridView = false
 
         wordsAdapter = WordsAdapter(context!!, wordViewModel, this, this)
         recycler_home.layoutManager = LinearLayoutManager(context!!)
 
         image_home_gridlist.setOnClickListener {
-            if(isGridView) {
-                recycler_home.layoutManager = LinearLayoutManager(context!!)
-                image_home_gridlist.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_grid, null)
-                isGridView = false
-            } else {
-                recycler_home.layoutManager = GridLayoutManager(context!!, 4)
-                image_home_gridlist.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_list, null)
-                isGridView = true
-            }
+           gridOrListView()
         }
         recycler_home.adapter = wordsAdapter
 
@@ -98,6 +88,20 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
 
     }
 
+    private fun gridOrListView() {
+
+        if(isGridView) {
+            recycler_home.layoutManager = LinearLayoutManager(context!!)
+            image_home_gridlist.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_grid, null)
+            isGridView = false
+        } else {
+            recycler_home.layoutManager = GridLayoutManager(context!!, 4)
+            image_home_gridlist.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_list, null)
+            isGridView = true
+        }
+    }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main, menu)
@@ -113,7 +117,7 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
             R.id.quiz -> {
                 pageViewModel.setFragment(QuizSettings())
                 pageViewModel.getFragmentTransaction(context!!)
-                    .add(pageViewModel.getFragmentContainer_(), pageViewModel.getFragment().value!!)
+                    .add(pageViewModel.getContainer(), pageViewModel.getFragment().value!!)
                     .commit()
                 true
             }
@@ -172,14 +176,8 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
 
     override fun onWordClick(id: Int) {
         wordDetailsViewModel.setMutableId(id)
-        val bundle = Bundle()
-        bundle.putInt("id", id)
-        pageViewModel.setBundle(bundle)
-        val fragment = WordDetails()
-        fragment.arguments = pageViewModel.getBundle().value
-        pageViewModel.setFragment(fragment)
         pageViewModel.getFragmentTransaction(context!!)
-            .replace(R.id.fragment_container, pageViewModel.getFragment().value!!, "WordDetails")
+            .add(R.id.fragment_container, WordDetails(), "WordDetails")
             .commit()
     }
 

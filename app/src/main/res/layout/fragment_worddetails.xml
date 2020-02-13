@@ -1,68 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
-    <ScrollView
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_margin="20dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
+
+        <EditText
+
+            android:id="@+id/editText_editVocabulary_addword"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <EditText
+            android:layout_height="wrap_content"
+            android:hint="Japanese word" />
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText_editVocabulary_addword"
-                android:hint="Japanese word"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText_editVocabulary_addEnglish"
-                android:hint="English Translation"/>
+        <EditText
+            android:id="@+id/editText_editVocabulary_addEnglish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="English Translation" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText_editVocabulary_hiragana"
-                android:hint="Hiragana/Katakana"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText_editVocabulary_kanji"
-                android:hint="Kanji"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText_editVocabulary_sentence"
-                android:hint="Sample Sentence"/>
+        <EditText
+            android:id="@+id/editText_editVocabulary_hiragana"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hiragana/Katakana" />
 
-            <LinearLayout
-                android:weightSum="2"
-                android:layout_marginTop="15dp"
-                android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/editText_editVocabulary_kanji"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Kanji" />
+
+        <EditText
+            android:id="@+id/editText_editVocabulary_sentence"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Sample Sentence" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/button_editVocabulary_cancel"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button
-                    android:id="@+id/button_editVocabulary_cancel"
-                    android:textColor="@android:color/white"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/cancelGrey"
-                    android:text="Cancel"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <Button
-                    android:id="@+id/button_editVocabulary_save"
-                    android:textColor="@android:color/white"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Save"
-                    android:background="@color/japanRed" />
-            </LinearLayout>
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="@color/cancelGrey"
+                android:text="Cancel"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/button_editVocabulary_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/japanRed"
+                android:text="Save"
+                android:textColor="@android:color/white" />
         </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
+
 </LinearLayout>

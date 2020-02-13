@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teamzmron.selfstudyapp.R
-import kotlinx.android.synthetic.main.activity_main.view.*
 
 class PageViewModel : ViewModel() {
     var mutableFragment : MutableLiveData<Fragment> = MutableLiveData()
@@ -36,7 +35,7 @@ class PageViewModel : ViewModel() {
         return (context as AppCompatActivity).supportFragmentManager.beginTransaction()
     }
 
-    fun getFragmentContainer_() : Int {
+    fun getContainer() : Int {
         return fragmentContainer
     }
 

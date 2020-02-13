@@ -2,9 +2,6 @@ package com.teamzmron.selfstudyapp
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
-import androidx.room.Room
-import com.teamzmron.selfstudyapp.Room.Database.WordDatabase
 
 class SelfStudyApplication : Application() {
 
@@ -15,7 +12,7 @@ class SelfStudyApplication : Application() {
     }
     companion object {
         private var context : Context? = null
-       @JvmStatic fun getAppContext(): Context {
+        fun getAppContext(): Context {
             return context!!
         }
     }

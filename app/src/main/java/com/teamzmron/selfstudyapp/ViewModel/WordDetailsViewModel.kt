@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class WordDetailsViewModel : ViewModel() {
-    private var mutableId = MutableLiveData<Int>()
+     var mutableId = MutableLiveData<Int>()
 
     fun setMutableId(id : Int) {
         mutableId.postValue(id)

@@ -9,9 +9,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,7 +36,7 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
     private lateinit var wordViewModel: WordViewModel
     private lateinit var wordsAdapter: WordsAdapter
     private lateinit var pageViewModel: PageViewModel
-    private lateinit var wordDetailsViewModel: WordDetailsViewModel
+    private val wordDetailsViewModel : WordDetailsViewModel by activityViewModels()
     private var isGridView = false
 
     override fun onCreateView(
@@ -62,7 +63,6 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
     private fun initViewModels() {
         wordViewModel = ViewModelProvider(this).get(WordViewModel::class.java)
         pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java)
-        wordDetailsViewModel = ViewModelProvider(this).get(WordDetailsViewModel::class.java)
     }
 
     private fun initRecyclerView() {
@@ -176,15 +176,8 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
 
     override fun onWordClick(id: Int) {
         wordDetailsViewModel.setMutableId(id)
-        val bundle = Bundle()
-        bundle.putInt("id", id)
-        pageViewModel.setBundle(bundle)
-        val fragment = WordDetails()
-        fragment.arguments = pageViewModel.getBundle().value
-        fragment.init(wordDetailsViewModel)
-        pageViewModel.setFragment(fragment)
         pageViewModel.getFragmentTransaction(context!!)
-            .add(R.id.fragment_container, pageViewModel.getFragment().value!!, "WordDetails")
+            .add(R.id.fragment_container, WordDetails(), "WordDetails")
             .commit()
     }
 

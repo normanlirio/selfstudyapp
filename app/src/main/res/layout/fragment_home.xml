@@ -4,28 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="10dp"
     tools:context=".Fragments.Home">
 
 
-        <LinearLayout
-            android:layout_margin="20dp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/image_home_gridlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_grid"
+        android:contentDescription="TODO" />
 
-            <ImageView
-                android:id="@+id/image_home_gridlist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_grid"
-                />
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/recycler_home"
-                />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
 
-        </LinearLayout>
 
 </LinearLayout>

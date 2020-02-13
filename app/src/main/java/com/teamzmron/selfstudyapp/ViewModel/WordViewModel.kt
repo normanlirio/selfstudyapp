@@ -1,12 +1,9 @@
 package com.teamzmron.selfstudyapp.ViewModel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teamzmron.selfstudyapp.Repository.WordRepository
-import com.teamzmron.selfstudyapp.Room.Database.WordDatabase
 import com.teamzmron.selfstudyapp.Room.Entity.Word
-import io.reactivex.disposables.CompositeDisposable
 
 class WordViewModel : ViewModel() {
 

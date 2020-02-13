@@ -3,16 +3,13 @@ package com.teamzmron.selfstudyapp.Fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.teamzmron.selfstudyapp.Adapters.WordsAdapter
-
 import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.Room.Database.WordDatabase
 import com.teamzmron.selfstudyapp.Room.Entity.Word
 import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
 import com.teamzmron.selfstudyapp.ViewModel.WordDetailsViewModel
@@ -37,16 +34,22 @@ class WordDetails : Fragment() {
     }
 
 
+    fun init(wordDetailsViewModel: WordDetailsViewModel) {
+        this.wordDetailsViewModel = wordDetailsViewModel
+
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initViewModels()
-
-        wordID = arguments!!.getInt("id")
         wordDetailsViewModel.getMutableId().observe(this, Observer {
-
+            wordID =it
             Log.v("Observer", "Word ID: " + it)
         })
+        initViewModels()
+        Log.v("Observer", "Word ID Before : " + wordID)
+        wordID = arguments!!.getInt("id")
+        Log.v("Observer", "Word ID after : " + wordID)
 
 
         wordViewModel.getWordById(wordID).observe(this, Observer {
@@ -64,15 +67,13 @@ class WordDetails : Fragment() {
     private fun initViewModels() {
         wordViewModel = ViewModelProviders.of(this).get(WordViewModel::class.java)
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java)
-        wordDetailsViewModel = ViewModelProviders.of(activity!!).get(WordDetailsViewModel::class.java)
+      //  wordDetailsViewModel = ViewModelProviders.of(activity!!).get(WordDetailsViewModel::class.java)
 
 
     }
 
     private fun buttonActions() {
-
         button_editVocabulary_save.setOnClickListener {
-
           goHome()
             wordViewModel.updateWord(Word(
                 id = wordID,
@@ -82,8 +83,6 @@ class WordDetails : Fragment() {
                 kanji = editText_editVocabulary_kanji.text.toString(),
                 sentence = editText_editVocabulary_sentence.text.toString()
                 ))
-
-
         }
 
         button_editVocabulary_cancel.setOnClickListener {

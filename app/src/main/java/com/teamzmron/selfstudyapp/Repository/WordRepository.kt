@@ -12,14 +12,12 @@ import io.reactivex.schedulers.Schedulers
 class WordRepository {
     private val compositeDisposable = CompositeDisposable()
     private fun getDBInstance(): WordDatabase {
-        val dbInstance = WordDatabase.getDatabasenIstance(SelfStudyApplication.getAppContext())
-        return dbInstance
+        return WordDatabase.getDatabasenIstance(SelfStudyApplication.getAppContext())
     }
 
     fun getWordRepositoryInstance(): WordRepository {
         return WordRepository()
     }
-
 
     fun getWordsFromDB(): MutableLiveData<List<Word>> {
         var list = MutableLiveData<List<Word>>()

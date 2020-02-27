@@ -76,11 +76,11 @@ class WordDetails : Fragment() {
 
     private fun fillFormWithDetails(wordID: Int) {
         wordViewModel.getWordById(wordID).observe(viewLifecycleOwner, Observer {
-            editText_editVocabulary_addword.setText(it[0].japanese)
-            editText_editVocabulary_addEnglish.setText(it[0].english)
-            editText_editVocabulary_hiragana.setText(it[0].hiragana)
-            editText_editVocabulary_kanji.setText(it[0].kanji)
-            editText_editVocabulary_sentence.setText(it[0].sentence)
+            editText_editVocabulary_addword.setText(it.japanese)
+            editText_editVocabulary_addEnglish.setText(it.english)
+            editText_editVocabulary_hiragana.setText(it.hiragana)
+            editText_editVocabulary_kanji.setText(it.kanji)
+            editText_editVocabulary_sentence.setText(it.sentence)
         })
     }
 

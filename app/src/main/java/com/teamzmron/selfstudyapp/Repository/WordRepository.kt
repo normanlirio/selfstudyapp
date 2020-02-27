@@ -34,8 +34,8 @@ class WordRepository {
         return list
     }
 
-    fun getWordByIdFromDB(id: Int): LiveData<List<Word>> {
-        var list = MutableLiveData<List<Word>>()
+    fun getWordByIdFromDB(id: Int): LiveData<Word> {
+        var list = MutableLiveData<Word>()
         getDBInstance().wordDao().getWordById(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -80,9 +80,11 @@ class WordRepository {
         getDBInstance().wordDao().updateWord(word)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+            .subscribe ({
 
-            }.let {
+            }, {
+                it.localizedMessage
+            }).let {
                 compositeDisposable.add(it)
             }
     }

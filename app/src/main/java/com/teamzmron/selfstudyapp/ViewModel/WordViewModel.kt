@@ -15,7 +15,7 @@ class WordViewModel : ViewModel() {
         return getWordRepoInstance().getWordsFromDB()
     }
 
-    fun getWordById(id: Int): LiveData<List<Word>> {
+    fun getWordById(id: Int): LiveData<Word> {
         return getWordRepoInstance().getWordByIdFromDB(id)
     }
 
@@ -30,7 +30,6 @@ class WordViewModel : ViewModel() {
 
     fun deleteWordById(word: Word) {
         getWordRepoInstance().deleteWordRepo(word)
-        getWordsFromRepo()
     }
 
 

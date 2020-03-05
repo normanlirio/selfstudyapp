@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -127,6 +128,15 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.home -> {
+                val fragment = (context as AppCompatActivity).supportFragmentManager.findFragmentByTag("quizSettings")
+                if(fragment != null) {
+                    pageViewModel.getFragmentTransaction(context!!)
+                        .remove(fragment!!)
+                        .commit()
+                }
+                true
+            }
             R.id.add -> {
                 inflateAddForm()
                 true
@@ -134,7 +144,7 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
             R.id.quiz -> {
                 pageViewModel.setFragment(QuizSettings())
                 pageViewModel.getFragmentTransaction(context!!)
-                    .add(pageViewModel.getContainer(), pageViewModel.getFragment().value!!)
+                    .add(pageViewModel.getContainer(), pageViewModel.getFragment().value!!,"quizSettings")
                     .commit()
                 true
             }

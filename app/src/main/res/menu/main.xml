@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+   <item
+       android:id="@+id/home"
+       android:icon="@drawable/ic_home"
+       android:title="Home"
+       app:showAsAction="always"
+       />
     <item android:id="@+id/add"
         android:icon="@drawable/ic_add_circle"
         android:title="Add Vocabulary"
         app:showAsAction="always"
         />
     <item
-        app:showAsAction="always"
+        app:showAsAction="never"
         android:id="@+id/quiz"
         android:icon="@drawable/ic_pencil"
         android:title="Generate Quiz"

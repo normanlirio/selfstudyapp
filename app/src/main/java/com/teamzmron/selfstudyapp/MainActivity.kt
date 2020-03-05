@@ -15,12 +15,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java)
-        pageViewModel.setFragment(Home())
 
 
         if(savedInstanceState == null) {
             pageViewModel.getFragmentTransaction(this)
-                .replace(R.id.fragment_container, pageViewModel.getFragment().value!!).commit()
+                .replace(R.id.fragment_container, Home()).commit()
         }
     }
 }

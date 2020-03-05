@@ -5,12 +5,13 @@ import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -36,7 +37,7 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
     private lateinit var wordViewModel: WordViewModel
     private lateinit var wordsAdapter: WordsAdapter
     private lateinit var pageViewModel: PageViewModel
-    private val wordDetailsViewModel : WordDetailsViewModel by activityViewModels()
+    private val wordDetailsViewModel: WordDetailsViewModel by activityViewModels()
     private var isGridView = false
 
     override fun onCreateView(
@@ -53,10 +54,12 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
 
         initViewModels()
         initRecyclerView()
+        initSortButtons()
 
         wordViewModel.getWordsFromRepo().observe(viewLifecycleOwner, Observer {
             wordsAdapter.notifyDataSetChanged()
         })
+
     }
 
 
@@ -67,11 +70,11 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
 
     private fun initRecyclerView() {
 
-        wordsAdapter = WordsAdapter(context!!, wordViewModel, this, this)
+        wordsAdapter = WordsAdapter(context!!, wordViewModel, viewLifecycleOwner, this)
         recycler_home.layoutManager = LinearLayoutManager(context!!)
 
         image_home_gridlist.setOnClickListener {
-           gridOrListView()
+            gridOrListView()
         }
         recycler_home.adapter = wordsAdapter
 
@@ -88,16 +91,31 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
 
     }
 
+
     private fun gridOrListView() {
 
-        if(isGridView) {
+        if (isGridView) {
             recycler_home.layoutManager = LinearLayoutManager(context!!)
-            image_home_gridlist.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_grid, null)
+            image_home_gridlist.background =
+                ResourcesCompat.getDrawable(resources, R.drawable.ic_grid, null)
             isGridView = false
         } else {
             recycler_home.layoutManager = GridLayoutManager(context!!, 4)
-            image_home_gridlist.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_list, null)
+            image_home_gridlist.background =
+                ResourcesCompat.getDrawable(resources, R.drawable.ic_list, null)
             isGridView = true
+        }
+    }
+
+
+
+    private fun initSortButtons() {
+        image_home_sortByTime.setOnClickListener {
+            wordsAdapter.sortByTime()
+        }
+
+        image_home_sortByAlpha.setOnClickListener {
+            wordsAdapter.sortByAlphabetical()
         }
     }
 

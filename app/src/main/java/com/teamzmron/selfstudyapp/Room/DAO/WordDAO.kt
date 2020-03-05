@@ -23,4 +23,7 @@ interface WordDAO {
     @Delete
     fun deleteWord(word: Word) : Single<Int>
 
+    @Query("DELETE from words")
+    fun deleteAll() : Single<Int>
+    
 }

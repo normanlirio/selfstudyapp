@@ -13,9 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Word
 import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
+import java.util.*
+import kotlin.collections.ArrayList
 
 class WordsAdapter(context : Context, wordViewModel: WordViewModel, lifecycle : LifecycleOwner, var clickListener: OnWordClickListener) : RecyclerView.Adapter<WordsAdapter.WordsViewHolder>() {
     private var context: Context? = null
+    private var isAscendingAlpha = true
+    private var isAscendingTime = true
 
     companion object {
          var wordsList : ArrayList<Word> = ArrayList()
@@ -52,6 +56,30 @@ class WordsAdapter(context : Context, wordViewModel: WordViewModel, lifecycle : 
         holder.etEnglish!!.text = wordsList[position].english
 
     }
+    fun sortByAlphabetical(){
+        Log.v("SORT","SORTING!!")
+        isAscendingAlpha = if(isAscendingAlpha) {
+            wordsList.sortByDescending { it.english }
+            false
+        } else {
+            wordsList.sortBy { it.english }
+            true
+        }
+
+        notifyDataSetChanged()
+    }
+    fun sortByTime() {
+
+        isAscendingTime = if(isAscendingTime) {
+            wordsList.sortByDescending { it.timestamp }
+            false
+        } else {
+            wordsList.sortBy { it.timestamp }
+            true
+        }
+        notifyDataSetChanged()
+    }
+
     inner class WordsViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         var etEnglish: TextView? = null

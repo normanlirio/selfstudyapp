@@ -1,12 +1,12 @@
 package com.teamzmron.selfstudyapp.Fragments
 
 
+import android.app.AlertDialog
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
@@ -120,7 +120,6 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
     }
 
 
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -137,6 +136,10 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
                 pageViewModel.getFragmentTransaction(context!!)
                     .add(pageViewModel.getContainer(), pageViewModel.getFragment().value!!)
                     .commit()
+                true
+            }
+            R.id.clearAll -> {
+                promptBeforeClearingWords()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -184,6 +187,22 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         dialog.show()
     }
 
+    private fun promptBeforeClearingWords() {
+        val alertDialog = AlertDialog.Builder(context)
+        alertDialog.setMessage("Are you sure?")
+
+        alertDialog.setPositiveButton("YES"
+        ) { _, _ ->
+            wordViewModel.deleteAllWords()
+        }
+
+        alertDialog.setNegativeButton("NO"
+        ) { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        alertDialog.create().show()
+    }
 
     private fun getTimeStamp(): String {
         val date = Date()

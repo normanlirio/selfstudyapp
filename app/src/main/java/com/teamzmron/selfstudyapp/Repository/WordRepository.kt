@@ -76,6 +76,20 @@ class WordRepository {
             }
     }
 
+    fun deleteAll() {
+        getDBInstance().wordDao().deleteAll()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+
+            }, {
+                it.localizedMessage
+            }).let {
+                compositeDisposable.add(it)
+            }
+    }
+
+
     fun updateWordRepo(word: Word) {
         getDBInstance().wordDao().updateWord(word)
             .subscribeOn(Schedulers.io())
@@ -93,5 +107,6 @@ class WordRepository {
         compositeDisposable.dispose()
         compositeDisposable.clear()
     }
+
 
 }

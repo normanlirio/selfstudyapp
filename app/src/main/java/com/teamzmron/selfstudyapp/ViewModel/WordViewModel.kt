@@ -32,6 +32,9 @@ class WordViewModel : ViewModel() {
         getWordRepoInstance().deleteWordRepo(word)
     }
 
+    fun deleteAllWords() {
+        getWordRepoInstance().deleteAll()
+    }
 
     override fun onCleared() {
         getWordRepoInstance().onClearDisposable()

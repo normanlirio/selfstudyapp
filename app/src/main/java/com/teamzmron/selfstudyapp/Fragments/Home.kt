@@ -129,16 +129,15 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.home -> {
-                val fragment = (context as AppCompatActivity).supportFragmentManager.findFragmentByTag("quizSettings")
-                if(fragment != null) {
-                    pageViewModel.getFragmentTransaction(context!!)
-                        .remove(fragment!!)
-                        .commit()
-                }
+                pageViewModel.getFragmentTransaction(context!!)
+                    .replace(pageViewModel.getContainer(), Home())
+                    .commit()
                 true
             }
             R.id.add -> {
-                inflateAddForm()
+                pageViewModel.getFragmentTransaction(context!!)
+                    .add(pageViewModel.getContainer(), AddWord(),"addWord")
+                    .commit()
                 true
             }
             R.id.quiz -> {

@@ -37,6 +37,14 @@
             android:text="Adjective"
             />
     </RadioGroup>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
 
     <LinearLayout
         android:visibility="visible"
@@ -86,4 +94,9 @@
             android:text="Save"
             android:textColor="@android:color/white" />
     </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>
 </LinearLayout>

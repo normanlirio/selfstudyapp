@@ -3,7 +3,7 @@ package com.teamzmron.selfstudyapp.Repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.teamzmron.selfstudyapp.Room.Database.WordDatabase
-import com.teamzmron.selfstudyapp.Room.Entity.Word
+import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.SelfStudyApplication
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -19,9 +19,9 @@ class WordRepository {
         return WordRepository()
     }
 
-    fun getWordsFromDB(): MutableLiveData<List<Word>> {
-        var list = MutableLiveData<List<Word>>()
-        getDBInstance().wordDao().getWords()
+    fun getWordsFromDB(): MutableLiveData<List<Noun>> {
+        var list = MutableLiveData<List<Noun>>()
+        getDBInstance().nounDAO().getNouns()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -34,9 +34,9 @@ class WordRepository {
         return list
     }
 
-    fun getWordByIdFromDB(id: Int): LiveData<Word> {
-        var list = MutableLiveData<Word>()
-        getDBInstance().wordDao().getWordById(id)
+    fun getWordByIdFromDB(id: Int): LiveData<Noun> {
+        var list = MutableLiveData<Noun>()
+        getDBInstance().nounDAO().getNounById(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -49,8 +49,8 @@ class WordRepository {
         return list
     }
 
-    fun saveWordRepo(word: Word) {
-        getDBInstance().wordDao().insertWord(word)
+    fun saveWordRepo(noun: Noun) {
+        getDBInstance().nounDAO().insertNoun(noun)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -63,8 +63,8 @@ class WordRepository {
             }
     }
 
-    fun deleteWordRepo(word: Word) {
-        getDBInstance().wordDao().deleteWord(word)
+    fun deleteWordRepo(noun: Noun) {
+        getDBInstance().nounDAO().deleteNoun(noun)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -77,7 +77,7 @@ class WordRepository {
     }
 
     fun deleteAll() {
-        getDBInstance().wordDao().deleteAll()
+        getDBInstance().nounDAO().deleteAll()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -90,8 +90,8 @@ class WordRepository {
     }
 
 
-    fun updateWordRepo(word: Word) {
-        getDBInstance().wordDao().updateWord(word)
+    fun updateWordRepo(noun: Noun) {
+        getDBInstance().nounDAO().updateNoun(noun)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({

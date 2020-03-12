@@ -1,9 +1,7 @@
 package com.teamzmron.selfstudyapp.Fragments
 
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.Room.Entity.Word
+import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
 import com.teamzmron.selfstudyapp.ViewModel.WordDetailsViewModel
 import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
@@ -58,7 +55,7 @@ class WordDetails : Fragment() {
         button_editVocabulary_save.setOnClickListener {
             goHome()
             wordViewModel.updateWord(
-                Word(
+                Noun(
                     id = wordID,
                     japanese = editText_editVocabulary_addword.text.toString(),
                     english = editText_editVocabulary_addEnglish.text.toString(),

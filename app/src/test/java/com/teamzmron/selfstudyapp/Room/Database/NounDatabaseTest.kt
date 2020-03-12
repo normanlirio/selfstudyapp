@@ -2,7 +2,7 @@ package com.teamzmron.selfstudyapp.Room.Database
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.teamzmron.selfstudyapp.Room.DAO.WordDAO
+import com.teamzmron.selfstudyapp.Room.DAO.NounDAO
 import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
 import org.junit.After
 import org.junit.Before
@@ -12,7 +12,7 @@ import org.mockito.InjectMocks
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-abstract class WordDatabaseTest {
+abstract class NounDatabaseTest {
 
     private  var wordDatabase: WordDatabase ? = null
 
@@ -31,8 +31,8 @@ abstract class WordDatabaseTest {
         wordDatabase!!.close()
     }
 
-    fun getWordDAO() : WordDAO {
-       return wordDatabase!!.wordDao()
+    fun getWordDAO() : NounDAO {
+       return wordDatabase!!.nounDAO()
     }
 
     @Test

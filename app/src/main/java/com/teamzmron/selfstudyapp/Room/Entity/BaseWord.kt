@@ -1,10 +1,9 @@
 package com.teamzmron.selfstudyapp.Room.Entity
 
 import androidx.room.ColumnInfo
-import androidx.room.Entity
 import androidx.room.PrimaryKey
-@Entity(tableName = "words")
-data class Word(
+
+open class BaseWord (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id") var id:Int ? = null,
 
@@ -19,9 +18,6 @@ data class Word(
 
     @ColumnInfo(name = "kanji")
     var kanji:String ? = null,
-
-    @ColumnInfo(name = "sentence")
-    var sentence:String ? = null,
 
     @ColumnInfo(name = "timestamp")
     var timestamp: String ? = null

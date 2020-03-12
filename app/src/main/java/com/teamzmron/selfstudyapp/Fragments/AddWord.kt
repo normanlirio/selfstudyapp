@@ -7,13 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.teamzmron.selfstudyapp.R
+import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
 import kotlinx.android.synthetic.main.fragment_add_word.*
 
 /**
  * A simple [Fragment] subclass.
  */
 class AddWord : Fragment() {
+
+    private lateinit var wordViewModel : WordViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +29,13 @@ class AddWord : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initViewModels()
         initRadioGroup()
+
+    }
+
+    private fun initViewModels() {
+        wordViewModel = ViewModelProvider(this).get(WordViewModel::class.java)
     }
 
     private fun initRadioGroup() {
@@ -44,7 +54,6 @@ class AddWord : Fragment() {
 
                         setLayoutVisibility("adj")
                     }
-
                 }
             }
         }

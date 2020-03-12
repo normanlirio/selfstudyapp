@@ -3,7 +3,7 @@ package com.teamzmron.selfstudyapp.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.teamzmron.selfstudyapp.Repository.WordRepository
-import com.teamzmron.selfstudyapp.Room.Entity.Word
+import com.teamzmron.selfstudyapp.Room.Entity.Noun
 
 class WordViewModel : ViewModel() {
 
@@ -11,25 +11,25 @@ class WordViewModel : ViewModel() {
         return WordRepository().getWordRepositoryInstance()
     }
 
-    fun getWordsFromRepo(): LiveData<List<Word>> {
+    fun getWordsFromRepo(): LiveData<List<Noun>> {
         return getWordRepoInstance().getWordsFromDB()
     }
 
-    fun getWordById(id: Int): LiveData<Word> {
+    fun getWordById(id: Int): LiveData<Noun> {
         return getWordRepoInstance().getWordByIdFromDB(id)
     }
 
-    fun saveToDB(word: Word) {
-        getWordRepoInstance().saveWordRepo(word)
+    fun saveToDB(noun: Noun) {
+        getWordRepoInstance().saveWordRepo(noun)
     }
 
-    fun updateWord(word: Word) {
-        getWordRepoInstance().updateWordRepo(word)
+    fun updateWord(noun: Noun) {
+        getWordRepoInstance().updateWordRepo(noun)
     }
 
 
-    fun deleteWordById(word: Word) {
-        getWordRepoInstance().deleteWordRepo(word)
+    fun deleteWordById(noun: Noun) {
+        getWordRepoInstance().deleteWordRepo(noun)
     }
 
     fun deleteAllWords() {

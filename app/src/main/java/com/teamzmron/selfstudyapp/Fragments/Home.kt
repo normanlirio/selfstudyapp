@@ -2,14 +2,8 @@ package com.teamzmron.selfstudyapp.Fragments
 
 
 import android.app.AlertDialog
-import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Button
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -21,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.WordsAdapter
 import com.teamzmron.selfstudyapp.Helper.SwipeToDeleteHelper
 import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.Room.Entity.Word
 import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
 import com.teamzmron.selfstudyapp.ViewModel.WordDetailsViewModel
 import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
@@ -141,9 +134,8 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
                 true
             }
             R.id.quiz -> {
-                pageViewModel.setFragment(QuizSettings())
                 pageViewModel.getFragmentTransaction(context!!)
-                    .add(pageViewModel.getContainer(), pageViewModel.getFragment().value!!,"quizSettings")
+                    .add(pageViewModel.getContainer(), QuizSettings(),"quizSettings")
                     .commit()
                 true
             }
@@ -155,46 +147,6 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         }
     }
 
-    private fun inflateAddForm() {
-        val dialog = Dialog(context!!)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.add_form)
-        val lp = WindowManager.LayoutParams()
-        lp.copyFrom(dialog.window!!.attributes)
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
-        dialog.window!!.attributes = lp
-
-        val etJapanese = dialog.findViewById(R.id.editText_addVocabulary_addword) as TextView
-        val etEnglish = dialog.findViewById(R.id.editText_addVocabulary_addEnglish) as TextView
-        val etHiraKata = dialog.findViewById(R.id.editText_addVocabulary_hiragana) as TextView
-        val etKanji = dialog.findViewById(R.id.editText_addVocabulary_kanji) as TextView
-        val etSampleSentence = dialog.findViewById(R.id.editText_addVocabulary_sentence) as TextView
-        val btnCancel = dialog.findViewById<TextView>(R.id.button_addForm_cancel) as Button
-        val btnSave = dialog.findViewById<TextView>(R.id.button_addForm_save) as Button
-
-        btnSave.setOnClickListener {
-            Log.v("Timestamp", getTimeStamp())
-            dialog.dismiss()
-            wordViewModel.saveToDB(
-                Word(
-                    japanese = etJapanese.text.toString(),
-                    english = etEnglish.text.toString(),
-                    hiragana = etHiraKata.text.toString(),
-                    kanji = etKanji.text.toString(),
-                    sentence = etSampleSentence.text.toString(),
-                    timestamp = getTimeStamp()
-                )
-            )
-
-        }
-
-        btnCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialog.show()
-    }
 
     private fun promptBeforeClearingWords() {
         val alertDialog = AlertDialog.Builder(context)

@@ -10,10 +10,10 @@ interface NounDAO {
     @Insert(onConflict = REPLACE)
     fun insertNoun(noun : Noun) : Single<Long>
 
-    @Query("SELECT * from verb, adjective, noun ORDER BY english ASC")
-    fun getNouns() : Flowable<List<Noun>>
+    @Query("SELECT * from noun ORDER BY english ASC")
+    fun getNoun() : Flowable<List<Noun>>
 
-    @Query("SELECT * from  verb, adjective, noun where id IN (:uid)")
+    @Query("SELECT * from  noun where id IN (:uid)")
     fun getNounById(uid: Int) : Maybe<Noun>
 
     @Update(onConflict = REPLACE)
@@ -23,6 +23,6 @@ interface NounDAO {
     fun deleteNoun(noun: Noun) : Single<Int>
 
     @Query("DELETE from noun")
-    fun deleteAll() : Single<Int>
+    fun deleteAllNoun() : Single<Int>
     
 }

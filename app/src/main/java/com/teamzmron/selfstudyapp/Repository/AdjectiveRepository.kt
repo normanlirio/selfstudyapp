@@ -3,25 +3,26 @@ package com.teamzmron.selfstudyapp.Repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.teamzmron.selfstudyapp.Room.Database.WordDatabase
-import com.teamzmron.selfstudyapp.Room.Entity.Noun
+import com.teamzmron.selfstudyapp.Room.Entity.Adjective
+import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.SelfStudyApplication
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class WordRepository {
+class AdjectiveRepository {
     private val compositeDisposable = CompositeDisposable()
     private fun getDBInstance(): WordDatabase {
         return WordDatabase.getDatabasenIstance(SelfStudyApplication.getAppContext())
     }
 
-    fun getWordRepositoryInstance(): WordRepository {
-        return WordRepository()
+    fun getAdjectiveRepositoryInstance(): AdjectiveRepository {
+        return AdjectiveRepository()
     }
 
-    fun getWordsFromDB(): MutableLiveData<List<Noun>> {
-        var list = MutableLiveData<List<Noun>>()
-        getDBInstance().nounDAO().getNouns()
+    fun geAdjectiveFromDB(): MutableLiveData<List<Adjective>> {
+        var list = MutableLiveData<List<Adjective>>()
+        getDBInstance().adjDao().getAdjectives()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -34,9 +35,9 @@ class WordRepository {
         return list
     }
 
-    fun getWordByIdFromDB(id: Int): LiveData<Noun> {
-        var list = MutableLiveData<Noun>()
-        getDBInstance().nounDAO().getNounById(id)
+    fun getAdjectiveByIdFromDB(id: Int): LiveData<Adjective> {
+        var list = MutableLiveData<Adjective>()
+        getDBInstance().adjDao().getAdjectiveById(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -49,8 +50,8 @@ class WordRepository {
         return list
     }
 
-    fun saveWordRepo(noun: Noun) {
-        getDBInstance().nounDAO().insertNoun(noun)
+    fun saveAdjectiveRepo(adj: Adjective) {
+        getDBInstance().adjDao().insertAdjective(adj)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -63,8 +64,8 @@ class WordRepository {
             }
     }
 
-    fun deleteWordRepo(noun: Noun) {
-        getDBInstance().nounDAO().deleteNoun(noun)
+    fun deleteAdjectiveRepo(adj: Adjective) {
+        getDBInstance().adjDao().deleteAdjective(adj)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -76,8 +77,8 @@ class WordRepository {
             }
     }
 
-    fun deleteAll() {
-        getDBInstance().nounDAO().deleteAll()
+    fun deleteAllAdjective() {
+        getDBInstance().adjDao().deleteAllAdjectives()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -90,8 +91,8 @@ class WordRepository {
     }
 
 
-    fun updateWordRepo(noun: Noun) {
-        getDBInstance().nounDAO().updateNoun(noun)
+    fun updateAdjectiveRepo(adj: Adjective) {
+        getDBInstance().adjDao().updateAdjective(adj)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({
@@ -107,6 +108,4 @@ class WordRepository {
         compositeDisposable.dispose()
         compositeDisposable.clear()
     }
-
-
 }

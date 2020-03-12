@@ -2,38 +2,38 @@ package com.teamzmron.selfstudyapp.ViewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.teamzmron.selfstudyapp.Repository.WordRepository
+import com.teamzmron.selfstudyapp.Repository.NounRepository
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 
 class WordViewModel : ViewModel() {
 
-    private fun getWordRepoInstance() : WordRepository {
-        return WordRepository().getWordRepositoryInstance()
+    private fun getWordRepoInstance() : NounRepository {
+        return NounRepository().getNounRepositoryInstance()
     }
 
     fun getWordsFromRepo(): LiveData<List<Noun>> {
-        return getWordRepoInstance().getWordsFromDB()
+        return getWordRepoInstance().getNounFromDB()
     }
 
     fun getWordById(id: Int): LiveData<Noun> {
-        return getWordRepoInstance().getWordByIdFromDB(id)
+        return getWordRepoInstance().getNounByIdFromDB(id)
     }
 
     fun saveToDB(noun: Noun) {
-        getWordRepoInstance().saveWordRepo(noun)
+        getWordRepoInstance().saveNounRepo(noun)
     }
 
     fun updateWord(noun: Noun) {
-        getWordRepoInstance().updateWordRepo(noun)
+        getWordRepoInstance().updateNounRepo(noun)
     }
 
 
     fun deleteWordById(noun: Noun) {
-        getWordRepoInstance().deleteWordRepo(noun)
+        getWordRepoInstance().deleteNounRepo(noun)
     }
 
     fun deleteAllWords() {
-        getWordRepoInstance().deleteAll()
+        getWordRepoInstance().deleteAllNoun()
     }
 
     override fun onCleared() {

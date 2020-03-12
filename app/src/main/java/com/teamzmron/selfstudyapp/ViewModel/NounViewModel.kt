@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.teamzmron.selfstudyapp.Repository.NounRepository
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 
-class WordViewModel : ViewModel() {
+class NounViewModel : ViewModel() {
 
     private fun getWordRepoInstance() : NounRepository {
         return NounRepository().getNounRepositoryInstance()

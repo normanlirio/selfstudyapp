@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
+import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import kotlinx.android.synthetic.main.fragment_add_word.*
 
 /**
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_add_word.*
  */
 class AddWord : Fragment() {
 
-    private lateinit var wordViewModel : WordViewModel
+    private lateinit var nounViewModel : NounViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +35,7 @@ class AddWord : Fragment() {
     }
 
     private fun initViewModels() {
-        wordViewModel = ViewModelProvider(this).get(WordViewModel::class.java)
+        nounViewModel = ViewModelProvider(this).get(NounViewModel::class.java)
     }
 
     private fun initRadioGroup() {

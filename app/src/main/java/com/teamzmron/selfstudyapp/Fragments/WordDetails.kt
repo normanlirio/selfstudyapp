@@ -13,14 +13,14 @@ import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
 import com.teamzmron.selfstudyapp.ViewModel.WordDetailsViewModel
-import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
+import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import kotlinx.android.synthetic.main.fragment_worddetails.*
 
 /**
  * A simple [Fragment] subclass.
  */
 class WordDetails : Fragment() {
-    private lateinit var wordViewModel: WordViewModel
+    private lateinit var nounViewModel: NounViewModel
     private lateinit var pageViewModel: PageViewModel
     private val wordDetailsViewModel: WordDetailsViewModel by activityViewModels()
     private var wordID: Int = 0
@@ -47,14 +47,14 @@ class WordDetails : Fragment() {
 
 
     private fun initViewModels() {
-        wordViewModel = ViewModelProvider(this).get(WordViewModel::class.java)
+        nounViewModel = ViewModelProvider(this).get(NounViewModel::class.java)
         pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java)
     }
 
     private fun buttonActions(wordID: Int) {
         button_editVocabulary_save.setOnClickListener {
             goHome()
-            wordViewModel.updateWord(
+            nounViewModel.updateWord(
                 Noun(
                     id = wordID,
                     japanese = editText_editVocabulary_addword.text.toString(),
@@ -72,7 +72,7 @@ class WordDetails : Fragment() {
     }
 
     private fun fillFormWithDetails(wordID: Int) {
-        wordViewModel.getWordById(wordID).observe(viewLifecycleOwner, Observer {
+        nounViewModel.getWordById(wordID).observe(viewLifecycleOwner, Observer {
             editText_editVocabulary_addword.setText(it.japanese)
             editText_editVocabulary_addEnglish.setText(it.english)
             editText_editVocabulary_hiragana.setText(it.hiragana)

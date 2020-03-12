@@ -12,10 +12,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
-import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
+import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import kotlin.collections.ArrayList
 
-class WordsAdapter(context : Context, wordViewModel: WordViewModel, lifecycle : LifecycleOwner, var clickListener: OnWordClickListener) : RecyclerView.Adapter<WordsAdapter.WordsViewHolder>() {
+class WordsAdapter(context : Context, nounViewModel: NounViewModel, lifecycle : LifecycleOwner, var clickListener: OnWordClickListener) : RecyclerView.Adapter<WordsAdapter.WordsViewHolder>() {
     private var context: Context? = null
     private var isAscendingAlpha = true
     private var isAscendingTime = true
@@ -26,7 +26,7 @@ class WordsAdapter(context : Context, wordViewModel: WordViewModel, lifecycle : 
 
     init {
         this.context = context
-        wordViewModel.getWordsFromRepo().observe(lifecycle, Observer<List<Noun>> {
+        nounViewModel.getWordsFromRepo().observe(lifecycle, Observer<List<Noun>> {
             wordsList.clear()
             if(it.isNotEmpty()) {
                 wordsList.addAll(it)

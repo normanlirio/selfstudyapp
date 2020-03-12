@@ -20,7 +20,7 @@ class AdjectiveRepository {
         return AdjectiveRepository()
     }
 
-    fun geAdjectiveFromDB(): MutableLiveData<List<Adjective>> {
+    fun getAdjectiveFromDB(): MutableLiveData<List<Adjective>> {
         var list = MutableLiveData<List<Adjective>>()
         getDBInstance().adjDao().getAdjectives()
             .subscribeOn(Schedulers.io())

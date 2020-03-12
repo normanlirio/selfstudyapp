@@ -17,7 +17,7 @@ import com.teamzmron.selfstudyapp.Helper.SwipeToDeleteHelper
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
 import com.teamzmron.selfstudyapp.ViewModel.WordDetailsViewModel
-import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
+import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.sql.Timestamp
 import java.util.*
@@ -28,7 +28,7 @@ import java.util.*
  */
 class Home : Fragment(), WordsAdapter.OnWordClickListener {
 
-    private lateinit var wordViewModel: WordViewModel
+    private lateinit var nounViewModel: NounViewModel
     private lateinit var wordsAdapter: WordsAdapter
     private lateinit var pageViewModel: PageViewModel
     private val wordDetailsViewModel: WordDetailsViewModel by activityViewModels()
@@ -50,7 +50,7 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         initRecyclerView()
         initSortButtons()
 
-        wordViewModel.getWordsFromRepo().observe(viewLifecycleOwner, Observer {
+        nounViewModel.getWordsFromRepo().observe(viewLifecycleOwner, Observer {
             wordsAdapter.notifyDataSetChanged()
         })
 
@@ -58,13 +58,13 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
 
 
     private fun initViewModels() {
-        wordViewModel = ViewModelProvider(this).get(WordViewModel::class.java)
+        nounViewModel = ViewModelProvider(this).get(NounViewModel::class.java)
         pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java)
     }
 
     private fun initRecyclerView() {
 
-        wordsAdapter = WordsAdapter(context!!, wordViewModel, viewLifecycleOwner, this)
+        wordsAdapter = WordsAdapter(context!!, nounViewModel, viewLifecycleOwner, this)
         recycler_home.layoutManager = LinearLayoutManager(context!!)
 
         image_home_gridlist.setOnClickListener {
@@ -75,7 +75,7 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         var itemTouchHelper = ItemTouchHelper(
             SwipeToDeleteHelper(
                 this,
-                wordViewModel,
+                nounViewModel,
                 wordsAdapter, 0, ItemTouchHelper.RIGHT
             )
         )
@@ -154,7 +154,7 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
 
         alertDialog.setPositiveButton("YES"
         ) { _, _ ->
-            wordViewModel.deleteAllWords()
+            nounViewModel.deleteAllWords()
         }
 
         alertDialog.setNegativeButton("NO"

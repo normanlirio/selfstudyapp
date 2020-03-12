@@ -20,7 +20,7 @@ class VerbRepository {
         return VerbRepository()
     }
 
-    fun geVerbFromDB(): MutableLiveData<List<Verb>> {
+    fun getVerbFromDB(): MutableLiveData<List<Verb>> {
         var list = MutableLiveData<List<Verb>>()
         getDBInstance().verbDao().getVerbs()
             .subscribeOn(Schedulers.io())

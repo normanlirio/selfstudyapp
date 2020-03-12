@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.teamzmron.selfstudyapp.Adapters.WordsAdapter
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
-import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
+import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 
-class SwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val wordViewModel: WordViewModel,adapter: WordsAdapter, dragDirs: Int, swipeDirs: Int) : ItemTouchHelper.SimpleCallback(
+class SwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val nounViewModel: NounViewModel, adapter: WordsAdapter, dragDirs: Int, swipeDirs: Int) : ItemTouchHelper.SimpleCallback(
     dragDirs, swipeDirs
 ) {
     private var wordsAdapter: WordsAdapter = adapter
@@ -22,7 +22,7 @@ class SwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val wordViewModel: Wor
     }
 
     init {
-        wordViewModel.getWordsFromRepo().observe(lifecycleOwner, Observer<List<Noun>> {
+        nounViewModel.getWordsFromRepo().observe(lifecycleOwner, Observer<List<Noun>> {
             wordsList.clear()
             if(it.isNotEmpty()) {
                 wordsList.addAll(it)
@@ -33,13 +33,13 @@ class SwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val wordViewModel: Wor
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
        var pos = viewHolder.adapterPosition
         wordsAdapter.notifyItemRemoved(pos)
-        wordViewModel.deleteWordById(Noun(
-            id = wordsList[pos].id,
-            english = wordsList[pos].english,
-            japanese = wordsList[pos].japanese,
-            hiragana = wordsList[pos].hiragana,
-            kanji = wordsList[pos].kanji,
-            sentence = wordsList[pos].sentence
+        nounViewModel.deleteWordById(Noun(
+            id = wordsList[pos].id!!,
+            english = wordsList[pos].english!!,
+            japanese = wordsList[pos].japanese!!,
+            hiragana = wordsList[pos].hiragana!!,
+            kanji = wordsList[pos].kanji!!,
+            timestamp = wordsList[pos].timestamp!!
         ))
 
     }

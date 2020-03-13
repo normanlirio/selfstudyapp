@@ -1,5 +1,6 @@
 package com.teamzmron.selfstudyapp.Repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.teamzmron.selfstudyapp.Room.Database.WordDatabase
@@ -54,7 +55,9 @@ class NounRepository {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-
+                    if(it > 0) {
+                        Log.v("Save Noun", "It's a success!")
+                    }
             }, {
 
                 it.localizedMessage

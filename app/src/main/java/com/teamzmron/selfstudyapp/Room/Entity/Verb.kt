@@ -31,4 +31,4 @@ data class Verb (
     var kanjiForm: String,
     var currentTimestamp : String
 
-) : BaseWord(verbId, japaneseWord, englishWord, hiraganaForm, kanjiForm, currentTimestamp)
+) : BaseWord( japaneseWord, englishWord, hiraganaForm, kanjiForm, currentTimestamp)

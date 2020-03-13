@@ -1,13 +1,17 @@
 package com.teamzmron.selfstudyapp.Room.Entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "noun")
 class Noun(
-    id: Int,
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id") var id:Int ? = null,
+
     japanese: String,
     english: String,
     hiragana: String,
     kanji: String,
     timestamp: String
-) : BaseWord(id, japanese, english, hiragana, kanji, timestamp)
+) : BaseWord(japanese, english, hiragana, kanji, timestamp)

@@ -19,7 +19,7 @@
             android:text="Japanese Word"/>
 
         <EditText
-            android:id="@+id/editText_noun_addword"
+            android:id="@+id/editText_noun_japanese"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
@@ -32,7 +32,7 @@
             android:text="English Word"/>
 
         <EditText
-            android:id="@+id/editText_noun_addEnglish"
+            android:id="@+id/editText_noun_english"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />

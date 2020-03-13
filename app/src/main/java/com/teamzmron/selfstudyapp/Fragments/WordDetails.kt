@@ -61,7 +61,8 @@ class WordDetails : Fragment() {
                     english = editText_editVocabulary_addEnglish.text.toString(),
                     hiragana = editText_editVocabulary_hiragana.text.toString(),
                     kanji = editText_editVocabulary_kanji.text.toString(),
-                    sentence = editText_editVocabulary_sentence.text.toString()
+                    timestamp = "202020"
+
                 )
             )
         }
@@ -77,7 +78,7 @@ class WordDetails : Fragment() {
             editText_editVocabulary_addEnglish.setText(it.english)
             editText_editVocabulary_hiragana.setText(it.hiragana)
             editText_editVocabulary_kanji.setText(it.kanji)
-            editText_editVocabulary_sentence.setText(it.sentence)
+
         })
     }
 

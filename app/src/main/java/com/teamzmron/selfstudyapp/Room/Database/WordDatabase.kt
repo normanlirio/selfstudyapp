@@ -7,10 +7,12 @@ import androidx.room.RoomDatabase
 import com.teamzmron.selfstudyapp.Room.DAO.AdjectiveDAO
 import com.teamzmron.selfstudyapp.Room.DAO.VerbDAO
 import com.teamzmron.selfstudyapp.Room.DAO.NounDAO
+import com.teamzmron.selfstudyapp.Room.Entity.Adjective
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
+import com.teamzmron.selfstudyapp.Room.Entity.Verb
 
 
-@Database(entities = [Noun::class], version = 1, exportSchema = false)
+@Database(entities = [Noun::class, Verb::class, Adjective::class], version = 1, exportSchema = false)
 abstract class WordDatabase : RoomDatabase()  {
     abstract fun nounDAO(): NounDAO
     abstract fun verbDao() : VerbDAO

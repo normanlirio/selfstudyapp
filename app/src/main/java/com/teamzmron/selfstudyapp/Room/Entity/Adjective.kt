@@ -28,4 +28,4 @@ data class Adjective(
     var kanjiForm: String,
     var currentTimestamp : String
 
-) : BaseWord(adjId, japaneseWord, englishWord, hiraganaForm, kanjiForm, currentTimestamp)
+) : BaseWord(japaneseWord, englishWord, hiraganaForm, kanjiForm, currentTimestamp)

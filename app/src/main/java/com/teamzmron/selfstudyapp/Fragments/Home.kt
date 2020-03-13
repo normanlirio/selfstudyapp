@@ -165,12 +165,7 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         alertDialog.create().show()
     }
 
-    private fun getTimeStamp(): String {
-        val date = Date()
-        val time: Long = date.time
-        val ts = Timestamp(time)
-        return ts.toString()
-    }
+
 
     override fun onWordClick(id: Int) {
         wordDetailsViewModel.setMutableId(id)

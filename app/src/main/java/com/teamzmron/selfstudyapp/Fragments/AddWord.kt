@@ -9,8 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.teamzmron.selfstudyapp.R
+import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
+import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
 import kotlinx.android.synthetic.main.fragment_add_word.*
+import kotlinx.android.synthetic.main.layout_noun.*
+import java.sql.Timestamp
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -18,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_add_word.*
 class AddWord : Fragment() {
 
     private lateinit var nounViewModel : NounViewModel
+    private lateinit var pageViewModel : PageViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,22 +42,23 @@ class AddWord : Fragment() {
 
     private fun initViewModels() {
         nounViewModel = ViewModelProvider(this).get(NounViewModel::class.java)
+        pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java)
     }
 
+
+
     private fun initRadioGroup() {
-        radioGroup_addword.setOnCheckedChangeListener { group, checkedId ->
+        radioGroup_addword.setOnCheckedChangeListener { _, checkedId ->
             run {
                 when (checkedId) {
                     R.id.noun -> {
-
+                        saveInputFromNounLayout()
                         setLayoutVisibility("noun")
                     }
                     R.id.verb -> {
-
                         setLayoutVisibility("verb")
                     }
                     R.id.adj -> {
-
                         setLayoutVisibility("adj")
                     }
                 }
@@ -59,6 +66,33 @@ class AddWord : Fragment() {
         }
     }
 
+    private fun saveInputFromNounLayout() {
+        button_addword_save.setOnClickListener {
+            val noun = Noun(
+                japanese = editText_noun_japanese.text.toString(),
+                english = editText_noun_english.text.toString(),
+                hiragana = editText_noun_hiragana.text.toString(),
+                kanji = editText_noun_kanji.text.toString(),
+                timestamp = getTimeStamp()
+            )
+
+            nounViewModel.saveToDB(noun)
+        }
+
+        button_addword_cancel.setOnClickListener {
+            pageViewModel.getFragmentTransaction(context!!)
+                .replace(pageViewModel.getContainer(), Home())
+                .commit()
+        }
+    }
+
+
+    private fun getTimeStamp(): String {
+        val date = Date()
+        val time: Long = date.time
+        val ts = Timestamp(time)
+        return ts.toString()
+    }
     private fun setLayoutVisibility(category: String) {
         var nounVisibility = View.GONE
         var verbVisibility = View.GONE
@@ -87,6 +121,8 @@ class AddWord : Fragment() {
         linearlayout_addword_adjLayout.visibility = adjVisibility
         linearlayout_addword_verbLayout.visibility = verbVisibility
     }
+
+
 
 
 }

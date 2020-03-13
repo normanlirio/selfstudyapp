@@ -4,8 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.PrimaryKey
 
 open class BaseWord (
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id") var id:Int ? = null,
 
     @ColumnInfo(name = "japanese")
     var japanese:String ? = null,

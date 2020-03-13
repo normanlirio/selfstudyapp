@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.teamzmron.selfstudyapp.R
@@ -24,6 +25,7 @@ class AddWord : Fragment() {
 
     private lateinit var nounViewModel : NounViewModel
     private lateinit var pageViewModel : PageViewModel
+    private var isNoun = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +39,10 @@ class AddWord : Fragment() {
         super.onActivityCreated(savedInstanceState)
         initViewModels()
         initRadioGroup()
-
+        if(isNoun) {
+            saveInputFromNounLayout()
+            isNoun = true
+        }
     }
 
     private fun initViewModels() {
@@ -54,12 +59,15 @@ class AddWord : Fragment() {
                     R.id.noun -> {
                         saveInputFromNounLayout()
                         setLayoutVisibility("noun")
+                        isNoun = true
                     }
                     R.id.verb -> {
                         setLayoutVisibility("verb")
+                        isNoun = false
                     }
                     R.id.adj -> {
                         setLayoutVisibility("adj")
+                        isNoun = false
                     }
                 }
             }
@@ -75,8 +83,13 @@ class AddWord : Fragment() {
                 kanji = editText_noun_kanji.text.toString(),
                 timestamp = getTimeStamp()
             )
+            nounViewModel.saveToDB(noun).observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                if(it > 0) {
+                    clearTextFields()
+                    Toast.makeText(context!!, "Successfully added!", Toast.LENGTH_LONG).show()
+                }
+            })
 
-            nounViewModel.saveToDB(noun)
         }
 
         button_addword_cancel.setOnClickListener {
@@ -84,6 +97,13 @@ class AddWord : Fragment() {
                 .replace(pageViewModel.getContainer(), Home())
                 .commit()
         }
+    }
+
+    private fun clearTextFields() {
+        editText_noun_japanese.setText("")
+        editText_noun_english.setText("")
+        editText_noun_hiragana.setText("")
+        editText_noun_kanji.setText("")
     }
 
 

@@ -1,5 +1,6 @@
 package com.teamzmron.selfstudyapp.ViewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.teamzmron.selfstudyapp.Repository.NounRepository
@@ -19,8 +20,8 @@ class NounViewModel : ViewModel() {
         return getWordRepoInstance().getNounByIdFromDB(id)
     }
 
-    fun saveToDB(noun: Noun) {
-        getWordRepoInstance().saveNounRepo(noun)
+    fun saveToDB(noun: Noun) : LiveData<Long> {
+        return getWordRepoInstance().saveNounRepo(noun)
     }
 
     fun updateWord(noun: Noun) {

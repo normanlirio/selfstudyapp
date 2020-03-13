@@ -50,11 +50,13 @@ class NounRepository {
         return list
     }
 
-    fun saveNounRepo(noun: Noun) {
+    fun saveNounRepo(noun: Noun) : MutableLiveData<Long> {
+        var result = MutableLiveData<Long>()
         getDBInstance().nounDAO().insertNoun(noun)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                result.postValue(it)
                     if(it > 0) {
                         Log.v("Save Noun", "It's a success!")
                     }
@@ -64,6 +66,8 @@ class NounRepository {
             }).let {
                 compositeDisposable.add(it)
             }
+
+        return result
     }
 
     fun deleteNounRepo(noun: Noun) {

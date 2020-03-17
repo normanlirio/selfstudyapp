@@ -19,8 +19,8 @@ class VerbViewModel : ViewModel() {
         return getVerbRepoInstance().getVerbByIdFromDB(id)
     }
 
-    fun saveToDB(verb: Verb) {
-        getVerbRepoInstance().saveVerbRepo(verb)
+    fun saveToDB(verb: Verb) : LiveData<Long>{
+       return getVerbRepoInstance().saveVerbRepo(verb)
     }
 
     fun updateVerb(verb: Verb) {

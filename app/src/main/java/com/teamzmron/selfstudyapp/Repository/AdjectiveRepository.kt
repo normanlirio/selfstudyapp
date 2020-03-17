@@ -50,18 +50,20 @@ class AdjectiveRepository {
         return list
     }
 
-    fun saveAdjectiveRepo(adj: Adjective) {
+    fun saveAdjectiveRepo(adj: Adjective) : MutableLiveData<Long> {
+        var result = MutableLiveData<Long>()
         getDBInstance().adjDao().insertAdjective(adj)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-
+                result.postValue(it)
             }, {
 
                 it.localizedMessage
             }).let {
                 compositeDisposable.add(it)
             }
+        return result
     }
 
     fun deleteAdjectiveRepo(adj: Adjective) {

@@ -20,8 +20,8 @@ class AdjectiveViewModel : ViewModel() {
         return getAdjectiveRepoInstance().getAdjectiveByIdFromDB(id)
     }
 
-    fun saveToDB(adj: Adjective) {
-        getAdjectiveRepoInstance().saveAdjectiveRepo(adj)
+    fun saveToDB(adj: Adjective) : LiveData<Long> {
+      return  getAdjectiveRepoInstance().saveAdjectiveRepo(adj)
     }
 
     fun updateAdjective(adj: Adjective) {

@@ -50,18 +50,20 @@ class VerbRepository {
         return list
     }
 
-    fun saveVerbRepo(verb: Verb) {
+    fun saveVerbRepo(verb: Verb): MutableLiveData<Long> {
+        val result = MutableLiveData<Long>()
         getDBInstance().verbDao().insertVerb(verb)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-
+                result.postValue(it)
             }, {
 
                 it.localizedMessage
             }).let {
                 compositeDisposable.add(it)
             }
+        return result
     }
 
     fun deleteVerbRepo(verb: Verb) {

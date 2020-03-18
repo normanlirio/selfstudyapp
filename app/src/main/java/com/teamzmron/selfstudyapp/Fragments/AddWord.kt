@@ -40,7 +40,6 @@ class AddWord : Fragment() {
     private val ADJ = "adj"
     private var isNoun = true
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

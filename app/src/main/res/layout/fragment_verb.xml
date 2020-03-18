@@ -4,9 +4,7 @@
     android:layout_height="match_parent"
     android:padding="15dp"
     >
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -156,13 +154,13 @@
             android:weightSum="2">
 
             <Button
-                android:id="@+id/button_verb_cancel"
+                android:id="@+id/button_verb_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:background="@color/cancelGrey"
-                android:text="Cancel"
+                android:text="Clear"
                 android:textColor="@android:color/white" />
 
             <Button
@@ -175,5 +173,4 @@
                 android:textColor="@android:color/white" />
         </LinearLayout>
 
-    </ScrollView>
 </LinearLayout>

@@ -46,13 +46,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
+            <FrameLayout
+                android:id="@+id/layout_fragmentcontainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
             <LinearLayout
                 android:id="@+id/linearlayout_addword_nounLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <include layout="@layout/layout_noun" />
             </LinearLayout>
@@ -76,6 +79,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"

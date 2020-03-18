@@ -1,12 +1,18 @@
 package com.teamzmron.selfstudyapp.Fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.teamzmron.selfstudyapp.Helper.Utils
 import com.teamzmron.selfstudyapp.R
+import com.teamzmron.selfstudyapp.Room.Entity.Noun
+import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
+import kotlinx.android.synthetic.main.fragment_noun.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +28,8 @@ class NounFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var nounViewModel: NounViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +47,50 @@ class NounFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_noun, container, false)
     }
 
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        nounViewModel = ViewModelProvider(this).get(NounViewModel::class.java)
+
+
+        button_noun_save.setOnClickListener{
+            saveInputFromLayout()
+        }
+
+        button_noun_clear.setOnClickListener {
+            clearTextFields()
+        }
+    }
+
+
+    private fun saveInputFromLayout() {
+        val noun = Noun(
+            japanese = editText_noun_japanese.text.toString(),
+            english = editText_noun_english.text.toString(),
+            hiragana = editText_noun_hiragana.text.toString(),
+            kanji = editText_noun_kanji.text.toString(),
+            timestamp = Utils.getTimeStamp()
+        )
+        nounViewModel.saveToDB(noun).observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            if (it > 0) {
+                clearTextFields()
+                Toast.makeText(context!!, "Successfully added!", Toast.LENGTH_LONG).show()
+            }
+        })
+
+    }
+
+    private fun clearTextFields() {
+        editText_noun_japanese.text.clear()
+        editText_noun_english.text.clear()
+        editText_noun_hiragana.text.clear()
+        editText_noun_kanji.text.clear()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        clearTextFields()
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of

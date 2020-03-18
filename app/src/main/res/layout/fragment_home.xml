@@ -4,50 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context=".Fragments.Home">
 
-    <RelativeLayout
+    <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:id="@+id/tablayout"
+        />
 
-        <ImageView
-            android:id="@+id/image_home_gridlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_margin="5dp"
-            android:background="@drawable/ic_grid"
-            android:contentDescription="TODO" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true">
-
-            <ImageView
-                android:id="@+id/image_home_sortByTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@drawable/ic_time" />
-
-            <ImageView
-                android:id="@+id/image_home_sortByAlpha"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@drawable/ic_sort_by_alpha" />
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_home"
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" />
-
+        android:id="@+id/viewpager"
+        />
 
 </LinearLayout>

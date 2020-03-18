@@ -4,6 +4,7 @@ package com.teamzmron.selfstudyapp.Fragments
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.teamzmron.selfstudyapp.Adapters.ViewPagerAdapter
 import com.teamzmron.selfstudyapp.Adapters.WordsAdapter
 import com.teamzmron.selfstudyapp.Helper.SwipeToDeleteHelper
 import com.teamzmron.selfstudyapp.R
@@ -29,7 +31,6 @@ import java.util.*
 class Home : Fragment(), WordsAdapter.OnWordClickListener {
 
     private lateinit var nounViewModel: NounViewModel
-    private lateinit var wordsAdapter: WordsAdapter
     private lateinit var pageViewModel: PageViewModel
     private val wordDetailsViewModel: WordDetailsViewModel by activityViewModels()
     private var isGridView = false
@@ -47,70 +48,29 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
         setHasOptionsMenu(true)
 
         initViewModels()
-        initRecyclerView()
-        initSortButtons()
+        setUpViewpager()
+        initTabLayout()
 
-        nounViewModel.getWordsFromRepo().observe(viewLifecycleOwner, Observer {
-            wordsAdapter.notifyDataSetChanged()
-        })
+    }
 
+    private fun initTabLayout() {
+        tablayout.setupWithViewPager(viewpager)
+    }
+
+
+    private fun setUpViewpager() {
+        val adapter = ViewPagerAdapter((context as AppCompatActivity).supportFragmentManager)
+        adapter.addFragment(NounFragment(), "Noun")
+        adapter.addFragment(VerbFragment(), "Verb")
+        adapter.addFragment(AdjectiveFragment(), "Adjective")
+        viewpager.adapter = adapter
+        viewpager.offscreenPageLimit = 6
     }
 
 
     private fun initViewModels() {
         nounViewModel = ViewModelProvider(this).get(NounViewModel::class.java)
         pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java)
-    }
-
-    private fun initRecyclerView() {
-
-        wordsAdapter = WordsAdapter(context!!, nounViewModel, viewLifecycleOwner, this)
-        recycler_home.layoutManager = LinearLayoutManager(context!!)
-
-        image_home_gridlist.setOnClickListener {
-            gridOrListView()
-        }
-        recycler_home.adapter = wordsAdapter
-
-        var itemTouchHelper = ItemTouchHelper(
-            SwipeToDeleteHelper(
-                this,
-                nounViewModel,
-                wordsAdapter, 0, ItemTouchHelper.RIGHT
-            )
-        )
-
-        itemTouchHelper.attachToRecyclerView(recycler_home)
-        wordsAdapter.notifyDataSetChanged()
-
-    }
-
-
-    private fun gridOrListView() {
-
-        if (isGridView) {
-            recycler_home.layoutManager = LinearLayoutManager(context!!)
-            image_home_gridlist.background =
-                ResourcesCompat.getDrawable(resources, R.drawable.ic_grid, null)
-            isGridView = false
-        } else {
-            recycler_home.layoutManager = GridLayoutManager(context!!, 4)
-            image_home_gridlist.background =
-                ResourcesCompat.getDrawable(resources, R.drawable.ic_list, null)
-            isGridView = true
-        }
-    }
-
-
-
-    private fun initSortButtons() {
-        image_home_sortByTime.setOnClickListener {
-            wordsAdapter.sortByTime()
-        }
-
-        image_home_sortByAlpha.setOnClickListener {
-            wordsAdapter.sortByAlphabetical()
-        }
     }
 
 

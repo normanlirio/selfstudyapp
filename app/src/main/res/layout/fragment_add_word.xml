@@ -5,109 +5,19 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:padding="15dp"
     tools:context=".Fragments.AddWord">
 
-    <RadioGroup
-        android:id="@+id/radioGroup_addword"
+
+    <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:id="@+id/tablayout_addword"
+        />
 
-        <RadioButton
-            android:id="@+id/noun"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="true"
-            android:text="Noun" />
-
-        <RadioButton
-            android:id="@+id/verb"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Verb" />
-
-        <RadioButton
-            android:id="@+id/adj"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Adjective" />
-    </RadioGroup>
-
-    <ScrollView
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:id="@+id/viewpager_addword"
+        />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <FrameLayout
-                android:id="@+id/layout_fragmentcontainer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <LinearLayout
-                android:id="@+id/linearlayout_addword_nounLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <include layout="@layout/layout_noun" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearlayout_addword_verbLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <include layout="@layout/layout_verb" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearlayout_addword_adjLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <include layout="@layout/layout_adjective" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <Button
-                    android:id="@+id/button_addword_cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:background="@color/cancelGrey"
-                    android:text="Cancel"
-                    android:textColor="@android:color/white" />
-
-                <Button
-                    android:id="@+id/button_addword_save"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/japanRed"
-                    android:text="Save"
-                    android:textColor="@android:color/white" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-    </ScrollView>
 </LinearLayout>

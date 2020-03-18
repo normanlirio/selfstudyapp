@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.teamzmron.selfstudyapp.Adapters.ViewPagerAdapter
 import com.teamzmron.selfstudyapp.Helper.Utils
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Adjective
@@ -20,9 +22,6 @@ import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
 import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
 import kotlinx.android.synthetic.main.fragment_add_word.*
-import kotlinx.android.synthetic.main.layout_adjective.*
-import kotlinx.android.synthetic.main.layout_noun.*
-import kotlinx.android.synthetic.main.layout_verb.*
 import java.sql.Timestamp
 import java.util.*
 
@@ -52,8 +51,18 @@ class AddWord : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initViewModels()
-        initRadioGroup()
-        setLayoutVisibility(NOUN)
+        initViewpager()
+
+        tablayout_addword.setupWithViewPager(viewpager_addword)
+    }
+
+    private fun initViewpager() {
+        val adapter = ViewPagerAdapter((context as AppCompatActivity).supportFragmentManager)
+        adapter.addFragment(NounFragment(), "Noun")
+        adapter.addFragment(VerbFragment(), "Verb")
+        adapter.addFragment(AdjectiveFragment(), "Adjective")
+        viewpager_addword.adapter = adapter
+        viewpager_addword.offscreenPageLimit = 6
     }
 
     private fun initViewModels() {
@@ -63,55 +72,6 @@ class AddWord : Fragment() {
         verbViewModel = ViewModelProvider(this).get(VerbViewModel::class.java)
     }
 
-
-    private fun initRadioGroup() {
-
-        radioGroup_addword.setOnCheckedChangeListener { _, checkedId ->
-            run {
-                when (checkedId) {
-                    R.id.noun -> {
-                        setLayoutVisibility(NOUN)
-                        isNoun = true
-                    }
-                    R.id.verb -> {
-                        setLayoutVisibility(VERB)
-                        isNoun = false
-                    }
-                    R.id.adj -> {
-                        setLayoutVisibility(ADJ)
-                        isNoun = false
-                    }
-                }
-            }
-        }
-    }
-
-
-
-    private fun setLayoutVisibility(category: String) {
-
-        var container = R.id.layout_fragmentcontainer
-        if (category == NOUN) {
-            Log.v("RG", "NOUN")
-            pageViewModel.getFragmentTransaction(context!!)
-                .replace(container, NounFragment())
-                .commit()
-        }
-        if (category == VERB) {
-            Log.v("RG", "VERB")
-            pageViewModel.getFragmentTransaction(context!!)
-                .replace(container, VerbFragment())
-                .commit()
-        }
-        if (category == ADJ) {
-            Log.v("RG", "ADJ")
-            pageViewModel.getFragmentTransaction(context!!)
-                .replace(container, AdjectiveFragment())
-                .commit()
-        }
-
-
-    }
 
 
 }

@@ -60,9 +60,9 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
 
     private fun setUpViewpager() {
         val adapter = ViewPagerAdapter((context as AppCompatActivity).supportFragmentManager)
-        adapter.addFragment(NounFragment(), "Noun")
-        adapter.addFragment(VerbFragment(), "Verb")
-        adapter.addFragment(AdjectiveFragment(), "Adjective")
+        adapter.addFragment(NounListFragment(), "Noun")
+        adapter.addFragment(VerbListFragment(), "Verb")
+        adapter.addFragment(AdjectiveListFragment(), "Adjective")
         viewpager.adapter = adapter
         viewpager.offscreenPageLimit = 6
     }

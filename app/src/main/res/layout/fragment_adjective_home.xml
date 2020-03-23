@@ -7,7 +7,7 @@
     tools:context=".Fragments.NounListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_nounhome"
+        android:id="@+id/recycler_adjhome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp" />

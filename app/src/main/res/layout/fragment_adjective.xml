@@ -28,12 +28,14 @@
                     android:weightSum="2">
 
                     <RadioButton
+                        android:id="@+id/radio_i"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="い-Adjective" />
 
                     <RadioButton
+                        android:id="@+id/radio_na"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -49,6 +51,7 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:maxLines="1"
                     android:id="@+id/editText_adj_japaneseWord"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -63,6 +66,7 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:maxLines="1"
                     android:id="@+id/editText_adj_englishWord"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -78,6 +82,7 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:maxLines="1"
                     android:id="@+id/editText_adj_hirakata"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -92,6 +97,7 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:maxLines="1"
                     android:id="@+id/editText_adj_kanji"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -106,6 +112,7 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:maxLines="1"
                     android:id="@+id/editText_adj_negative"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -120,6 +127,7 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:maxLines="1"
                     android:id="@+id/editText_adj_past"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -134,6 +142,7 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:maxLines="1"
                     android:id="@+id/editText_adj_pastnegative"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

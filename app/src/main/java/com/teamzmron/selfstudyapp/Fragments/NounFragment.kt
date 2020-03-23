@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +12,7 @@ import com.teamzmron.selfstudyapp.Helper.Utils
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
+import kotlinx.android.synthetic.main.fragment_adjective.*
 import kotlinx.android.synthetic.main.fragment_noun.*
 
 
@@ -54,7 +56,11 @@ class NounFragment : Fragment() {
 
 
         button_noun_save.setOnClickListener{
-            saveInputFromLayout()
+            if (checkTextField()) {
+                saveInputFromLayout()
+            } else {
+                Toast.makeText(context!!, "All fields are required!", Toast.LENGTH_SHORT).show()
+            }
         }
 
         button_noun_clear.setOnClickListener {
@@ -80,11 +86,30 @@ class NounFragment : Fragment() {
 
     }
 
+    private fun getAllTextFields(): ArrayList<EditText> {
+        return arrayListOf(
+            editText_noun_japanese,
+                    editText_noun_english,
+                    editText_noun_hiragana,
+                    editText_noun_kanji
+        )
+    }
+
+    private fun checkTextField(): Boolean {
+        var isAllFilled = true
+        for (i in 0 until getAllTextFields().size) {
+            if (getAllTextFields()[i].text.isEmpty()) {
+                isAllFilled = false
+                break
+            }
+        }
+        return isAllFilled
+    }
+
     private fun clearTextFields() {
-        editText_noun_japanese.text.clear()
-        editText_noun_english.text.clear()
-        editText_noun_hiragana.text.clear()
-        editText_noun_kanji.text.clear()
+        getAllTextFields().forEach {
+            it.text.clear()
+        }
     }
 
     override fun onDestroyView() {

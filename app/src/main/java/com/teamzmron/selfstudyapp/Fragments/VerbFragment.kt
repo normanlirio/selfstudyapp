@@ -1,29 +1,19 @@
 package com.teamzmron.selfstudyapp.Fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.teamzmron.selfstudyapp.Helper.Utils
-
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
 import kotlinx.android.synthetic.main.fragment_verb.*
-import kotlinx.android.synthetic.main.fragment_verb.editText_verb_englishWord
-import kotlinx.android.synthetic.main.fragment_verb.editText_verb_hirakata
-import kotlinx.android.synthetic.main.fragment_verb.editText_verb_japaneseWord
-import kotlinx.android.synthetic.main.fragment_verb.editText_verb_kanji
-import kotlinx.android.synthetic.main.fragment_verb.editText_verb_masu
-import kotlinx.android.synthetic.main.fragment_verb.editText_verb_masunegative
-import kotlinx.android.synthetic.main.fragment_verb.editText_verb_masupast
-import kotlinx.android.synthetic.main.fragment_verb.editText_verb_masupastnegative
-import kotlinx.android.synthetic.main.fragment_verb.radioGroup_verb
-
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -41,7 +31,7 @@ class VerbFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var verbViewModel : VerbViewModel
+    private lateinit var verbViewModel: VerbViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,8 +54,15 @@ class VerbFragment : Fragment() {
 
         verbViewModel = ViewModelProvider(this).get(VerbViewModel::class.java)
 
+        radioButton_verb_u.isChecked = true
+
         button_verb_save.setOnClickListener {
-            saveInputFromlayout()
+            if (checkTextField()) {
+                saveInputFromlayout()
+            } else {
+                Toast.makeText(context!!, "All fields are required!", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         button_verb_clear.setOnClickListener {
@@ -73,8 +70,7 @@ class VerbFragment : Fragment() {
         }
     }
 
-
-    private fun saveInputFromlayout(){
+    private fun saveInputFromlayout() {
         val verbType = if (getVerbType().contains("")) "u" else "ru"
         val verb = Verb(
             verbType = verbType,
@@ -101,15 +97,34 @@ class VerbFragment : Fragment() {
             .text.toString()
     }
 
+    private fun getAllTextFields(): ArrayList<EditText> {
+        return arrayListOf(
+            editText_verb_masu,
+            editText_verb_masupast,
+            editText_verb_masunegative,
+            editText_verb_masupastnegative,
+            editText_verb_englishWord,
+            editText_verb_japaneseWord,
+            editText_verb_hirakata,
+            editText_verb_kanji
+        )
+    }
+
+    private fun checkTextField(): Boolean {
+        var isAllFilled = true
+        for (i in 0 until getAllTextFields().size) {
+            if (getAllTextFields()[i].text.isEmpty()) {
+                isAllFilled = false
+                break
+            }
+        }
+        return isAllFilled
+    }
+
     private fun clearTextFields() {
-        editText_verb_masu.text.clear()
-        editText_verb_masupast.text.clear()
-        editText_verb_masunegative.text.clear()
-        editText_verb_masupastnegative.text.clear()
-        editText_verb_englishWord.text.clear()
-        editText_verb_japaneseWord.text.clear()
-        editText_verb_hirakata.text.clear()
-        editText_verb_kanji.text.clear()
+        getAllTextFields().forEach {
+            it.text.clear()
+        }
     }
 
     override fun onDestroyView() {

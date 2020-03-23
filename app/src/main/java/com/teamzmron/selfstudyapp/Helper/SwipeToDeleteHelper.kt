@@ -4,14 +4,14 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.teamzmron.selfstudyapp.Adapters.WordsAdapter
+import com.teamzmron.selfstudyapp.Adapters.NounAdapter
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 
-class SwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val nounViewModel: NounViewModel, adapter: WordsAdapter, dragDirs: Int, swipeDirs: Int) : ItemTouchHelper.SimpleCallback(
+class SwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val nounViewModel: NounViewModel, adapter: NounAdapter, dragDirs: Int, swipeDirs: Int) : ItemTouchHelper.SimpleCallback(
     dragDirs, swipeDirs
 ) {
-    private var wordsAdapter: WordsAdapter = adapter
+    private var nounAdapter: NounAdapter = adapter
     var wordsList : ArrayList<Noun> = ArrayList()
     override fun onMove(
         recyclerView: RecyclerView,
@@ -32,7 +32,7 @@ class SwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val nounViewModel: Nou
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
        var pos = viewHolder.adapterPosition
-        wordsAdapter.notifyItemRemoved(pos)
+        nounAdapter.notifyItemRemoved(pos)
         nounViewModel.deleteWordById(Noun(
             id = wordsList[pos].id!!,
             english = wordsList[pos].english!!,

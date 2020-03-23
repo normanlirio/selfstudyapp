@@ -14,22 +14,26 @@ import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
 
-class VerbAdapter(context : Context, verbViewModel: VerbViewModel, lifecycle : LifecycleOwner, var clickListener: OnVerbClickListener)
-    : RecyclerView.Adapter<VerbAdapter.VerbViewHolder>() {
+class VerbAdapter(
+    context: Context,
+    verbViewModel: VerbViewModel,
+    lifecycle: LifecycleOwner,
+    var clickListener: OnVerbClickListener
+) : RecyclerView.Adapter<VerbAdapter.VerbViewHolder>() {
 
     private var context: Context? = null
     private var isAscendingAlpha = true
     private var isAscendingTime = true
 
     companion object {
-        var verbList : ArrayList<Verb> = ArrayList()
+        var verbList: ArrayList<Verb> = ArrayList()
     }
 
     init {
         this.context = context
         verbViewModel.getVerbsFromRepo().observe(lifecycle, Observer<List<Verb>> {
             verbList.clear()
-            if(it.isNotEmpty()) {
+            if (it.isNotEmpty()) {
                 verbList.addAll(it)
             }
             notifyDataSetChanged()
@@ -42,16 +46,15 @@ class VerbAdapter(context : Context, verbViewModel: VerbViewModel, lifecycle : L
     }
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerbViewHolder {
         return VerbViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.verb_item_list, parent, false)
+                .inflate(R.layout.layout_verb_items, parent, false)
         )
     }
 
     override fun getItemCount(): Int {
-       return verbList.size
+        return verbList.size
     }
 
     override fun onBindViewHolder(holder: VerbViewHolder, position: Int) {
@@ -61,22 +64,23 @@ class VerbAdapter(context : Context, verbViewModel: VerbViewModel, lifecycle : L
     }
 
 
-    inner class VerbViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView),
+    inner class VerbViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         var tvEnglish: TextView? = null
         var cvParent: CardView? = null
-        var tvJapanese : TextView? = null
+        var tvJapanese: TextView? = null
         var tvType: TextView? = null
+
         init {
-            Log.v("ViewHolder", "Viewholder")
             tvEnglish = itemView.findViewById(R.id.wordlist_english)
             tvJapanese = itemView.findViewById(R.id.wordlist_japanese)
             cvParent = itemView.findViewById(R.id.cardView_wordlist_parent)
             tvType = itemView.findViewById(R.id.wordlist_verbtype)
             itemView.setOnClickListener(this)
         }
+
         override fun onClick(p0: View?) {
-            clickListener.onVerbClick(VerbAdapter.verbList[adapterPosition].verbId!!)
+            clickListener.onVerbClick(verbList[adapterPosition].verbId!!)
         }
 
     }

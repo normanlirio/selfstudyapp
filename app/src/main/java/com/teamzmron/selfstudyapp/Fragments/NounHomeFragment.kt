@@ -5,8 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.teamzmron.selfstudyapp.Adapters.NounAdapter
 
 import com.teamzmron.selfstudyapp.R
+import com.teamzmron.selfstudyapp.Room.Entity.Noun
+import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
+import kotlinx.android.synthetic.main.fragment_noun_home.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,10 +24,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [NounListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NounListFragment : Fragment() {
+class NounListFragment : Fragment(), NounAdapter.OnNounClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var nounViewModel: NounViewModel
+    private lateinit var nounAdapter : NounAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +46,23 @@ class NounListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_noun_home, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initViewModels()
+        initRecyclerView()
+
+    }
+
+    private fun initViewModels() {
+        nounViewModel = ViewModelProvider(this).get(NounViewModel::class.java)
+    }
+
+    private fun initRecyclerView() {
+        nounAdapter = NounAdapter(context!!, nounViewModel, viewLifecycleOwner, this )
+        recycler_nounhome.layoutManager = LinearLayoutManager(context!!)
+        recycler_nounhome.adapter = nounAdapter
     }
 
     companion object {
@@ -57,5 +83,9 @@ class NounListFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onNounClick(id: Int) {
+        TODO("Not yet implemented")
     }
 }

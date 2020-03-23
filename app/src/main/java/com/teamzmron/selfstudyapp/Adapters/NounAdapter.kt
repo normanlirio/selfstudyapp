@@ -15,14 +15,13 @@ import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import kotlin.collections.ArrayList
 
-class WordsAdapter(context : Context, nounViewModel: NounViewModel, lifecycle : LifecycleOwner, var clickListener: OnWordClickListener) : RecyclerView.Adapter<WordsAdapter.WordsViewHolder>() {
+class NounAdapter(context : Context, nounViewModel: NounViewModel, lifecycle : LifecycleOwner, var clickListener: OnNounClickListener) : RecyclerView.Adapter<NounAdapter.WordsViewHolder>() {
     private var context: Context? = null
-    private var isAscendingAlpha = true
-    private var isAscendingTime = true
 
     companion object {
          var wordsList : ArrayList<Noun> = ArrayList()
     }
+
 
     init {
         this.context = context
@@ -35,8 +34,8 @@ class WordsAdapter(context : Context, nounViewModel: NounViewModel, lifecycle : 
         })
     }
 
-    interface OnWordClickListener {
-        fun onWordClick(id: Int)
+    interface OnNounClickListener {
+        fun onNounClick(id: Int)
 
     }
 
@@ -55,29 +54,6 @@ class WordsAdapter(context : Context, nounViewModel: NounViewModel, lifecycle : 
         holder.etEnglish!!.text = wordsList[position].english
 
     }
-    fun sortByAlphabetical(){
-        Log.v("SORT","SORTING!!")
-        isAscendingAlpha = if(isAscendingAlpha) {
-            wordsList.sortByDescending { it.english }
-            false
-        } else {
-            wordsList.sortBy { it.english }
-            true
-        }
-
-        notifyDataSetChanged()
-    }
-    fun sortByTime() {
-
-        isAscendingTime = if(isAscendingTime) {
-            wordsList.sortByDescending { it.timestamp }
-            false
-        } else {
-            wordsList.sortBy { it.timestamp }
-            true
-        }
-        notifyDataSetChanged()
-    }
 
     inner class WordsViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
@@ -91,7 +67,7 @@ class WordsAdapter(context : Context, nounViewModel: NounViewModel, lifecycle : 
         }
 
         override fun onClick(p0: View?) {
-            clickListener.onWordClick(wordsList[adapterPosition].id!!)
+            clickListener.onNounClick(wordsList[adapterPosition].id!!)
         }
 
     }

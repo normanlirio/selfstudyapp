@@ -1,15 +1,15 @@
 package com.teamzmron.selfstudyapp.Fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.teamzmron.selfstudyapp.Helper.Utils
-
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Adjective
 import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
@@ -53,8 +53,14 @@ class AdjectiveFragment : Fragment() {
 
         adjectiveViewModel = ViewModelProvider(this).get(AdjectiveViewModel::class.java)
 
+        radio_i.isChecked = true
+
         button_adj_save.setOnClickListener {
-            saveInputFromLayout()
+            if (checkTextField()) {
+                saveInputFromLayout()
+            } else {
+                Toast.makeText(context!!, "All fields are required!", Toast.LENGTH_SHORT).show()
+            }
         }
 
         button_adj_clear.setOnClickListener {
@@ -90,22 +96,40 @@ class AdjectiveFragment : Fragment() {
         return radioGroup_adj.findViewById<RadioButton>(radioGroup_adj.checkedRadioButtonId).text.toString()
     }
 
+    private fun getAllTextFields(): ArrayList<EditText> {
+        return arrayListOf(
+            editText_adj_negative,
+            editText_adj_past,
+            editText_adj_pastnegative,
+            editText_adj_englishWord,
+            editText_adj_japaneseWord,
+            editText_adj_hirakata,
+            editText_adj_kanji
+        )
+    }
 
+    private fun checkTextField(): Boolean {
+        var isAllFilled = true
+        for (i in 0 until getAllTextFields().size) {
+            if (getAllTextFields()[i].text.isEmpty()) {
+                isAllFilled = false
+                break
+            }
+        }
+        return isAllFilled
+    }
 
     private fun clearTextFields() {
-        editText_adj_negative.text.clear()
-        editText_adj_past.text.clear()
-        editText_adj_pastnegative.text.clear()
-        editText_adj_englishWord.text.clear()
-        editText_adj_japaneseWord.text.clear()
-        editText_adj_hirakata.text.clear()
-        editText_adj_kanji.text.clear()
+        getAllTextFields().forEach {
+            it.text.clear()
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         clearTextFields()
     }
+
     companion object {
         /**
          * Use this factory method to create a new instance of

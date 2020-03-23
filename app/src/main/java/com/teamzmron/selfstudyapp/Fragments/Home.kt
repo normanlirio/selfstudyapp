@@ -5,30 +5,22 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.ViewPagerAdapter
-import com.teamzmron.selfstudyapp.Adapters.WordsAdapter
-import com.teamzmron.selfstudyapp.Helper.SwipeToDeleteHelper
+import com.teamzmron.selfstudyapp.Adapters.NounAdapter
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
 import com.teamzmron.selfstudyapp.ViewModel.WordDetailsViewModel
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.sql.Timestamp
-import java.util.*
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class Home : Fragment(), WordsAdapter.OnWordClickListener {
+class Home : Fragment(), NounAdapter.OnNounClickListener {
 
     private lateinit var nounViewModel: NounViewModel
     private lateinit var pageViewModel: PageViewModel
@@ -127,7 +119,7 @@ class Home : Fragment(), WordsAdapter.OnWordClickListener {
 
 
 
-    override fun onWordClick(id: Int) {
+    override fun onNounClick(id: Int) {
         wordDetailsViewModel.setMutableId(id)
         pageViewModel.getFragmentTransaction(context!!)
             .add(R.id.fragment_container, WordDetails(), "WordDetails")

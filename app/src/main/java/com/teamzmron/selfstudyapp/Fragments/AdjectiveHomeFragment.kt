@@ -5,8 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.teamzmron.selfstudyapp.Adapters.AdjectiveAdapter
 
 import com.teamzmron.selfstudyapp.R
+import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
+import kotlinx.android.synthetic.main.fragment_adjective_home.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,10 +23,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [AdjectiveListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AdjectiveListFragment : Fragment() {
+class AdjectiveListFragment : Fragment(), AdjectiveAdapter.OnAdjectiveClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var adjectiveViewModel: AdjectiveViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +44,23 @@ class AdjectiveListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_adjective_list, container, false)
+        return inflater.inflate(R.layout.fragment_adjective_home, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initViewModels()
+        initRecyclerView()
+    }
+
+    private fun initViewModels() {
+        adjectiveViewModel = ViewModelProvider(this).get(AdjectiveViewModel::class.java)
+    }
+
+    private fun initRecyclerView() {
+        val adapter = AdjectiveAdapter(context!!, adjectiveViewModel, viewLifecycleOwner, this)
+        recycler_adjhome.layoutManager = LinearLayoutManager(context!!)
+        recycler_adjhome.adapter = adapter
     }
 
     companion object {
@@ -57,5 +81,9 @@ class AdjectiveListFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onAdjectiveClick(id: Int) {
+
     }
 }

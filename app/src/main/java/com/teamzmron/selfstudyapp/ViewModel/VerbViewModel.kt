@@ -32,10 +32,6 @@ class VerbViewModel : ViewModel() {
         getVerbRepoInstance().deleteVerbRepo(verb)
     }
 
-    fun deleteAllVerbs() {
-        getVerbRepoInstance().deleteAllVerbs()
-    }
-
     override fun onCleared() {
         getVerbRepoInstance().onClearDisposable()
         super.onCleared()

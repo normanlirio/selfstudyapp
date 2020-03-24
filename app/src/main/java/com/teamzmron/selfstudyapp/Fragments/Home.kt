@@ -11,9 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.teamzmron.selfstudyapp.Adapters.ViewPagerAdapter
 import com.teamzmron.selfstudyapp.Adapters.NounAdapter
 import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
-import com.teamzmron.selfstudyapp.ViewModel.WordDetailsViewModel
-import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
+import com.teamzmron.selfstudyapp.ViewModel.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -24,8 +22,12 @@ class Home : Fragment(), NounAdapter.OnNounClickListener {
 
     private lateinit var nounViewModel: NounViewModel
     private lateinit var pageViewModel: PageViewModel
+    private lateinit var wordViewModel: WordViewModel
     private val wordDetailsViewModel: WordDetailsViewModel by activityViewModels()
-    private var isGridView = false
+
+    private val NOUN = "Noun"
+    private val VERB = "Verb"
+    private val ADJ = "Adjective"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,17 +54,17 @@ class Home : Fragment(), NounAdapter.OnNounClickListener {
 
     private fun setUpViewpager() {
         val adapter = ViewPagerAdapter((context as AppCompatActivity).supportFragmentManager)
-        adapter.addFragment(NounListFragment(), "Noun")
-        adapter.addFragment(VerbListFragment(), "Verb")
-        adapter.addFragment(AdjectiveListFragment(), "Adjective")
+        adapter.addFragment(NounListFragment(), NOUN)
+        adapter.addFragment(VerbListFragment(), VERB)
+        adapter.addFragment(AdjectiveListFragment(), ADJ)
         viewpager.adapter = adapter
-        viewpager.offscreenPageLimit = 6
     }
 
 
     private fun initViewModels() {
         nounViewModel = ViewModelProvider(this).get(NounViewModel::class.java)
         pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java)
+        wordViewModel = ViewModelProvider(this).get(WordViewModel::class.java)
     }
 
 
@@ -91,8 +93,20 @@ class Home : Fragment(), NounAdapter.OnNounClickListener {
                     .commit()
                 true
             }
+            R.id.clearAllNoun -> {
+                promptBeforeClearingWords(NOUN)
+                true
+            }
+            R.id.clearAllVerb -> {
+                promptBeforeClearingWords(VERB)
+                true
+            }
+            R.id.clearAllAdj -> {
+                promptBeforeClearingWords(ADJ)
+                true
+            }
             R.id.clearAll -> {
-                promptBeforeClearingWords()
+                promptBeforeClearingWords("ALL")
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -100,13 +114,27 @@ class Home : Fragment(), NounAdapter.OnNounClickListener {
     }
 
 
-    private fun promptBeforeClearingWords() {
+    private fun promptBeforeClearingWords(category: String) {
         val alertDialog = AlertDialog.Builder(context)
         alertDialog.setMessage("Are you sure?")
 
         alertDialog.setPositiveButton("YES"
         ) { _, _ ->
-            nounViewModel.deleteAllWords()
+            when(category) {
+                NOUN -> {
+                    wordViewModel.deleteAllNoun()
+                }
+                VERB -> {
+                    wordViewModel.deleteAllVerb()
+                }
+                ADJ -> {
+                    wordViewModel.deleteAllAdjectives()
+                }
+                "ALL" -> {
+                    wordViewModel.deleteAllWordsFromRepo()
+                }
+            }
+
         }
 
         alertDialog.setNegativeButton("NO"

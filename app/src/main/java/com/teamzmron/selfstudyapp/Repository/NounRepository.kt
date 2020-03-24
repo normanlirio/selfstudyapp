@@ -83,20 +83,6 @@ class NounRepository {
             }
     }
 
-    fun deleteAllNoun() {
-        getDBInstance().nounDAO().deleteAllNoun()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-
-            }, {
-                it.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
-    }
-
-
     fun updateNounRepo(noun: Noun) {
         getDBInstance().nounDAO().updateNoun(noun)
             .subscribeOn(Schedulers.io())

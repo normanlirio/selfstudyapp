@@ -24,6 +24,7 @@ interface VerbDAO  {
     @Delete
     fun deleteVerb(verb: Verb) : Single<Int>
 
+    @Transaction
     @Query("DELETE from verb")
     fun deleteAllVerbs() : Single<Int>
 

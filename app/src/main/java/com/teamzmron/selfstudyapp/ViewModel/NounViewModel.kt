@@ -1,6 +1,5 @@
 package com.teamzmron.selfstudyapp.ViewModel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.teamzmron.selfstudyapp.Repository.NounRepository
@@ -8,37 +7,34 @@ import com.teamzmron.selfstudyapp.Room.Entity.Noun
 
 class NounViewModel : ViewModel() {
 
-    private fun getWordRepoInstance() : NounRepository {
+    private fun getNounRepoInstance() : NounRepository {
         return NounRepository().getNounRepositoryInstance()
     }
 
     fun getWordsFromRepo(): LiveData<List<Noun>> {
-        return getWordRepoInstance().getNounFromDB()
+        return getNounRepoInstance().getNounFromDB()
     }
 
     fun getWordById(id: Int): LiveData<Noun> {
-        return getWordRepoInstance().getNounByIdFromDB(id)
+        return getNounRepoInstance().getNounByIdFromDB(id)
     }
 
     fun saveToDB(noun: Noun) : LiveData<Long> {
-        return getWordRepoInstance().saveNounRepo(noun)
+        return getNounRepoInstance().saveNounRepo(noun)
     }
 
     fun updateWord(noun: Noun) {
-        getWordRepoInstance().updateNounRepo(noun)
+        getNounRepoInstance().updateNounRepo(noun)
     }
 
 
     fun deleteWordById(noun: Noun) {
-        getWordRepoInstance().deleteNounRepo(noun)
+        getNounRepoInstance().deleteNounRepo(noun)
     }
 
-    fun deleteAllWords() {
-        getWordRepoInstance().deleteAllNoun()
-    }
 
     override fun onCleared() {
-        getWordRepoInstance().onClearDisposable()
+        getNounRepoInstance().onClearDisposable()
         super.onCleared()
     }
     

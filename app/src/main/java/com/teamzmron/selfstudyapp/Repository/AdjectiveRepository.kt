@@ -79,19 +79,6 @@ class AdjectiveRepository {
             }
     }
 
-    fun deleteAllAdjective() {
-        getDBInstance().adjDao().deleteAllAdjectives()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-
-            }, {
-                it.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
-    }
-
 
     fun updateAdjectiveRepo(adj: Adjective) {
         getDBInstance().adjDao().updateAdjective(adj)

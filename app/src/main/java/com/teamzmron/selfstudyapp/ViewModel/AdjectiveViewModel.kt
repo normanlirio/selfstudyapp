@@ -33,9 +33,6 @@ class AdjectiveViewModel : ViewModel() {
         getAdjectiveRepoInstance().deleteAdjectiveRepo(adj)
     }
 
-    fun deleteAllAdjectives() {
-        getAdjectiveRepoInstance().deleteAllAdjective()
-    }
 
     override fun onCleared() {
         getAdjectiveRepoInstance().onClearDisposable()

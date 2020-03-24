@@ -50,6 +50,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                     android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:id="@+id/editText_verb_japaneseWord"
                     android:layout_width="match_parent"
@@ -65,6 +67,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                     android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:id="@+id/editText_verb_englishWord"
                     android:layout_width="match_parent"
@@ -81,6 +85,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                     android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:id="@+id/editText_verb_hirakata"
                     android:layout_width="match_parent"
@@ -96,6 +102,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                     android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:id="@+id/editText_verb_kanji"
                     android:layout_width="match_parent"
@@ -111,6 +119,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                     android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:id="@+id/editText_verb_masu"
                     android:layout_width="match_parent"
@@ -126,6 +136,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                     android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:id="@+id/editText_verb_masupast"
                     android:layout_width="match_parent"
@@ -141,6 +153,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                     android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:id="@+id/editText_verb_masunegative"
                     android:layout_width="match_parent"
@@ -156,6 +170,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                     android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:id="@+id/editText_verb_masupastnegative"
                     android:layout_width="match_parent"

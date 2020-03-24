@@ -28,6 +28,7 @@
                     android:weightSum="2">
 
                     <RadioButton
+                        android:checked="true"
                         android:id="@+id/radio_i"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -51,6 +52,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                     android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:id="@+id/editText_adj_japaneseWord"
                     android:layout_width="match_parent"
@@ -66,6 +69,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                     android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:id="@+id/editText_adj_englishWord"
                     android:layout_width="match_parent"
@@ -82,6 +87,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                     android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:id="@+id/editText_adj_hirakata"
                     android:layout_width="match_parent"
@@ -97,6 +104,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                     android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:id="@+id/editText_adj_kanji"
                     android:layout_width="match_parent"
@@ -112,6 +121,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                     android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:id="@+id/editText_adj_negative"
                     android:layout_width="match_parent"
@@ -127,6 +138,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                     android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:id="@+id/editText_adj_past"
                     android:layout_width="match_parent"
@@ -142,6 +155,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                     android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:id="@+id/editText_adj_pastnegative"
                     android:layout_width="match_parent"

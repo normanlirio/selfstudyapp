@@ -35,7 +35,7 @@ class VerbRepository {
         return list
     }
 
-    fun getVerbByIdFromDB(id: Int): LiveData<Verb> {
+    fun getVerbByIdFromDB(id: Int): MutableLiveData<Verb> {
         var list = MutableLiveData<Verb>()
         getDBInstance().verbDao().getVerbById(id)
             .subscribeOn(Schedulers.io())
@@ -68,19 +68,6 @@ class VerbRepository {
 
     fun deleteVerbRepo(verb: Verb) {
         getDBInstance().verbDao().deleteVerb(verb)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-
-            }, {
-                it.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
-    }
-
-    fun deleteAllVerbs() {
-        getDBInstance().verbDao().deleteAllVerbs()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

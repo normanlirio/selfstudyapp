@@ -23,6 +23,7 @@ interface AdjectiveDAO {
     @Delete
     fun deleteAdjective(adjective: Adjective) : Single<Int>
 
+    @Transaction
     @Query("DELETE from adjective")
     fun deleteAllAdjectives() : Single<Int>
 }

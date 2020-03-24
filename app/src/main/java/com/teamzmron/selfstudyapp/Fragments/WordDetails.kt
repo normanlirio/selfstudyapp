@@ -1,9 +1,7 @@
 package com.teamzmron.selfstudyapp.Fragments
 
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,19 +9,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.Room.Entity.Word
+import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
 import com.teamzmron.selfstudyapp.ViewModel.WordDetailsViewModel
-import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
+import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import kotlinx.android.synthetic.main.fragment_worddetails.*
 
 /**
  * A simple [Fragment] subclass.
  */
 class WordDetails : Fragment() {
-    private lateinit var wordViewModel: WordViewModel
+    private lateinit var nounViewModel: NounViewModel
     private lateinit var pageViewModel: PageViewModel
     private val wordDetailsViewModel: WordDetailsViewModel by activityViewModels()
     private var wordID: Int = 0
@@ -50,21 +47,22 @@ class WordDetails : Fragment() {
 
 
     private fun initViewModels() {
-        wordViewModel = ViewModelProvider(this).get(WordViewModel::class.java)
+        nounViewModel = ViewModelProvider(this).get(NounViewModel::class.java)
         pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java)
     }
 
     private fun buttonActions(wordID: Int) {
         button_editVocabulary_save.setOnClickListener {
             goHome()
-            wordViewModel.updateWord(
-                Word(
+            nounViewModel.updateWord(
+                Noun(
                     id = wordID,
                     japanese = editText_editVocabulary_addword.text.toString(),
                     english = editText_editVocabulary_addEnglish.text.toString(),
                     hiragana = editText_editVocabulary_hiragana.text.toString(),
                     kanji = editText_editVocabulary_kanji.text.toString(),
-                    sentence = editText_editVocabulary_sentence.text.toString()
+                    timestamp = "202020"
+
                 )
             )
         }
@@ -75,12 +73,12 @@ class WordDetails : Fragment() {
     }
 
     private fun fillFormWithDetails(wordID: Int) {
-        wordViewModel.getWordById(wordID).observe(viewLifecycleOwner, Observer {
+        nounViewModel.getWordById(wordID).observe(viewLifecycleOwner, Observer {
             editText_editVocabulary_addword.setText(it.japanese)
             editText_editVocabulary_addEnglish.setText(it.english)
             editText_editVocabulary_hiragana.setText(it.hiragana)
             editText_editVocabulary_kanji.setText(it.kanji)
-            editText_editVocabulary_sentence.setText(it.sentence)
+
         })
     }
 

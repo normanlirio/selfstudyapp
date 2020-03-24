@@ -10,38 +10,69 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:orientation="vertical">
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:text="Japanese Word"/>
 
         <EditText
-
             android:id="@+id/editText_editVocabulary_addword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Japanese word" />
+         />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:text="English Word"/>
 
         <EditText
             android:id="@+id/editText_editVocabulary_addEnglish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="English Translation" />
+           />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+          />
 
         <EditText
             android:id="@+id/editText_editVocabulary_hiragana"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Hiragana/Katakana" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:text="Kanji"/>
 
         <EditText
             android:id="@+id/editText_editVocabulary_kanji"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Kanji" />
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:text="Sample Sentence"/>
 
         <EditText
             android:id="@+id/editText_editVocabulary_sentence"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Sample Sentence" />
-
+            android:layout_height="wrap_content" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,6 +99,9 @@
                 android:text="Save"
                 android:textColor="@android:color/white" />
         </LinearLayout>
+
     </LinearLayout>
+
+
 
 </LinearLayout>

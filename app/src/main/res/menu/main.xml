@@ -21,6 +21,21 @@
         />
     <item
         app:showAsAction="never"
+        android:id="@+id/clearAllNoun"
+        android:title="Delete All Noun"
+        />
+    <item
+        app:showAsAction="never"
+        android:id="@+id/clearAllVerb"
+        android:title="Delete All Verbs"
+        />
+    <item
+        app:showAsAction="never"
+        android:id="@+id/clearAllAdj"
+        android:title="Delete All Adjectives"
+        />
+    <item
+        app:showAsAction="never"
         android:id="@+id/clearAll"
         android:title="Delete All Words"
         />

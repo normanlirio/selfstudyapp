@@ -4,18 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Fragments.Home">
+    tools:context=".Fragments.NounListFragment">
 
-    <com.google.android.material.tabs.TabLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_nounhome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tablayout"
-        />
-
-    <androidx.viewpager.widget.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/viewpager"
-        />
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>

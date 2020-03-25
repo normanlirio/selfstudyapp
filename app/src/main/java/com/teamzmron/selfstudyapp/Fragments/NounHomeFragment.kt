@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.NounAdapter
+import com.teamzmron.selfstudyapp.Helper.NounSwipeToDeleteHelper
 
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
@@ -63,6 +65,18 @@ class NounListFragment : Fragment(), NounAdapter.OnNounClickListener {
         nounAdapter = NounAdapter(context!!, nounViewModel, viewLifecycleOwner, this )
         recycler_nounhome.layoutManager = LinearLayoutManager(context!!)
         recycler_nounhome.adapter = nounAdapter
+
+        var itemTouchHelper = ItemTouchHelper(
+            NounSwipeToDeleteHelper(
+                this,
+                nounViewModel,
+                nounAdapter, 0, ItemTouchHelper.RIGHT
+            )
+        )
+
+        itemTouchHelper.attachToRecyclerView(recycler_nounhome)
+        nounAdapter.notifyDataSetChanged()
+
     }
 
     companion object {

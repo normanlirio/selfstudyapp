@@ -6,12 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.AdjectiveAdapter
+import com.teamzmron.selfstudyapp.Helper.AdjectiveSwipeToDeleteHelper
+import com.teamzmron.selfstudyapp.Helper.VerbSwipeToDeleteHelper
 
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
 import kotlinx.android.synthetic.main.fragment_adjective_home.*
+import kotlinx.android.synthetic.main.fragment_noun_home.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +65,17 @@ class AdjectiveListFragment : Fragment(), AdjectiveAdapter.OnAdjectiveClickListe
         val adapter = AdjectiveAdapter(context!!, adjectiveViewModel, viewLifecycleOwner, this)
         recycler_adjhome.layoutManager = LinearLayoutManager(context!!)
         recycler_adjhome.adapter = adapter
+
+        var itemTouchHelper = ItemTouchHelper(
+            AdjectiveSwipeToDeleteHelper(
+                this,
+                adjectiveViewModel,
+                adapter, 0, ItemTouchHelper.RIGHT
+            )
+        )
+
+        itemTouchHelper.attachToRecyclerView(recycler_adjhome)
+        adapter.notifyDataSetChanged()
     }
 
     companion object {

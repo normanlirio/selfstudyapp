@@ -4,14 +4,18 @@ package com.teamzmron.selfstudyapp.Fragments
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import android.view.View.OnTouchListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import com.teamzmron.selfstudyapp.Adapters.ViewPagerAdapter
 import com.teamzmron.selfstudyapp.Adapters.NounAdapter
+import com.teamzmron.selfstudyapp.Adapters.ViewPagerAdapter
 import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.ViewModel.*
+import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
+import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
+import com.teamzmron.selfstudyapp.ViewModel.WordDetailsViewModel
+import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -58,6 +62,7 @@ class Home : Fragment(), NounAdapter.OnNounClickListener {
         adapter.addFragment(VerbListFragment(), VERB)
         adapter.addFragment(AdjectiveListFragment(), ADJ)
         viewpager.adapter = adapter
+
     }
 
 
@@ -76,21 +81,23 @@ class Home : Fragment(), NounAdapter.OnNounClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.home -> {
+                if(fragmentManager!!.findFragmentByTag("addWord") != null) {
+                    removeFragment(AddWord())
+                }
                 pageViewModel.getFragmentTransaction(context!!)
-                    .replace(pageViewModel.getContainer(), Home())
+                    .replace(pageViewModel.getContainer(), Home(), "Home")
                     .commit()
                 true
             }
             R.id.add -> {
-                pageViewModel.getFragmentTransaction(context!!)
-                    .add(pageViewModel.getContainer(), AddWord(),"addWord")
-                    .commit()
+                if(fragmentManager!!.findFragmentByTag("addWord") == null) {
+                    addFragment(AddWord(),"addWord")
+                }
+
                 true
             }
             R.id.quiz -> {
-                pageViewModel.getFragmentTransaction(context!!)
-                    .add(pageViewModel.getContainer(), QuizSettings(),"quizSettings")
-                    .commit()
+                addFragment(QuizSettings(), "quizSettings")
                 true
             }
             R.id.clearAllNoun -> {
@@ -111,6 +118,18 @@ class Home : Fragment(), NounAdapter.OnNounClickListener {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun addFragment(fragment: Fragment, tag: String) {
+        pageViewModel.getFragmentTransaction(context!!)
+            .add(pageViewModel.getContainer(),fragment,tag)
+            .commit()
+    }
+
+    private fun removeFragment(fragment: Fragment) {
+        pageViewModel.getFragmentTransaction(context!!)
+            .remove( fragment)
+            .commit()
     }
 
 

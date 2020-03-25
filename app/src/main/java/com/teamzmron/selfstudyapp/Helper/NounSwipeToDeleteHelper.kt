@@ -8,7 +8,7 @@ import com.teamzmron.selfstudyapp.Adapters.NounAdapter
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 
-class SwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val nounViewModel: NounViewModel, adapter: NounAdapter, dragDirs: Int, swipeDirs: Int) : ItemTouchHelper.SimpleCallback(
+class NounSwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val nounViewModel: NounViewModel, adapter: NounAdapter, dragDirs: Int, swipeDirs: Int) : ItemTouchHelper.SimpleCallback(
     dragDirs, swipeDirs
 ) {
     private var nounAdapter: NounAdapter = adapter

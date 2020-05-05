@@ -8,31 +8,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
-import kotlin.collections.ArrayList
 
-class NounAdapter(context : Context, nounViewModel: NounViewModel, lifecycle : LifecycleOwner, var clickListener: OnNounClickListener) : RecyclerView.Adapter<NounAdapter.WordsViewHolder>() {
+class NounAdapter : RecyclerView.Adapter<NounAdapter.WordsViewHolder>() {
+
     private var context: Context? = null
 
-    companion object {
-         var wordsList : ArrayList<Noun> = ArrayList()
-    }
+    private var wordsList: ArrayList<Noun> = ArrayList()
+    private var clickListener: OnNounClickListener? = null
 
-
-    init {
-        this.context = context
-        nounViewModel.getWordsFromRepo().observe(lifecycle, Observer<List<Noun>> {
-            wordsList.clear()
-            if(it.isNotEmpty()) {
-                wordsList.addAll(it)
-            }
-            notifyDataSetChanged()
-        })
-    }
 
     interface OnNounClickListener {
         fun onNounClick(id: Int)
@@ -55,10 +42,21 @@ class NounAdapter(context : Context, nounViewModel: NounViewModel, lifecycle : L
 
     }
 
-    inner class WordsViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView),
+    fun setNouns(nouns: List<Noun>) {
+        this.wordsList.clear()
+        this.wordsList.addAll(nouns)
+        notifyDataSetChanged()
+    }
+
+    fun setClickListener(clickListener: OnNounClickListener) {
+        this.clickListener = clickListener
+    }
+
+    inner class WordsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         var etEnglish: TextView? = null
         var cvParent: CardView? = null
+
         init {
             Log.v("ViewHolder", "Viewholder")
             etEnglish = itemView.findViewById(R.id.wordlist_english)
@@ -67,7 +65,7 @@ class NounAdapter(context : Context, nounViewModel: NounViewModel, lifecycle : L
         }
 
         override fun onClick(p0: View?) {
-            clickListener.onNounClick(wordsList[adapterPosition].id!!)
+            clickListener!!.onNounClick(wordsList[adapterPosition].id!!)
         }
 
     }

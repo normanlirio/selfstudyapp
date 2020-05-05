@@ -2,20 +2,16 @@ package com.teamzmron.selfstudyapp.Fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
 import com.teamzmron.selfstudyapp.Adapters.VerbAdapter
 import com.teamzmron.selfstudyapp.Helper.VerbSwipeToDeleteHelper
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
-import kotlinx.android.synthetic.main.fragment_noun_home.*
 import kotlinx.android.synthetic.main.fragment_verb_home.*
 
 
@@ -26,10 +22,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [VerbListFragment.newInstance] factory method to
+ * Use the [VerbHomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class VerbListFragment : Fragment(), VerbAdapter.OnVerbClickListener {
+class VerbHomeFragment : Fragment(), VerbAdapter.OnVerbClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -94,7 +90,7 @@ class VerbListFragment : Fragment(), VerbAdapter.OnVerbClickListener {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            VerbListFragment().apply {
+            VerbHomeFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

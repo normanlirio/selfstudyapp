@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    app:startDestination="@+id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.teamzmron.selfstudyapp.Fragments.NounHomeFragment"
+        android:label="@string/nounHomeList"
+        tools:layout="@layout/fragment_noun_home" />
+    <fragment
+        android:id="@+id/nounList"
+        android:name="com.teamzmron.selfstudyapp.Fragments.NounHomeFragment"
+        android:label="@string/nounHomeList"
+        tools:layout="@layout/fragment_noun_home" />
+
+    <fragment
+        android:id="@+id/verbList"
+        android:name="com.teamzmron.selfstudyapp.Fragments.VerbHomeFragment"
+        android:label="@string/verbHomeList"
+        tools:layout="@layout/fragment_verb_home" />
+
+    <fragment
+        android:id="@+id/adjList"
+        android:name="com.teamzmron.selfstudyapp.Fragments.AdjectiveHomeFragment"
+        android:label="@string/adjHomeList"
+        tools:layout="@layout/fragment_adjective_home" />
+
+</navigation>

@@ -1,44 +1,25 @@
 package com.teamzmron.selfstudyapp.Adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
 
-class VerbAdapter(
-    context: Context,
-    verbViewModel: VerbViewModel,
-    lifecycle: LifecycleOwner,
-    var clickListener: OnVerbClickListener
-) : RecyclerView.Adapter<VerbAdapter.VerbViewHolder>() {
+class VerbAdapter : RecyclerView.Adapter<VerbAdapter.VerbViewHolder>() {
 
     private var context: Context? = null
     private var isAscendingAlpha = true
     private var isAscendingTime = true
 
-    companion object {
-        var verbList: ArrayList<Verb> = ArrayList()
-    }
-
-    init {
-        this.context = context
-        verbViewModel.getVerbsFromRepo().observe(lifecycle, Observer<List<Verb>> {
-            verbList.clear()
-            if (it.isNotEmpty()) {
-                verbList.addAll(it)
-            }
-            notifyDataSetChanged()
-        })
-    }
+    private var verbList: ArrayList<Verb> = ArrayList()
+    private var clickListener: OnVerbClickListener? = null
 
     interface OnVerbClickListener {
         fun onVerbClick(id: Int)
@@ -63,6 +44,15 @@ class VerbAdapter(
         holder.tvType!!.text = verbList[position].verbType
     }
 
+    fun setVerbs(verbs : List<Verb>) {
+        this.verbList.clear()
+        this.verbList.addAll(verbs)
+        notifyDataSetChanged()
+    }
+
+    fun setOnVerbClickListener(onVerbClickListener: OnVerbClickListener) {
+        this.clickListener = onVerbClickListener
+    }
 
     inner class VerbViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
@@ -80,7 +70,7 @@ class VerbAdapter(
         }
 
         override fun onClick(p0: View?) {
-            clickListener.onVerbClick(verbList[adapterPosition].verbId!!)
+            clickListener!!.onVerbClick(verbList[adapterPosition].verbId!!)
         }
 
     }

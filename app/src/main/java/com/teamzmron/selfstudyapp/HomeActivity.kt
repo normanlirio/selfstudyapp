@@ -6,8 +6,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.teamzmron.selfstudyapp.Fragments.Home
 import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
+import dagger.android.support.DaggerAppCompatActivity
 
-class MainActivity : AppCompatActivity() {
+class HomeActivity : DaggerAppCompatActivity() {
 
     private lateinit var pageViewModel : PageViewModel
 

@@ -13,29 +13,11 @@ import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Adjective
 import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
 
-class AdjectiveAdapter(
-    context: Context,
-    adjectiveViewModel: AdjectiveViewModel,
-    lifecycle: LifecycleOwner,
-    var clickListener: OnAdjectiveClickListener
-) : RecyclerView.Adapter<AdjectiveAdapter.AdjectiveViewHolder>() {
+class AdjectiveAdapter : RecyclerView.Adapter<AdjectiveAdapter.AdjectiveViewHolder>() {
     private var context: Context? = null
 
-    companion object {
-        var adjList: ArrayList<Adjective> = ArrayList()
-    }
-
-    init {
-        this.context = context
-        adjectiveViewModel.getAdjectiveFromRepo().observe(lifecycle, Observer<List<Adjective>> {
-            adjList.clear()
-            if (it.isNotEmpty()) {
-                adjList.addAll(it)
-            }
-            notifyDataSetChanged()
-        })
-    }
-
+    private  var adjList: ArrayList<Adjective> = ArrayList()
+    private var clickListener : OnAdjectiveClickListener? = null
 
     interface OnAdjectiveClickListener {
         fun onAdjectiveClick(id: Int)
@@ -58,6 +40,15 @@ class AdjectiveAdapter(
         holder.tvType!!.text = adjList[position].adjType
     }
 
+    fun setAdjectives(adjectives: List<Adjective>) {
+        this.adjList.clear()
+        this.adjList.addAll(adjectives)
+        notifyDataSetChanged()
+    }
+
+    fun setAdjectiveClickListener(onAdjectiveClickListener: OnAdjectiveClickListener) {
+        this.clickListener = onAdjectiveClickListener
+    }
 
     inner class AdjectiveViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var tvEnglish: TextView? = null

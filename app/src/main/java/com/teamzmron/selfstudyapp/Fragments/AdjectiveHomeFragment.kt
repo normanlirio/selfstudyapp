@@ -10,12 +10,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.AdjectiveAdapter
 import com.teamzmron.selfstudyapp.Helper.AdjectiveSwipeToDeleteHelper
-import com.teamzmron.selfstudyapp.Helper.VerbSwipeToDeleteHelper
 
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
 import kotlinx.android.synthetic.main.fragment_adjective_home.*
-import kotlinx.android.synthetic.main.fragment_noun_home.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,10 +22,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [AdjectiveListFragment.newInstance] factory method to
+ * Use the [AdjectiveHomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AdjectiveListFragment : Fragment(), AdjectiveAdapter.OnAdjectiveClickListener {
+class AdjectiveHomeFragment : Fragment(), AdjectiveAdapter.OnAdjectiveClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -90,7 +88,7 @@ class AdjectiveListFragment : Fragment(), AdjectiveAdapter.OnAdjectiveClickListe
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            AdjectiveListFragment().apply {
+            AdjectiveHomeFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

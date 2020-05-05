@@ -4,7 +4,6 @@ package com.teamzmron.selfstudyapp.Fragments
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
-import android.view.View.OnTouchListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -58,9 +57,9 @@ class Home : Fragment(), NounAdapter.OnNounClickListener {
 
     private fun setUpViewpager() {
         val adapter = ViewPagerAdapter((context as AppCompatActivity).supportFragmentManager)
-        adapter.addFragment(NounListFragment(), NOUN)
-        adapter.addFragment(VerbListFragment(), VERB)
-        adapter.addFragment(AdjectiveListFragment(), ADJ)
+        adapter.addFragment(NounHomeFragment(), NOUN)
+        adapter.addFragment(VerbHomeFragment(), VERB)
+        adapter.addFragment(AdjectiveHomeFragment(), ADJ)
         viewpager.adapter = adapter
 
     }

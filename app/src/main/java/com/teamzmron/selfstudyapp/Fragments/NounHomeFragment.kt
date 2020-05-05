@@ -12,8 +12,8 @@ import com.teamzmron.selfstudyapp.Adapters.NounAdapter
 import com.teamzmron.selfstudyapp.Helper.NounSwipeToDeleteHelper
 
 import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_noun_home.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -23,10 +23,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [NounListFragment.newInstance] factory method to
+ * Use the [NounHomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NounListFragment : Fragment(), NounAdapter.OnNounClickListener {
+class NounHomeFragment : DaggerFragment(), NounAdapter.OnNounClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -91,7 +91,7 @@ class NounListFragment : Fragment(), NounAdapter.OnNounClickListener {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            NounListFragment().apply {
+            NounHomeFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

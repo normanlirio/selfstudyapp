@@ -12,6 +12,7 @@ import com.teamzmron.selfstudyapp.Helper.Utils
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_adjective.*
 import kotlinx.android.synthetic.main.fragment_noun.*
 
@@ -26,7 +27,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [NounFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NounFragment : Fragment() {
+class NounFragment : DaggerFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null

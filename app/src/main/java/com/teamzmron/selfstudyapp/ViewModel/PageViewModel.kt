@@ -13,7 +13,7 @@ import com.teamzmron.selfstudyapp.R
 class PageViewModel : ViewModel() {
     var mutableFragment : MutableLiveData<Fragment> = MutableLiveData()
     var mutableBundle : MutableLiveData<Bundle> = MutableLiveData()
-    var fragmentContainer = R.id.fragment_container
+   // var fragmentContainer = R.id.fragment_container
 
     fun setBundle(bundle: Bundle) {
         mutableBundle.value = bundle
@@ -36,7 +36,8 @@ class PageViewModel : ViewModel() {
     }
 
     fun getContainer() : Int {
-        return fragmentContainer
+      //  return fragmentContainer
+        return 0
     }
 
 

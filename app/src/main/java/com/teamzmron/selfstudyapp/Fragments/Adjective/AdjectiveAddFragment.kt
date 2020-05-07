@@ -1,21 +1,20 @@
-package com.teamzmron.selfstudyapp.Fragments
+package com.teamzmron.selfstudyapp.Fragments.Adjective
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.teamzmron.selfstudyapp.Helper.Utils
 import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.Room.Entity.Noun
-import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
+import com.teamzmron.selfstudyapp.Room.Entity.Adjective
+import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_adjective.*
-import kotlinx.android.synthetic.main.fragment_noun.*
-
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,15 +23,15 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [NounFragment.newInstance] factory method to
+ * Use the [AdjectiveFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NounFragment : DaggerFragment() {
+class AdjectiveFragment : DaggerFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var nounViewModel: NounViewModel
+    private lateinit var adjectiveViewModel: AdjectiveViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,16 +46,17 @@ class NounFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_noun, container, false)
+        return inflater.inflate(R.layout.fragment_adjective, container, false)
     }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        nounViewModel = ViewModelProvider(this).get(NounViewModel::class.java)
 
+        adjectiveViewModel = ViewModelProvider(this).get(AdjectiveViewModel::class.java)
 
-        button_noun_save.setOnClickListener{
+        radio_i.isChecked = true
+
+        button_adj_save.setOnClickListener {
             if (checkTextField()) {
                 saveInputFromLayout()
             } else {
@@ -64,35 +64,48 @@ class NounFragment : DaggerFragment() {
             }
         }
 
-        button_noun_clear.setOnClickListener {
+        button_adj_clear.setOnClickListener {
             clearTextFields()
         }
+
     }
 
-
     private fun saveInputFromLayout() {
-        val noun = Noun(
-            japanese = editText_noun_japanese.text.toString(),
-            english = editText_noun_english.text.toString(),
-            hiragana = editText_noun_hiragana.text.toString(),
-            kanji = editText_noun_kanji.text.toString(),
-            timestamp = Utils.getTimeStamp()
+        val adjType = if (getAdjType().contains("な")) "na" else "i"
+        val adjective = Adjective(
+            adjType = adjType,
+            adjNegative = editText_adj_negative.text.toString(),
+            adjPast = editText_adj_past.text.toString(),
+            adjPastNegative = editText_adj_pastnegative.text.toString(),
+            englishWord = editText_adj_englishWord.text.toString(),
+            japaneseWord = editText_adj_japaneseWord.text.toString(),
+            hiraganaForm = editText_adj_hirakata.text.toString(),
+            kanjiForm = editText_adj_kanji.text.toString(),
+            currentTimestamp = Utils.getTimeStamp()
         )
-        nounViewModel.saveToDB(noun).observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            if (it > 0) {
-                clearTextFields()
-                Toast.makeText(context!!, "Successfully added!", Toast.LENGTH_LONG).show()
-            }
-        })
 
+        adjectiveViewModel.saveToDB(adjective)
+            .observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                if (it > 0) {
+                    clearTextFields()
+                    Toast.makeText(context!!, "Successfully added!", Toast.LENGTH_LONG).show()
+                }
+            })
+    }
+
+    private fun getAdjType(): String {
+        return radioGroup_adj.findViewById<RadioButton>(radioGroup_adj.checkedRadioButtonId).text.toString()
     }
 
     private fun getAllTextFields(): ArrayList<EditText> {
         return arrayListOf(
-            editText_noun_japanese,
-                    editText_noun_english,
-                    editText_noun_hiragana,
-                    editText_noun_kanji
+            editText_adj_negative,
+            editText_adj_past,
+            editText_adj_pastnegative,
+            editText_adj_englishWord,
+            editText_adj_japaneseWord,
+            editText_adj_hirakata,
+            editText_adj_kanji
         )
     }
 
@@ -117,6 +130,7 @@ class NounFragment : DaggerFragment() {
         super.onDestroyView()
         clearTextFields()
     }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -124,12 +138,12 @@ class NounFragment : DaggerFragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment NounFragment.
+         * @return A new instance of fragment AdjectiveFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            NounFragment().apply {
+            AdjectiveFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

@@ -2,28 +2,22 @@ package com.teamzmron.selfstudyapp.Fragments
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.teamzmron.selfstudyapp.Adapters.ViewPagerAdapter
-import com.teamzmron.selfstudyapp.Helper.Utils
+import com.teamzmron.selfstudyapp.Fragments.Adjective.AdjectiveFragment
+import com.teamzmron.selfstudyapp.Fragments.noun.NounFragment
+import com.teamzmron.selfstudyapp.Fragments.verb.VerbFragment
 import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.Room.Entity.Adjective
-import com.teamzmron.selfstudyapp.Room.Entity.Noun
-import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import com.teamzmron.selfstudyapp.ViewModel.PageViewModel
 import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
 import kotlinx.android.synthetic.main.fragment_add_word.*
-import java.sql.Timestamp
-import java.util.*
 
 /**
  * A simple [Fragment] subclass.

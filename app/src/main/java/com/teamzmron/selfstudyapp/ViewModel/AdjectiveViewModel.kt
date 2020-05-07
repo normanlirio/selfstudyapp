@@ -6,36 +6,34 @@ import com.teamzmron.selfstudyapp.Repository.AdjectiveRepository
 import com.teamzmron.selfstudyapp.Repository.VerbRepository
 import com.teamzmron.selfstudyapp.Room.Entity.Adjective
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
+import javax.inject.Inject
 
-class AdjectiveViewModel : ViewModel() {
-    private fun getAdjectiveRepoInstance() : AdjectiveRepository {
-        return AdjectiveRepository().getAdjectiveRepositoryInstance()
-    }
+class AdjectiveViewModel @Inject constructor(private val adjectiveRepository: AdjectiveRepository) : ViewModel() {
 
     fun getAdjectiveFromRepo(): LiveData<List<Adjective>> {
-        return getAdjectiveRepoInstance().getAdjectiveFromDB()
+        return adjectiveRepository.getAdjectiveFromDB()
     }
 
     fun getAdjectiveById(id: Int): LiveData<Adjective> {
-        return getAdjectiveRepoInstance().getAdjectiveByIdFromDB(id)
+        return adjectiveRepository.getAdjectiveByIdFromDB(id)
     }
 
     fun saveToDB(adj: Adjective) : LiveData<Long> {
-      return  getAdjectiveRepoInstance().saveAdjectiveRepo(adj)
+      return  adjectiveRepository.saveAdjectiveRepo(adj)
     }
 
     fun updateAdjective(adj: Adjective) {
-        getAdjectiveRepoInstance().updateAdjectiveRepo(adj)
+        adjectiveRepository.updateAdjectiveRepo(adj)
     }
 
 
     fun deleteAdjectiveById(adj: Adjective) {
-        getAdjectiveRepoInstance().deleteAdjectiveRepo(adj)
+        adjectiveRepository.deleteAdjectiveRepo(adj)
     }
 
 
     override fun onCleared() {
-        getAdjectiveRepoInstance().onClearDisposable()
+        adjectiveRepository.onClearDisposable()
         super.onCleared()
     }
 

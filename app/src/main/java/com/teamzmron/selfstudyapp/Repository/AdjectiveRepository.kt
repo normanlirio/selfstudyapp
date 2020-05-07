@@ -10,19 +10,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class AdjectiveRepository {
+class AdjectiveRepository(private val wordDatabase: WordDatabase) {
     private val compositeDisposable = CompositeDisposable()
-    private fun getDBInstance(): WordDatabase {
-        return WordDatabase.getDatabasenIstance(SelfStudyApplication.getAppContext())
-    }
 
-    fun getAdjectiveRepositoryInstance(): AdjectiveRepository {
-        return AdjectiveRepository()
-    }
 
     fun getAdjectiveFromDB(): MutableLiveData<List<Adjective>> {
         var list = MutableLiveData<List<Adjective>>()
-        getDBInstance().adjDao().getAdjectives()
+        wordDatabase.adjDao().getAdjectives()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -37,7 +31,7 @@ class AdjectiveRepository {
 
     fun getAdjectiveByIdFromDB(id: Int): LiveData<Adjective> {
         var list = MutableLiveData<Adjective>()
-        getDBInstance().adjDao().getAdjectiveById(id)
+        wordDatabase.adjDao().getAdjectiveById(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -52,7 +46,7 @@ class AdjectiveRepository {
 
     fun saveAdjectiveRepo(adj: Adjective) : MutableLiveData<Long> {
         var result = MutableLiveData<Long>()
-        getDBInstance().adjDao().insertAdjective(adj)
+        wordDatabase.adjDao().insertAdjective(adj)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -67,7 +61,7 @@ class AdjectiveRepository {
     }
 
     fun deleteAdjectiveRepo(adj: Adjective) {
-        getDBInstance().adjDao().deleteAdjective(adj)
+        wordDatabase.adjDao().deleteAdjective(adj)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -81,7 +75,7 @@ class AdjectiveRepository {
 
 
     fun updateAdjectiveRepo(adj: Adjective) {
-        getDBInstance().adjDao().updateAdjective(adj)
+        wordDatabase.adjDao().updateAdjective(adj)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({

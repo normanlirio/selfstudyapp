@@ -5,7 +5,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.teamzmron.selfstudyapp.Adapters.AdjectiveAdapter
-import com.teamzmron.selfstudyapp.Adapters.AdjectiveAdapter.Companion.adjList
 import com.teamzmron.selfstudyapp.Adapters.VerbAdapter
 import com.teamzmron.selfstudyapp.Room.Entity.Adjective
 import com.teamzmron.selfstudyapp.Room.Entity.Verb

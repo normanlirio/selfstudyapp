@@ -3,6 +3,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/navHome"
+            android:title="@string/home"
+            />
+        <item
             android:id="@+id/navNounHomeList"
             android:title="@string/noun"
             />

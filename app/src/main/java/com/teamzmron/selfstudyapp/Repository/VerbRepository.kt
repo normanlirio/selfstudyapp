@@ -9,20 +9,14 @@ import com.teamzmron.selfstudyapp.SelfStudyApplication
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class VerbRepository {
+class VerbRepository(private val wordDatabase: WordDatabase) {
     private val compositeDisposable = CompositeDisposable()
-    private fun getDBInstance(): WordDatabase {
-        return WordDatabase.getDatabasenIstance(SelfStudyApplication.getAppContext())
-    }
-
-    fun getVerbRepositoryInstance(): VerbRepository {
-        return VerbRepository()
-    }
 
     fun getVerbFromDB(): MutableLiveData<List<Verb>> {
         var list = MutableLiveData<List<Verb>>()
-        getDBInstance().verbDao().getVerbs()
+        wordDatabase.verbDao().getVerbs()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -37,7 +31,7 @@ class VerbRepository {
 
     fun getVerbByIdFromDB(id: Int): MutableLiveData<Verb> {
         var list = MutableLiveData<Verb>()
-        getDBInstance().verbDao().getVerbById(id)
+        wordDatabase.verbDao().getVerbById(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -52,7 +46,7 @@ class VerbRepository {
 
     fun saveVerbRepo(verb: Verb): MutableLiveData<Long> {
         val result = MutableLiveData<Long>()
-        getDBInstance().verbDao().insertVerb(verb)
+        wordDatabase.verbDao().insertVerb(verb)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -67,7 +61,7 @@ class VerbRepository {
     }
 
     fun deleteVerbRepo(verb: Verb) {
-        getDBInstance().verbDao().deleteVerb(verb)
+        wordDatabase.verbDao().deleteVerb(verb)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -81,7 +75,7 @@ class VerbRepository {
 
 
     fun updateVerbRepo(verb: Verb) {
-        getDBInstance().verbDao().updateVerb(verb)
+        wordDatabase.verbDao().updateVerb(verb)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({

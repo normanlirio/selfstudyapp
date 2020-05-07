@@ -1,7 +1,8 @@
-package com.teamzmron.selfstudyapp.di
+package com.teamzmron.selfstudyapp.di.app
 
 import android.app.Application
 import com.teamzmron.selfstudyapp.SelfStudyApplication
+import com.teamzmron.selfstudyapp.di.ViewModelFactoryModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -10,7 +11,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component (
-    modules = [AndroidSupportInjectionModule::class, ActivityBuildersModule::class, AppModule::class]
+    modules = [AndroidSupportInjectionModule::class, ActivityBuildersModule::class, AppModule::class, ViewModelFactoryModule::class]
 )
 interface AppComponent : AndroidInjector<SelfStudyApplication> {
 

@@ -10,19 +10,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class NounRepository {
+class NounRepository(private val db: WordDatabase) {
     private val compositeDisposable = CompositeDisposable()
-    private fun getDBInstance(): WordDatabase {
-        return WordDatabase.getDatabasenIstance(SelfStudyApplication.getAppContext())
-    }
-
-    fun getNounRepositoryInstance(): NounRepository {
-        return NounRepository()
-    }
 
     fun getNounFromDB(): MutableLiveData<List<Noun>> {
         var list = MutableLiveData<List<Noun>>()
-        getDBInstance().nounDAO().getNoun()
+        db.nounDAO().getNoun()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -37,7 +30,7 @@ class NounRepository {
 
     fun getNounByIdFromDB(id: Int): LiveData<Noun> {
         var list = MutableLiveData<Noun>()
-        getDBInstance().nounDAO().getNounById(id)
+        db.nounDAO().getNounById(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -52,7 +45,7 @@ class NounRepository {
 
     fun saveNounRepo(noun: Noun) : MutableLiveData<Long> {
         var result = MutableLiveData<Long>()
-        getDBInstance().nounDAO().insertNoun(noun)
+        db.nounDAO().insertNoun(noun)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -71,7 +64,7 @@ class NounRepository {
     }
 
     fun deleteNounRepo(noun: Noun) {
-        getDBInstance().nounDAO().deleteNoun(noun)
+        db.nounDAO().deleteNoun(noun)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -84,7 +77,7 @@ class NounRepository {
     }
 
     fun updateNounRepo(noun: Noun) {
-        getDBInstance().nounDAO().updateNoun(noun)
+        db.nounDAO().updateNoun(noun)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({

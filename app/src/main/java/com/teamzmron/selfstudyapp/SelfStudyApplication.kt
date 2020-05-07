@@ -2,7 +2,8 @@ package com.teamzmron.selfstudyapp
 
 import android.app.Application
 import android.content.Context
-import com.teamzmron.selfstudyapp.di.DaggerAppComponent
+import com.teamzmron.selfstudyapp.di.app.DaggerAppComponent
+
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 

@@ -25,10 +25,10 @@ data class Verb (
     @ColumnInfo(name = "masupastnegative")
     var masuPastNegative:String ? = null,
 
-    var englishWord : String,
-    var japaneseWord : String,
-    var hiraganaForm: String,
-    var kanjiForm: String,
-    var currentTimestamp : String
+    var englishWord : String = "",
+    var japaneseWord : String = "",
+    var hiraganaForm: String = "",
+    var kanjiForm: String = "",
+    var currentTimestamp : String = ""
 
 ) : BaseWord( japaneseWord, englishWord, hiraganaForm, kanjiForm, currentTimestamp)

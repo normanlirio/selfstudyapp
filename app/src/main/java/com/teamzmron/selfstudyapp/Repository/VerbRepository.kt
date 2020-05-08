@@ -1,37 +1,57 @@
 package com.teamzmron.selfstudyapp.Repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.LiveDataReactiveStreams
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.teamzmron.selfstudyapp.Room.Database.WordDatabase
+
+import com.teamzmron.selfstudyapp.Room.Entity.Adjective
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.SelfStudyApplication
+import com.teamzmron.selfstudyapp.ui.Resource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class VerbRepository(private val wordDatabase: WordDatabase) {
+class VerbRepository(private val db: WordDatabase) {
     private val compositeDisposable = CompositeDisposable()
 
-    fun getVerbFromDB(): MutableLiveData<List<Verb>> {
-        var list = MutableLiveData<List<Verb>>()
-        wordDatabase.verbDao().getVerbs()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                list.postValue(it)
-            }, { exception ->
-                exception.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
+    fun getVerbFromDB(): MediatorLiveData<Resource<List<Verb>>> {
+        var list = MediatorLiveData<Resource<List<Verb>>>()
+        val source: LiveData<Resource<List<Verb>>> = LiveDataReactiveStreams.fromPublisher(
+            db.verbDao().getVerbs()
+                .onErrorReturn {
+                    var verb = Verb()
+                    verb.verbId = -1
+                    var verbList = ArrayList<Verb>()
+                    verbList.add(verb)
+                    verbList
+                }
+                .map {
+                    if (it.isNotEmpty()) {
+                        if (it[0].verbId == -1) {
+                            Resource.error("Something went wrong", null)
+                        }
+                    }
+                    Resource.success(it)
+                }
+                .subscribeOn(Schedulers.io())
+        )
+
+        list.addSource(source, Observer {
+            list.value = it
+            list.removeSource(source)
+        })
         return list
     }
 
     fun getVerbByIdFromDB(id: Int): MutableLiveData<Verb> {
         var list = MutableLiveData<Verb>()
-        wordDatabase.verbDao().getVerbById(id)
+        db.verbDao().getVerbById(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -46,7 +66,7 @@ class VerbRepository(private val wordDatabase: WordDatabase) {
 
     fun saveVerbRepo(verb: Verb): MutableLiveData<Long> {
         val result = MutableLiveData<Long>()
-        wordDatabase.verbDao().insertVerb(verb)
+        db.verbDao().insertVerb(verb)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -61,7 +81,7 @@ class VerbRepository(private val wordDatabase: WordDatabase) {
     }
 
     fun deleteVerbRepo(verb: Verb) {
-        wordDatabase.verbDao().deleteVerb(verb)
+        db.verbDao().deleteVerb(verb)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -75,7 +95,7 @@ class VerbRepository(private val wordDatabase: WordDatabase) {
 
 
     fun updateVerbRepo(verb: Verb) {
-        wordDatabase.verbDao().updateVerb(verb)
+        db.verbDao().updateVerb(verb)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({

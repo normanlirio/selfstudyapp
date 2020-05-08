@@ -6,11 +6,12 @@ import com.teamzmron.selfstudyapp.Repository.AdjectiveRepository
 import com.teamzmron.selfstudyapp.Repository.VerbRepository
 import com.teamzmron.selfstudyapp.Room.Entity.Adjective
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
+import com.teamzmron.selfstudyapp.ui.Resource
 import javax.inject.Inject
 
 class AdjectiveViewModel @Inject constructor(private val adjectiveRepository: AdjectiveRepository) : ViewModel() {
 
-    fun getAdjectiveFromRepo(): LiveData<List<Adjective>> {
+    fun getAdjectiveFromRepo(): LiveData<Resource<List<Adjective>>> {
         return adjectiveRepository.getAdjectiveFromDB()
     }
 

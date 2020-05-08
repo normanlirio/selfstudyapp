@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.teamzmron.selfstudyapp.Repository.VerbRepository
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
+import com.teamzmron.selfstudyapp.ui.Resource
 import javax.inject.Inject
 
 class VerbViewModel @Inject constructor(private val verbRepository: VerbRepository) : ViewModel() {
 
-    fun getVerbsFromRepo(): LiveData<List<Verb>> {
+    fun getVerbsFromRepo(): LiveData<Resource<List<Verb>>> {
         return verbRepository.getVerbFromDB()
     }
 

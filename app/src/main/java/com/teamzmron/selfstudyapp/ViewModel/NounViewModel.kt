@@ -5,11 +5,12 @@ import androidx.lifecycle.ViewModel
 import com.teamzmron.selfstudyapp.Repository.NounRepository
 import com.teamzmron.selfstudyapp.Room.Database.WordDatabase
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
+import com.teamzmron.selfstudyapp.ui.Resource
 import javax.inject.Inject
 
 class NounViewModel @Inject constructor(private val nounRepository: NounRepository) : ViewModel() {
 
-    fun getWordsFromRepo(): LiveData<List<Noun>> {
+    fun getWordsFromRepo(): LiveData<Resource<List<Noun>>> {
         return nounRepository.getNounFromDB()
     }
 

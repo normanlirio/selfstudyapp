@@ -1,13 +1,13 @@
-package com.teamzmron.selfstudyapp
+package com.teamzmron.selfstudyapp.ui.activities
 
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
+import com.teamzmron.selfstudyapp.R
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -22,7 +22,9 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
     private fun init() {
         var navController: NavController =
-            Navigation.findNavController(this, R.id.nav_host_fragment)
+            Navigation.findNavController(this,
+                R.id.nav_host_fragment
+            )
         NavigationUI.setupActionBarWithNavController(this, navController, drawer)
         NavigationUI.setupWithNavController(navView, navController)
         navView.setNavigationItemSelectedListener(this)
@@ -48,31 +50,28 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.navHome -> {
-
-                val navOptions: NavOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.main, true)
-                    .build()
-
-                Navigation.findNavController(this, R.id.nav_host_fragment)
-                    .navigate(R.id.homeFragment, null, navOptions)
-            }
             R.id.navNounHomeList -> {
                 if (isValidDestination(R.id.nounList)) {
-                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                    Navigation.findNavController(this,
+                        R.id.nav_host_fragment
+                    )
                         .navigate(R.id.nounList)
                 }
             }
             R.id.navVerbHomeList -> {
                 if (isValidDestination(R.id.verbList)) {
 
-                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                    Navigation.findNavController(this,
+                        R.id.nav_host_fragment
+                    )
                         .navigate(R.id.verbList)
                 }
             }
             R.id.navAdjHomeList -> {
                 if (isValidDestination(R.id.adjList)) {
-                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                    Navigation.findNavController(this,
+                        R.id.nav_host_fragment
+                    )
                         .navigate(R.id.adjList)
                 }
             }
@@ -84,13 +83,17 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         return true
     }
 
-    private fun isValidDestination(destionation: Int): Boolean =
-        destionation != Navigation.findNavController(this, R.id.nav_host_fragment)
+    private fun isValidDestination(destination: Int): Boolean =
+        destination != Navigation.findNavController(this,
+            R.id.nav_host_fragment
+        )
             .currentDestination!!.id
 
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(
-            Navigation.findNavController(this, R.id.nav_host_fragment),
+            Navigation.findNavController(this,
+                R.id.nav_host_fragment
+            ),
             drawer
         )
     }

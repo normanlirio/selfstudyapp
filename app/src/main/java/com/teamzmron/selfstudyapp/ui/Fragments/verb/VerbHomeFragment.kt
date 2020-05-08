@@ -1,22 +1,22 @@
-package com.teamzmron.selfstudyapp.Fragments.noun
+package com.teamzmron.selfstudyapp.ui.Fragments.verb
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.teamzmron.selfstudyapp.Adapters.NounAdapter
-import com.teamzmron.selfstudyapp.Helper.NounSwipeToDeleteHelper
-
+import com.teamzmron.selfstudyapp.Adapters.VerbAdapter
+import com.teamzmron.selfstudyapp.Helper.VerbSwipeToDeleteHelper
 import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
+import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_noun_home.*
+import kotlinx.android.synthetic.main.fragment_verb_home.*
 import javax.inject.Inject
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,21 +25,21 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [NounHomeFragment.newInstance] factory method to
+ * Use the [VerbHomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NounHomeFragment : DaggerFragment(), NounAdapter.OnNounClickListener {
+class VerbHomeFragment : DaggerFragment(), VerbAdapter.OnVerbClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var nounViewModel: NounViewModel
+    private lateinit var verbViewModel: VerbViewModel
+
+    @Inject
+    lateinit var verbAdapter: VerbAdapter
 
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
-
-    @Inject
-    lateinit var nounAdapter: NounAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,37 +54,37 @@ class NounHomeFragment : DaggerFragment(), NounAdapter.OnNounClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_noun_home, container, false)
+        return inflater.inflate(R.layout.fragment_verb_home, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initViewModels()
         initRecyclerView()
-
     }
 
     private fun initViewModels() {
-        nounViewModel = ViewModelProvider(this, providerFactory).get(NounViewModel::class.java)
+        verbViewModel = ViewModelProvider(this, providerFactory).get(VerbViewModel::class.java)
     }
 
     private fun initRecyclerView() {
+        recycler_verbhome.layoutManager = LinearLayoutManager(context)
 
-        recycler_nounhome.layoutManager = LinearLayoutManager(context)
-        recycler_nounhome.adapter = nounAdapter
+        recycler_verbhome.adapter = verbAdapter
 
         var itemTouchHelper = ItemTouchHelper(
-            NounSwipeToDeleteHelper(
+            VerbSwipeToDeleteHelper(
                 this,
-                nounViewModel,
-                nounAdapter, 0, ItemTouchHelper.RIGHT
+                verbViewModel,
+                verbAdapter, 0, ItemTouchHelper.RIGHT
             )
         )
 
-        itemTouchHelper.attachToRecyclerView(recycler_nounhome)
-        nounAdapter.notifyDataSetChanged()
+        itemTouchHelper.attachToRecyclerView(recycler_verbhome)
+        verbAdapter.notifyDataSetChanged()
 
     }
+
 
     companion object {
         /**
@@ -93,12 +93,12 @@ class NounHomeFragment : DaggerFragment(), NounAdapter.OnNounClickListener {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment NounListFragment.
+         * @return A new instance of fragment VerbListFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            NounHomeFragment().apply {
+            VerbHomeFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
@@ -106,7 +106,7 @@ class NounHomeFragment : DaggerFragment(), NounAdapter.OnNounClickListener {
             }
     }
 
-    override fun onNounClick(id: Int) {
-        TODO("Not yet implemented")
+    override fun onVerbClick(id: Int) {
+
     }
 }

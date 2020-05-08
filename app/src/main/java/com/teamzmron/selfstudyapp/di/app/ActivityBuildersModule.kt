@@ -1,6 +1,6 @@
 package com.teamzmron.selfstudyapp.di.app
 
-import com.teamzmron.selfstudyapp.HomeActivity
+import com.teamzmron.selfstudyapp.ui.activities.HomeActivity
 import com.teamzmron.selfstudyapp.di.main.MainFragmentsModule
 import com.teamzmron.selfstudyapp.di.main.MainModule
 import com.teamzmron.selfstudyapp.di.main.MainScope

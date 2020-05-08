@@ -1,4 +1,4 @@
-package com.teamzmron.selfstudyapp.Fragments
+package com.teamzmron.selfstudyapp.ui.Fragments
 
 
 import android.os.Bundle
@@ -9,9 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.teamzmron.selfstudyapp.Adapters.ViewPagerAdapter
-import com.teamzmron.selfstudyapp.Fragments.Adjective.AdjectiveFragment
-import com.teamzmron.selfstudyapp.Fragments.noun.NounFragment
-import com.teamzmron.selfstudyapp.Fragments.verb.VerbFragment
+import com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveFragment
+import com.teamzmron.selfstudyapp.ui.Fragments.noun.NounFragment
+import com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbFragment
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
@@ -69,3 +69,4 @@ class AddWord : Fragment() {
 
 
 }
+

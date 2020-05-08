@@ -1,4 +1,4 @@
-package com.teamzmron.selfstudyapp.Fragments.Adjective
+package com.teamzmron.selfstudyapp.ui.Fragments.noun
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.teamzmron.selfstudyapp.Adapters.AdjectiveAdapter
-import com.teamzmron.selfstudyapp.Helper.AdjectiveSwipeToDeleteHelper
+import com.teamzmron.selfstudyapp.Adapters.NounAdapter
+import com.teamzmron.selfstudyapp.Helper.NounSwipeToDeleteHelper
 
 import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
+import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_adjective_home.*
+import kotlinx.android.synthetic.main.fragment_noun_home.*
 import javax.inject.Inject
 
 // TODO: Rename parameter arguments, choose names that match
@@ -25,22 +25,21 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [AdjectiveHomeFragment.newInstance] factory method to
+ * Use the [NounHomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AdjectiveHomeFragment : DaggerFragment(), AdjectiveAdapter.OnAdjectiveClickListener {
+class NounHomeFragment : DaggerFragment(), NounAdapter.OnNounClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var adjectiveViewModel: AdjectiveViewModel
-
-    @Inject
-    lateinit var adapter: AdjectiveAdapter
+    private lateinit var nounViewModel: NounViewModel
 
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
 
+    @Inject
+    lateinit var nounAdapter: NounAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,33 +54,36 @@ class AdjectiveHomeFragment : DaggerFragment(), AdjectiveAdapter.OnAdjectiveClic
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_adjective_home, container, false)
+        return inflater.inflate(R.layout.fragment_noun_home, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initViewModels()
         initRecyclerView()
+
     }
 
     private fun initViewModels() {
-        adjectiveViewModel = ViewModelProvider(this, providerFactory).get(AdjectiveViewModel::class.java)
+        nounViewModel = ViewModelProvider(this, providerFactory).get(NounViewModel::class.java)
     }
 
     private fun initRecyclerView() {
-        recycler_adjhome.layoutManager = LinearLayoutManager(context)
-        recycler_adjhome.adapter = adapter
+
+        recycler_nounhome.layoutManager = LinearLayoutManager(context)
+        recycler_nounhome.adapter = nounAdapter
 
         var itemTouchHelper = ItemTouchHelper(
-            AdjectiveSwipeToDeleteHelper(
+            NounSwipeToDeleteHelper(
                 this,
-                adjectiveViewModel,
-                adapter, 0, ItemTouchHelper.RIGHT
+                nounViewModel,
+                nounAdapter, 0, ItemTouchHelper.RIGHT
             )
         )
 
-        itemTouchHelper.attachToRecyclerView(recycler_adjhome)
-        adapter.notifyDataSetChanged()
+        itemTouchHelper.attachToRecyclerView(recycler_nounhome)
+        nounAdapter.notifyDataSetChanged()
+
     }
 
     companion object {
@@ -91,13 +93,12 @@ class AdjectiveHomeFragment : DaggerFragment(), AdjectiveAdapter.OnAdjectiveClic
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment AdjectiveListFragment.
+         * @return A new instance of fragment NounListFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            AdjectiveHomeFragment()
-                .apply {
+            NounHomeFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
@@ -105,7 +106,7 @@ class AdjectiveHomeFragment : DaggerFragment(), AdjectiveAdapter.OnAdjectiveClic
             }
     }
 
-    override fun onAdjectiveClick(id: Int) {
-
+    override fun onNounClick(id: Int) {
+        TODO("Not yet implemented")
     }
 }

@@ -1,4 +1,4 @@
-package com.teamzmron.selfstudyapp.Fragments
+package com.teamzmron.selfstudyapp.ui.Fragments
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle

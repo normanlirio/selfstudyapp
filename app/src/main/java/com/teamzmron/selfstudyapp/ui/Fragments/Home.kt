@@ -1,19 +1,17 @@
-package com.teamzmron.selfstudyapp.Fragments
+package com.teamzmron.selfstudyapp.ui.Fragments
 
 
 import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.teamzmron.selfstudyapp.Adapters.NounAdapter
 import com.teamzmron.selfstudyapp.Adapters.ViewPagerAdapter
-import com.teamzmron.selfstudyapp.Fragments.Adjective.AdjectiveHomeFragment
-import com.teamzmron.selfstudyapp.Fragments.noun.NounHomeFragment
-import com.teamzmron.selfstudyapp.Fragments.verb.VerbHomeFragment
+import com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveHomeFragment
+import com.teamzmron.selfstudyapp.ui.Fragments.noun.NounHomeFragment
+import com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbHomeFragment
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.ViewModel.*
 import dagger.android.support.DaggerFragment
@@ -83,15 +81,7 @@ class Home : DaggerFragment(), NounAdapter.OnNounClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.home -> {
 
-                true
-            }
-            R.id.add -> {
-
-
-                true
-            }
             R.id.quiz -> {
                 true
             }

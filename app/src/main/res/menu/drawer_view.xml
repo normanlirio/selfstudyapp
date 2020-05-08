@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="List">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/navHome"
+                    android:title="@string/home" />
+                <item
+                    android:id="@+id/navNounHomeList"
+                    android:title="@string/noun" />
+                <item
+                    android:id="@+id/navVerbHomeList"
+                    android:title="@string/verb" />
+                <item
+                    android:id="@+id/navAdjHomeList"
+                    android:title="@string/adjective" />
+            </group>
+        </menu>
+    </item>
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/navHome"
-            android:title="@string/home"
-            />
-        <item
-            android:id="@+id/navNounHomeList"
-            android:title="@string/noun"
-            />
-        <item
-            android:id="@+id/navVerbHomeList"
-            android:title="@string/verb"
-            />
-        <item
-            android:id="@+id/navAdjHomeList"
-            android:title="@string/adjective"
-            />
-    </group>
-
+    <item android:title="Add">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/navNounAdd"
+                    android:title="@string/add_noun" />
+                <item
+                    android:id="@+id/navVerbAdd"
+                    android:title="@string/add_verb" />
+                <item
+                    android:id="@+id/navAdjAdd"
+                    android:title="@string/add_adjective" />
+            </group>
+        </menu>
+    </item>
 
 </menu>

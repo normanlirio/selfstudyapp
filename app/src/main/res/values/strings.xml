@@ -9,5 +9,8 @@
     <string name="verb">Verb</string>
     <string name="adjective">Adjective</string>
     <string name="home">Home</string>
+    <string name="add_noun">Add Noun</string>
+    <string name="add_verb">Add Verb</string>
+    <string name="add_adjective">Add Adjective</string>
 
 </resources>

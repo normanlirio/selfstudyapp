@@ -28,12 +28,12 @@ class VerbSwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val verbViewModel:
 
 
     init {
-        verbViewModel.getVerbsFromRepo().observe(lifecycleOwner, Observer<List<Verb>> {
-            verbList.clear()
-            if(it.isNotEmpty()) {
-                verbList.addAll(it)
-            }
-        })
+//        verbViewModel.getVerbsFromRepo().observe(lifecycleOwner, Observer<List<Verb>> {
+//            verbList.clear()
+//            if(it.isNotEmpty()) {
+//                verbList.addAll(it)
+//            }
+//        })
     }
 
 

@@ -12,8 +12,10 @@ import com.teamzmron.selfstudyapp.Helper.Utils
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
+import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_noun.*
+import kotlinx.android.synthetic.main.fragment_add_noun.*
+import javax.inject.Inject
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -23,15 +25,18 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [NounFragment.newInstance] factory method to
+ * Use the [NounAddFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NounFragment : DaggerFragment() {
+class NounAddFragment : DaggerFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private lateinit var nounViewModel: NounViewModel
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProviderFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,20 +51,20 @@ class NounFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_noun, container, false)
+        return inflater.inflate(R.layout.fragment_add_noun, container, false)
     }
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        nounViewModel = ViewModelProvider(this).get(NounViewModel::class.java)
+        nounViewModel = ViewModelProvider(this, viewModelFactory).get(NounViewModel::class.java)
 
 
         button_noun_save.setOnClickListener{
             if (checkTextField()) {
                 saveInputFromLayout()
             } else {
-                Toast.makeText(context!!, "All fields are required!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "All fields are required!", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -80,7 +85,7 @@ class NounFragment : DaggerFragment() {
         nounViewModel.saveToDB(noun).observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             if (it > 0) {
                 clearTextFields()
-                Toast.makeText(context!!, "Successfully added!", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_LONG).show()
             }
         })
 
@@ -128,7 +133,7 @@ class NounFragment : DaggerFragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            NounFragment().apply {
+            NounAddFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

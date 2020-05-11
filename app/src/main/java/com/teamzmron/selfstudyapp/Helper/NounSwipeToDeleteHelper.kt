@@ -22,12 +22,12 @@ class NounSwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val nounViewModel:
     }
 
     init {
-        nounViewModel.getWordsFromRepo().observe(lifecycleOwner, Observer<List<Noun>> {
-            wordsList.clear()
-            if(it.isNotEmpty()) {
-                wordsList.addAll(it)
-            }
-        })
+//        nounViewModel.getWordsFromRepo().observe(lifecycleOwner, Observer<List<Noun>> {
+//            wordsList.clear()
+//            if(it.isNotEmpty()) {
+//                wordsList.addAll(it)
+//            }
+//        })
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {

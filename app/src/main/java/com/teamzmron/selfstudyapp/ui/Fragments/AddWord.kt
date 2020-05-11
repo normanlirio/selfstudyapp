@@ -9,9 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.teamzmron.selfstudyapp.Adapters.ViewPagerAdapter
-import com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveFragment
-import com.teamzmron.selfstudyapp.ui.Fragments.noun.NounFragment
-import com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbFragment
+import com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveAddFragment
+import com.teamzmron.selfstudyapp.ui.Fragments.noun.NounAddFragment
+import com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbAddFragment
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
@@ -52,9 +52,9 @@ class AddWord : Fragment() {
 
     private fun initViewpager() {
         val adapter = ViewPagerAdapter((context as AppCompatActivity).supportFragmentManager)
-        adapter.addFragment(NounFragment(), "Noun")
-        adapter.addFragment(VerbFragment(), "Verb")
-        adapter.addFragment(AdjectiveFragment(), "Adjective")
+        adapter.addFragment(NounAddFragment(), "Noun")
+        adapter.addFragment(VerbAddFragment(), "Verb")
+        adapter.addFragment(AdjectiveAddFragment(), "Adjective")
         viewpager_addword.adapter = adapter
         viewpager_addword.offscreenPageLimit = 6
     }

@@ -13,8 +13,10 @@ import com.teamzmron.selfstudyapp.Helper.Utils
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
+import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_verb.*
+import kotlinx.android.synthetic.main.fragment_add_verb.*
+import javax.inject.Inject
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -24,15 +26,18 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [VerbFragment.newInstance] factory method to
+ * Use the [VerbAddFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class VerbFragment : DaggerFragment() {
+class VerbAddFragment : DaggerFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private lateinit var verbViewModel: VerbViewModel
+
+    @Inject
+    lateinit var providerFactory: ViewModelProviderFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,13 +52,13 @@ class VerbFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_verb, container, false)
+        return inflater.inflate(R.layout.fragment_add_verb, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        verbViewModel = ViewModelProvider(this).get(VerbViewModel::class.java)
+        verbViewModel = ViewModelProvider(this, providerFactory).get(VerbViewModel::class.java)
 
         radioButton_verb_u.isChecked = true
 
@@ -61,7 +66,7 @@ class VerbFragment : DaggerFragment() {
             if (checkTextField()) {
                 saveInputFromlayout()
             } else {
-                Toast.makeText(context!!, "All fields are required!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "All fields are required!", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -145,7 +150,7 @@ class VerbFragment : DaggerFragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            VerbFragment().apply {
+            VerbAddFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

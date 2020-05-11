@@ -27,12 +27,12 @@ dragDirs, swipeDirs) {
     }
 
     init {
-        adjectiveViewModel.getAdjectiveFromRepo().observe(lifecycleOwner, Observer<List<Adjective>> {
-            adjList.clear()
-            if(it.isNotEmpty()) {
-                adjList.addAll(it)
-            }
-        })
+//        adjectiveViewModel.getAdjectiveFromRepo().observe(lifecycleOwner, Observer<List<Adjective>> {
+//            adjList.clear()
+//            if(it.isNotEmpty()) {
+//                adjList.addAll(it)
+//            }
+//        })
     }
 
 

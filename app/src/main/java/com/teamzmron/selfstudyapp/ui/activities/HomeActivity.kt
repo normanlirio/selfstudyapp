@@ -32,47 +32,46 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when (item.itemId) {
+        return when (item.itemId) {
 
             android.R.id.home -> {
-                return if(drawer.isDrawerOpen(GravityCompat.START)){
+                if(drawer.isDrawerOpen(GravityCompat.START)){
                     drawer.closeDrawer(GravityCompat.START);
                     true;
                 } else{
                     false;
                 }
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.navNounHomeList -> {
+            R.id.navNounAdd -> {
                 if (isValidDestination(R.id.nounList)) {
                     Navigation.findNavController(this,
                         R.id.nav_host_fragment
                     )
-                        .navigate(R.id.nounList)
+                        .navigate(R.id.nounAdd)
                 }
             }
-            R.id.navVerbHomeList -> {
+            R.id.navVerbAdd -> {
                 if (isValidDestination(R.id.verbList)) {
 
                     Navigation.findNavController(this,
                         R.id.nav_host_fragment
                     )
-                        .navigate(R.id.verbList)
+                        .navigate(R.id.verbAdd)
                 }
             }
-            R.id.navAdjHomeList -> {
+            R.id.navAdjAdd -> {
                 if (isValidDestination(R.id.adjList)) {
                     Navigation.findNavController(this,
                         R.id.nav_host_fragment
                     )
-                        .navigate(R.id.adjList)
+                        .navigate(R.id.adjAdd)
                 }
             }
 

@@ -27,4 +27,20 @@
         android:label="@string/adjHomeList"
         tools:layout="@layout/fragment_adjective_home" />
 
+    <fragment
+        android:id="@+id/nounAdd"
+        android:name="com.teamzmron.selfstudyapp.ui.Fragments.noun.NounAddFragment"
+        android:label="Add Noun"
+        tools:layout="@layout/fragment_add_noun" />
+    <fragment
+        android:id="@+id/verbAdd"
+        android:name="com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbAddFragment"
+        android:label="Add Verb"
+        tools:layout="@layout/fragment_add_verb" />
+    <fragment
+        android:id="@+id/adjAdd"
+        android:name="com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveAddFragment"
+        android:label="Add Verb"
+        tools:layout="@layout/fragment_add_adjective" />
+
 </navigation>

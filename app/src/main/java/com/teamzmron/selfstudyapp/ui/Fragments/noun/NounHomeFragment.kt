@@ -1,19 +1,21 @@
 package com.teamzmron.selfstudyapp.ui.Fragments.noun
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.NounAdapter
 import com.teamzmron.selfstudyapp.Helper.NounSwipeToDeleteHelper
-
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
+import com.teamzmron.selfstudyapp.ui.Resource
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_noun_home.*
 import javax.inject.Inject
@@ -59,13 +61,30 @@ class NounHomeFragment : DaggerFragment(), NounAdapter.OnNounClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initViewModels()
+        nounViewModel = ViewModelProvider(this, providerFactory).get(NounViewModel::class.java)
         initRecyclerView()
+        subscribeObservers()
 
     }
 
-    private fun initViewModels() {
-        nounViewModel = ViewModelProvider(this, providerFactory).get(NounViewModel::class.java)
+    private fun subscribeObservers() {
+        nounViewModel.getWordsFromRepo().removeObservers(viewLifecycleOwner)
+        nounViewModel.getWordsFromRepo().observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        Log.v("NounHomeFragment", "subscribeObservers: Loading..")
+                    }
+                    Resource.Status.SUCCESS -> {
+                        Log.v("NounHomeFragment", "subscribeObservers: Success..")
+                        nounAdapter.setNouns(it.data!!)
+                    }
+                    Resource.Status.ERROR -> {
+                        Log.v("NounHomeFragment", "subscribeObservers: Oops something went wrong. ${it.message}")
+                    }
+                }
+            }
+        })
     }
 
     private fun initRecyclerView() {

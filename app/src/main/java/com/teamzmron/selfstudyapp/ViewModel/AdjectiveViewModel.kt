@@ -19,7 +19,7 @@ class AdjectiveViewModel @Inject constructor(private val adjectiveRepository: Ad
         return adjectiveRepository.getAdjectiveByIdFromDB(id)
     }
 
-    fun saveToDB(adj: Adjective) : LiveData<Long> {
+    fun saveToDB(adj: Adjective) : LiveData<Resource<Long>> {
       return  adjectiveRepository.saveAdjectiveRepo(adj)
     }
 

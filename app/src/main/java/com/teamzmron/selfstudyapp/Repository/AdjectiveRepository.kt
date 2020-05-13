@@ -63,19 +63,29 @@ class AdjectiveRepository(private val db: WordDatabase) {
         return list
     }
 
-    fun saveAdjectiveRepo(adj: Adjective) : MutableLiveData<Long> {
-        var result = MutableLiveData<Long>()
-        db.adjDao().insertAdjective(adj)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                result.postValue(it)
-            }, {
+    fun saveAdjectiveRepo(adj: Adjective) : MediatorLiveData<Resource<Long>> {
+        var result = MediatorLiveData<Resource<Long>>()
+        val source: LiveData<Resource<Long>> = LiveDataReactiveStreams.fromPublisher(
+            db.adjDao().insertAdjective(adj)
+                .toFlowable()
+                .onErrorReturn {
+                    val errorLong = (-1).toLong()
+                    errorLong
+                }
+                .map {
+                    if(it < 0) {
+                        Resource.error("Something went wrong", null)
+                    }
 
-                it.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
+                    Resource.success(it)
+                }
+                .subscribeOn(Schedulers.io())
+        )
+
+        result.addSource(source, Observer {
+            result.value = it
+            result.removeSource(source)
+        })
         return result
     }
 

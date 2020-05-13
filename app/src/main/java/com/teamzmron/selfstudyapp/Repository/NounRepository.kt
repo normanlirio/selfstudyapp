@@ -40,7 +40,7 @@ class NounRepository(private val db: WordDatabase) {
                 .subscribeOn(Schedulers.io())
         )
 
-        list.addSource(source, Observer {
+         list.addSource(source, Observer {
             list.value = it
             list.removeSource(source)
         })
@@ -62,23 +62,30 @@ class NounRepository(private val db: WordDatabase) {
         return list
     }
 
-    fun saveNounRepo(noun: Noun): MutableLiveData<Long> {
-        var result = MutableLiveData<Long>()
-        db.nounDAO().insertNoun(noun)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                result.postValue(it)
-                if (it > 0) {
-                    Log.v("Save Noun", "It's a success!")
+    fun saveNounRepo(noun: Noun): MediatorLiveData<Resource<Long>> {
+        var result = MediatorLiveData<Resource<Long>>()
+
+        val source: LiveData<Resource<Long>> = LiveDataReactiveStreams.fromPublisher(
+            db.nounDAO().insertNoun(noun)
+                .toFlowable()
+                .onErrorReturn {
+                   val errorLong = (-1).toLong()
+                    errorLong
                 }
-            }, {
+                .map {
+                    if(it < 0) {
+                        Resource.error("Something went wrong", null)
+                    }
 
-                it.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
+                    Resource.success(it)
+                }
+                .subscribeOn(Schedulers.io())
+        )
 
+        result.addSource(source, Observer {
+            result.value = it
+            result.removeSource(source)
+        })
         return result
     }
 

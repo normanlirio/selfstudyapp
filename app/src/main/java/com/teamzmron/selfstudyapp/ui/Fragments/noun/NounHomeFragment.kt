@@ -2,9 +2,11 @@ package com.teamzmron.selfstudyapp.ui.Fragments.noun
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +17,9 @@ import com.teamzmron.selfstudyapp.Helper.NounSwipeToDeleteHelper
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
+import com.teamzmron.selfstudyapp.ui.Fragments.Home
 import com.teamzmron.selfstudyapp.ui.Resource
+import com.teamzmron.selfstudyapp.ui.activities.HomeActivity
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_noun_home.*
 import javax.inject.Inject
@@ -37,11 +41,13 @@ class NounHomeFragment : DaggerFragment(), NounAdapter.OnNounClickListener {
 
     private lateinit var nounViewModel: NounViewModel
 
-    @Inject
-    lateinit var providerFactory: ViewModelProviderFactory
 
     @Inject
     lateinit var nounAdapter: NounAdapter
+
+    @Inject
+    lateinit var providerFactory: ViewModelProviderFactory
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +61,7 @@ class NounHomeFragment : DaggerFragment(), NounAdapter.OnNounClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.v("NounHomeFragment", "onCreateView: set OnCreateView!")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_noun_home, container, false)
     }
@@ -62,10 +69,14 @@ class NounHomeFragment : DaggerFragment(), NounAdapter.OnNounClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         nounViewModel = ViewModelProvider(this, providerFactory).get(NounViewModel::class.java)
-        initRecyclerView()
+        Log.v("NounHomeFragment", "onActivityCreated: set onViewCreated!")
         subscribeObservers()
+        initRecyclerView()
+
+
 
     }
+
 
     private fun subscribeObservers() {
         nounViewModel.getWordsFromRepo().removeObservers(viewLifecycleOwner)

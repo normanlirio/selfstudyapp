@@ -1,10 +1,12 @@
 package com.teamzmron.selfstudyapp.ui.Fragments.verb
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +15,7 @@ import com.teamzmron.selfstudyapp.Helper.VerbSwipeToDeleteHelper
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
+import com.teamzmron.selfstudyapp.ui.Resource
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_verb_home.*
 import javax.inject.Inject
@@ -61,6 +64,28 @@ class VerbHomeFragment : DaggerFragment(), VerbAdapter.OnVerbClickListener {
         super.onActivityCreated(savedInstanceState)
         initViewModels()
         initRecyclerView()
+
+        subscribeObservers()
+    }
+
+    private fun subscribeObservers() {
+        verbViewModel.getVerbsFromRepo().removeObservers(viewLifecycleOwner)
+        verbViewModel.getVerbsFromRepo().observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        Log.v("VerbHomeFragment", "subscribeObservers: Loading..")
+                    }
+                    Resource.Status.SUCCESS -> {
+                        Log.v("VerbHomeFragment", "subscribeObservers: Success..")
+                        verbAdapter.setVerbs(it.data!!)
+                    }
+                    Resource.Status.ERROR -> {
+                        Log.v("VerbHomeFragment", "subscribeObservers: Oops something went wrong. ${it.message}")
+                    }
+                }
+            }
+        })
     }
 
     private fun initViewModels() {

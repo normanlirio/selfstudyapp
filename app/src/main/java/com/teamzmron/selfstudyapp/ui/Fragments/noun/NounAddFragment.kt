@@ -1,18 +1,22 @@
 package com.teamzmron.selfstudyapp.ui.Fragments.noun
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.teamzmron.selfstudyapp.Adapters.NounAdapter
 import com.teamzmron.selfstudyapp.Helper.Utils
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
+import com.teamzmron.selfstudyapp.ui.Resource
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_add_noun.*
 import javax.inject.Inject
@@ -37,6 +41,9 @@ class NounAddFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProviderFactory
+
+    @Inject
+    lateinit var nounAdapter: NounAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,13 +89,29 @@ class NounAddFragment : DaggerFragment() {
             kanji = editText_noun_kanji.text.toString(),
             timestamp = Utils.getTimeStamp()
         )
-        nounViewModel.saveToDB(noun).observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            if (it > 0) {
-                clearTextFields()
-                Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_LONG).show()
+        subscribeObservers(noun)
+
+    }
+
+    private fun subscribeObservers(noun : Noun) {
+        nounViewModel.saveToDB(noun).removeObservers(viewLifecycleOwner)
+        nounViewModel.saveToDB(noun).observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        Log.v("NounAddFragment", "subscribeObservers: Loading..")
+                    }
+                    Resource.Status.SUCCESS -> {
+                        clearTextFields()
+                        Log.v("NounAddFragment", "subscribeObservers: Success.. ${it.data}")
+
+                    }
+                    Resource.Status.ERROR -> {
+                        Log.v("NounAddFragment", "subscribeObservers: Oops something went wrong. ${it.message}")
+                    }
+                }
             }
         })
-
     }
 
     private fun getAllTextFields(): ArrayList<EditText> {

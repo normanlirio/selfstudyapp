@@ -1,8 +1,10 @@
 package com.teamzmron.selfstudyapp.ui.activities
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -13,9 +15,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    lateinit var drawerLayout: DrawerLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        drawerLayout = findViewById(R.id.drawer)
 
         init()
     }
@@ -35,12 +41,13 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         return when (item.itemId) {
 
             android.R.id.home -> {
-                if(drawer.isDrawerOpen(GravityCompat.START)){
-                    drawer.closeDrawer(GravityCompat.START);
-                    true;
-                } else{
-                    false;
+                if(drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    true
+                } else {
+                    false
                 }
+
             }
             else -> super.onOptionsItemSelected(item)
         }
@@ -74,6 +81,10 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
                         .navigate(R.id.adjAdd)
                 }
             }
+           else ->   Navigation.findNavController(this,
+               R.id.nav_host_fragment
+           )
+               .navigate(R.id.homeFragment)
 
         }
 
@@ -94,6 +105,6 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
                 R.id.nav_host_fragment
             ),
             drawer
-        )
+        ) || super.onSupportNavigateUp()
     }
 }

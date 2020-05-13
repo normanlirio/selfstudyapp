@@ -1,6 +1,7 @@
 package com.teamzmron.selfstudyapp.ui.Fragments.verb
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,12 +9,15 @@ import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.teamzmron.selfstudyapp.Helper.Utils
 import com.teamzmron.selfstudyapp.R
+import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
+import com.teamzmron.selfstudyapp.ui.Resource
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_add_verb.*
 import javax.inject.Inject
@@ -90,10 +94,26 @@ class VerbAddFragment : DaggerFragment() {
             kanjiForm = editText_verb_kanji.text.toString(),
             currentTimestamp = Utils.getTimeStamp()
         )
-        verbViewModel.saveToDB(verb).observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            if (it > 0) {
-                clearTextFields()
-                Toast.makeText(context!!, "Successfully added!", Toast.LENGTH_LONG).show()
+       subscribeObservers(verb)
+    }
+
+    private fun subscribeObservers(verb : Verb) {
+        verbViewModel.saveToDB(verb).removeObservers(viewLifecycleOwner)
+        verbViewModel.saveToDB(verb).observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        Log.v("NounAddFragment", "subscribeObservers: Loading..")
+                    }
+                    Resource.Status.SUCCESS -> {
+                        clearTextFields()
+                        Log.v("NounAddFragment", "subscribeObservers: Success.. ${it.data}")
+
+                    }
+                    Resource.Status.ERROR -> {
+                        Log.v("NounAddFragment", "subscribeObservers: Oops something went wrong. ${it.message}")
+                    }
+                }
             }
         })
     }

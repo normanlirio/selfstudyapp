@@ -64,19 +64,30 @@ class VerbRepository(private val db: WordDatabase) {
         return list
     }
 
-    fun saveVerbRepo(verb: Verb): MutableLiveData<Long> {
-        val result = MutableLiveData<Long>()
-        db.verbDao().insertVerb(verb)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                result.postValue(it)
-            }, {
+    fun saveVerbRepo(verb: Verb): MediatorLiveData<Resource<Long>> {
+        val result = MediatorLiveData<Resource<Long>>()
 
-                it.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
+        val source: LiveData<Resource<Long>> = LiveDataReactiveStreams.fromPublisher(
+            db.verbDao().insertVerb(verb)
+                .toFlowable()
+                .onErrorReturn {
+                    val errorLong = (-1).toLong()
+                    errorLong
+                }
+                .map {
+                    if(it < 0) {
+                        Resource.error("Something went wrong", null)
+                    }
+
+                    Resource.success(it)
+                }
+                .subscribeOn(Schedulers.io())
+        )
+
+        result.addSource(source, Observer {
+            result.value = it
+            result.removeSource(source)
+        })
         return result
     }
 

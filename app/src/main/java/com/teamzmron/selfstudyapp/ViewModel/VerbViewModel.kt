@@ -17,7 +17,7 @@ class VerbViewModel @Inject constructor(private val verbRepository: VerbReposito
         return verbRepository.getVerbByIdFromDB(id)
     }
 
-    fun saveToDB(verb: Verb) : LiveData<Long>{
+    fun saveToDB(verb: Verb) : LiveData<Resource<Long>>{
        return verbRepository.saveVerbRepo(verb)
     }
 

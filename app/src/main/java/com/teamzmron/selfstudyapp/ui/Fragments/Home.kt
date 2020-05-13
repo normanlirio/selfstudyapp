@@ -3,6 +3,7 @@ package com.teamzmron.selfstudyapp.ui.Fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -14,7 +15,9 @@ import com.teamzmron.selfstudyapp.ui.Fragments.noun.NounHomeFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbHomeFragment
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.ViewModel.*
+import com.teamzmron.selfstudyapp.ui.activities.HomeActivity
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.fragment_add_word.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
@@ -22,7 +25,7 @@ import javax.inject.Inject
 /**
  * A simple [Fragment] subclass.
  */
-class Home : DaggerFragment(), NounAdapter.OnNounClickListener {
+class Home : DaggerFragment() {
 
     private lateinit var nounViewModel: NounViewModel
     private lateinit var wordViewModel: WordViewModel
@@ -35,6 +38,9 @@ class Home : DaggerFragment(), NounAdapter.OnNounClickListener {
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
 
+    @Inject
+    lateinit var homeActivity: HomeActivity
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,10 +52,12 @@ class Home : DaggerFragment(), NounAdapter.OnNounClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-
-        initViewModels()
         setUpViewpager()
+        initViewModels()
+
         initTabLayout()
+        Log.v("Home", "onViewCreated")
+
 
     }
 
@@ -64,7 +72,7 @@ class Home : DaggerFragment(), NounAdapter.OnNounClickListener {
         adapter.addFragment(VerbHomeFragment(), VERB)
         adapter.addFragment(AdjectiveHomeFragment(), ADJ)
         viewpager.adapter = adapter
-
+        viewpager.offscreenPageLimit = 6
     }
 
 
@@ -140,12 +148,7 @@ class Home : DaggerFragment(), NounAdapter.OnNounClickListener {
 
 
 
-    override fun onNounClick(id: Int) {
 
-//        pageViewModel.getFragmentTransaction(context!!)
-//            .add(R.id.fragment_container, WordDetails(), "WordDetails")
-//            .commit()
-    }
 
 
 }

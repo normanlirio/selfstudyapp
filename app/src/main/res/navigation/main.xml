@@ -30,17 +30,17 @@
     <fragment
         android:id="@+id/nounAdd"
         android:name="com.teamzmron.selfstudyapp.ui.Fragments.noun.NounAddFragment"
-        android:label="Add Noun"
+        android:label="@string/add_noun"
         tools:layout="@layout/fragment_add_noun" />
     <fragment
         android:id="@+id/verbAdd"
         android:name="com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbAddFragment"
-        android:label="Add Verb"
+        android:label="@string/add_verb"
         tools:layout="@layout/fragment_add_verb" />
     <fragment
         android:id="@+id/adjAdd"
         android:name="com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveAddFragment"
-        android:label="Add Verb"
+        android:label="@string/add_adj"
         tools:layout="@layout/fragment_add_adjective" />
 
 </navigation>

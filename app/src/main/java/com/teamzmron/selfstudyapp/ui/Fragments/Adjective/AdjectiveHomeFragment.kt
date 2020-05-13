@@ -1,10 +1,12 @@
 package com.teamzmron.selfstudyapp.ui.Fragments.Adjective
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +16,7 @@ import com.teamzmron.selfstudyapp.Helper.AdjectiveSwipeToDeleteHelper
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
+import com.teamzmron.selfstudyapp.ui.Resource
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_adjective_home.*
 import javax.inject.Inject
@@ -63,6 +66,28 @@ class AdjectiveHomeFragment : DaggerFragment(), AdjectiveAdapter.OnAdjectiveClic
 
         initViewModels()
         initRecyclerView()
+
+        subscribeObservers()
+    }
+
+    private fun subscribeObservers() {
+        adjectiveViewModel.getAdjectiveFromRepo().removeObservers(viewLifecycleOwner)
+        adjectiveViewModel.getAdjectiveFromRepo().observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        Log.v("VerbHomeFragment", "subscribeObservers: Loading..")
+                    }
+                    Resource.Status.SUCCESS -> {
+                        Log.v("VerbHomeFragment", "subscribeObservers: Success..")
+                        adapter.setAdjectives(it.data!!)
+                    }
+                    Resource.Status.ERROR -> {
+                        Log.v("VerbHomeFragment", "subscribeObservers: Oops something went wrong. ${it.message}")
+                    }
+                }
+            }
+        })
     }
 
     private fun initViewModels() {

@@ -25,9 +25,8 @@ import javax.inject.Inject
 /**
  * A simple [Fragment] subclass.
  */
-class Home : DaggerFragment() {
+open class Home : BaseFragment() {
 
-    private lateinit var nounViewModel: NounViewModel
     private lateinit var wordViewModel: WordViewModel
 
 
@@ -77,7 +76,6 @@ class Home : DaggerFragment() {
 
 
     private fun initViewModels() {
-        nounViewModel = ViewModelProvider(this, providerFactory).get(NounViewModel::class.java)
         wordViewModel = ViewModelProvider(this, providerFactory).get(WordViewModel::class.java)
     }
 

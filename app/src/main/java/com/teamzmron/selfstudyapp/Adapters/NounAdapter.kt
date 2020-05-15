@@ -2,9 +2,11 @@ package com.teamzmron.selfstudyapp.Adapters
 
 import android.content.Context
 import android.util.Log
+import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.LifecycleOwner
@@ -18,13 +20,8 @@ class NounAdapter : RecyclerView.Adapter<NounAdapter.WordsViewHolder>() {
     private var context: Context? = null
 
     private var wordsList: ArrayList<Noun> = ArrayList()
-    private var clickListener: OnNounClickListener? = null
 
 
-    interface OnNounClickListener {
-        fun onNounClick(id: Int)
-
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordsViewHolder {
         return WordsViewHolder(
@@ -39,7 +36,7 @@ class NounAdapter : RecyclerView.Adapter<NounAdapter.WordsViewHolder>() {
 
     override fun onBindViewHolder(holder: WordsViewHolder, position: Int) {
         holder.etEnglish!!.text = wordsList[position].english
-
+        holder
     }
 
     fun setNouns(nouns: List<Noun>) {
@@ -48,12 +45,13 @@ class NounAdapter : RecyclerView.Adapter<NounAdapter.WordsViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun setClickListener(clickListener: OnNounClickListener) {
-        this.clickListener = clickListener
+    fun getNoun(position: Int) : Noun {
+        return wordsList[position]
     }
 
+
     inner class WordsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
+   View.OnCreateContextMenuListener {
         var etEnglish: TextView? = null
         var cvParent: CardView? = null
 
@@ -61,12 +59,18 @@ class NounAdapter : RecyclerView.Adapter<NounAdapter.WordsViewHolder>() {
             Log.v("ViewHolder", "Viewholder")
             etEnglish = itemView.findViewById(R.id.wordlist_english)
             cvParent = itemView.findViewById(R.id.cardView_wordlist_parent)
-            itemView.setOnClickListener(this)
+            itemView.setOnCreateContextMenuListener(this)
         }
 
-        override fun onClick(p0: View?) {
-            clickListener!!.onNounClick(wordsList[adapterPosition].id!!)
+
+        override fun onCreateContextMenu(
+            p0: ContextMenu?,
+            p1: View?,
+            p2: ContextMenu.ContextMenuInfo?
+        ) {
+
         }
+
 
     }
 

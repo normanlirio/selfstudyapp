@@ -2,6 +2,7 @@ package com.teamzmron.selfstudyapp.di.main
 
 import com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveAddFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveHomeFragment
+import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.Home
 import com.teamzmron.selfstudyapp.ui.Fragments.noun.NounAddFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.noun.NounHomeFragment
@@ -34,4 +35,7 @@ abstract class MainFragmentsModule {
 
     @ContributesAndroidInjector
     abstract fun contributeAdjectiveAddFragment() : AdjectiveAddFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeBaseFragment() : BaseFragment
 }

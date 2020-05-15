@@ -1,21 +1,21 @@
 package com.teamzmron.selfstudyapp.Repository
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.LiveDataReactiveStreams
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.*
 import com.teamzmron.selfstudyapp.Room.Database.WordDatabase
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
+import com.teamzmron.selfstudyapp.di.main.MainScope
 import com.teamzmron.selfstudyapp.ui.Resource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
+@MainScope
 class NounRepository(private val db: WordDatabase) {
     private val compositeDisposable = CompositeDisposable()
+    private var deleteResult : MediatorLiveData<Resource<Int>> = MediatorLiveData()
 
+
+    fun getDeleteResult() : LiveData<Resource<Int>> = deleteResult
 
     fun getNounFromDB(): MediatorLiveData<Resource<List<Noun>>> {
 
@@ -40,7 +40,7 @@ class NounRepository(private val db: WordDatabase) {
                 .subscribeOn(Schedulers.io())
         )
 
-         list.addSource(source, Observer {
+        list.addSource(source, Observer {
             list.value = it
             list.removeSource(source)
         })
@@ -69,11 +69,11 @@ class NounRepository(private val db: WordDatabase) {
             db.nounDAO().insertNoun(noun)
                 .toFlowable()
                 .onErrorReturn {
-                   val errorLong = (-1).toLong()
+                    val errorLong = (-1).toLong()
                     errorLong
                 }
                 .map {
-                    if(it < 0) {
+                    if (it < 0) {
                         Resource.error("Something went wrong", null)
                     }
 
@@ -89,17 +89,28 @@ class NounRepository(private val db: WordDatabase) {
         return result
     }
 
-    fun deleteNounRepo(noun: Noun) {
-        db.nounDAO().deleteNoun(noun)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+    fun deleteNounRepo(noun: Noun)  {
+        deleteResult.value = Resource.loading(null)
+        val source: LiveData<Resource<Int>> = LiveDataReactiveStreams.fromPublisher(
+            db.nounDAO().deleteNoun(noun)
+                .toFlowable()
+                .onErrorReturn {
+                    -1
+                }
+                .map {
+                    if (it == -1) {
+                        Resource.error("Something went wrong", null)
+                    }
+                    Resource.success(it)
+                }
+                .subscribeOn(Schedulers.io())
 
-            }, {
-                it.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
+        )
+        deleteResult.addSource(source, Observer {
+            deleteResult.value = it
+            deleteResult.removeSource(source)
+        })
+
     }
 
     fun updateNounRepo(noun: Noun) {

@@ -1,6 +1,7 @@
 package com.teamzmron.selfstudyapp.ViewModel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teamzmron.selfstudyapp.Repository.NounRepository
 import com.teamzmron.selfstudyapp.Room.Database.WordDatabase
@@ -9,6 +10,8 @@ import com.teamzmron.selfstudyapp.ui.Resource
 import javax.inject.Inject
 
 class NounViewModel @Inject constructor(private val nounRepository: NounRepository) : ViewModel() {
+
+    fun getDeleteResult() : LiveData<Resource<Int>> = nounRepository.getDeleteResult()
 
     fun getWordsFromRepo(): LiveData<Resource<List<Noun>>> {
         return nounRepository.getNounFromDB()
@@ -27,8 +30,8 @@ class NounViewModel @Inject constructor(private val nounRepository: NounReposito
     }
 
 
-    fun deleteWordById(noun: Noun) {
-        nounRepository.deleteNounRepo(noun)
+    fun deleteNounById(noun: Noun)  {
+       nounRepository.deleteNounRepo(noun)
     }
 
 

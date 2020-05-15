@@ -16,6 +16,7 @@ import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
+import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
 import com.teamzmron.selfstudyapp.ui.Resource
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_add_noun.*
@@ -32,15 +33,11 @@ private const val ARG_PARAM2 = "param2"
  * Use the [NounAddFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NounAddFragment : DaggerFragment() {
+class NounAddFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var nounViewModel: NounViewModel
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProviderFactory
 
     @Inject
     lateinit var nounAdapter: NounAdapter
@@ -64,8 +61,6 @@ class NounAddFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        nounViewModel = ViewModelProvider(this, viewModelFactory).get(NounViewModel::class.java)
-
 
         button_noun_save.setOnClickListener{
             if (checkTextField()) {
@@ -96,13 +91,14 @@ class NounAddFragment : DaggerFragment() {
     private fun subscribeObservers(noun : Noun) {
         nounViewModel.saveToDB(noun).removeObservers(viewLifecycleOwner)
         nounViewModel.saveToDB(noun).observe(viewLifecycleOwner, Observer {
-            if (it != null) {
+
                 when (it.status) {
                     Resource.Status.LOADING -> {
                         Log.v("NounAddFragment", "subscribeObservers: Loading..")
                     }
                     Resource.Status.SUCCESS -> {
                         clearTextFields()
+
                         Log.v("NounAddFragment", "subscribeObservers: Success.. ${it.data}")
 
                     }
@@ -110,8 +106,10 @@ class NounAddFragment : DaggerFragment() {
                         Log.v("NounAddFragment", "subscribeObservers: Oops something went wrong. ${it.message}")
                     }
                 }
-            }
+
         })
+
+
     }
 
     private fun getAllTextFields(): ArrayList<EditText> {

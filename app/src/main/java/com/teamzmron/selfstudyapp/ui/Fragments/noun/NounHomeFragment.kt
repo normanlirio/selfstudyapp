@@ -2,27 +2,21 @@ package com.teamzmron.selfstudyapp.ui.Fragments.noun
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.core.view.GravityCompat
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.NounAdapter
-import com.teamzmron.selfstudyapp.Helper.NounSwipeToDeleteHelper
 import com.teamzmron.selfstudyapp.R
+import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
-import com.teamzmron.selfstudyapp.ui.Fragments.Home
 import com.teamzmron.selfstudyapp.ui.Resource
-import com.teamzmron.selfstudyapp.ui.activities.HomeActivity
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_noun_home.*
 import javax.inject.Inject
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,12 +28,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [NounHomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NounHomeFragment : DaggerFragment(), NounAdapter.OnNounClickListener {
+class NounHomeFragment : DaggerFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private lateinit var nounViewModel: NounViewModel
+    private val TAG = "NounHomeFragment"
 
 
     @Inject
@@ -70,9 +65,9 @@ class NounHomeFragment : DaggerFragment(), NounAdapter.OnNounClickListener {
         super.onActivityCreated(savedInstanceState)
         nounViewModel = ViewModelProvider(this, providerFactory).get(NounViewModel::class.java)
         Log.v("NounHomeFragment", "onActivityCreated: set onViewCreated!")
+
         subscribeObservers()
         initRecyclerView()
-
 
 
     }
@@ -96,23 +91,16 @@ class NounHomeFragment : DaggerFragment(), NounAdapter.OnNounClickListener {
                 }
             }
         })
+
+
     }
 
     private fun initRecyclerView() {
 
         recycler_nounhome.layoutManager = LinearLayoutManager(context)
         recycler_nounhome.adapter = nounAdapter
+        registerForContextMenu(recycler_nounhome)
 
-        var itemTouchHelper = ItemTouchHelper(
-            NounSwipeToDeleteHelper(
-                this,
-                nounViewModel,
-                nounAdapter, 0, ItemTouchHelper.RIGHT
-            )
-        )
-
-        itemTouchHelper.attachToRecyclerView(recycler_nounhome)
-        nounAdapter.notifyDataSetChanged()
 
     }
 
@@ -136,7 +124,61 @@ class NounHomeFragment : DaggerFragment(), NounAdapter.OnNounClickListener {
             }
     }
 
-    override fun onNounClick(id: Int) {
-        TODO("Not yet implemented")
+
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        v: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        if(v == recycler_nounhome) {
+            val inflater: MenuInflater =  requireActivity().menuInflater
+            inflater.inflate(R.menu.longclick_menu, menu)
+        }
+
     }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.edit -> {
+                Log.v(TAG, "onContextItemSelected: Edit ${nounAdapter.getNoun(item.groupId).english  }")
+            }
+            R.id.delete -> {
+                deleteNoun(nounAdapter.getNoun(item.groupId), item.groupId)
+
+
+                Log.v(TAG, "onContextItemSelected: Delete")
+            }
+        }
+        return super.onContextItemSelected(item)
+
+    }
+
+    private fun deleteNoun(noun : Noun, id: Int) {
+        nounViewModel.deleteNounById(noun)
+        nounAdapter.notifyItemChanged(id)
+        nounViewModel.getDeleteResult().removeObservers(this)
+        nounViewModel.getDeleteResult().observe(this, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        Log.v("NounHomeFragment", "subscribeObservers Delete: Loading..")
+                    }
+                    Resource.Status.SUCCESS -> {
+                        subscribeObservers()
+                        Log.v("NounHomeFragment", "subscribeObservers Delete: Success..")
+
+                    }
+                    Resource.Status.ERROR -> {
+                        Log.v("NounHomeFragment", "subscribeObservers Delete: Oops something went wrong. ${it.message}")
+                    }
+                }
+            }
+        })
+    }
+
+
+
+
 }

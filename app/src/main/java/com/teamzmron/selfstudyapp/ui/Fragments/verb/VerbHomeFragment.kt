@@ -15,6 +15,7 @@ import com.teamzmron.selfstudyapp.Helper.VerbSwipeToDeleteHelper
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
+import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
 import com.teamzmron.selfstudyapp.ui.Resource
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_verb_home.*
@@ -31,12 +32,11 @@ private const val ARG_PARAM2 = "param2"
  * Use the [VerbHomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class VerbHomeFragment : DaggerFragment(), VerbAdapter.OnVerbClickListener {
+class VerbHomeFragment : BaseFragment(), VerbAdapter.OnVerbClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var verbViewModel: VerbViewModel
 
     @Inject
     lateinit var verbAdapter: VerbAdapter
@@ -62,7 +62,7 @@ class VerbHomeFragment : DaggerFragment(), VerbAdapter.OnVerbClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initViewModels()
+
         initRecyclerView()
 
         subscribeObservers()
@@ -88,9 +88,7 @@ class VerbHomeFragment : DaggerFragment(), VerbAdapter.OnVerbClickListener {
         })
     }
 
-    private fun initViewModels() {
-        verbViewModel = ViewModelProvider(this, providerFactory).get(VerbViewModel::class.java)
-    }
+
 
     private fun initRecyclerView() {
         recycler_verbhome.layoutManager = LinearLayoutManager(context)

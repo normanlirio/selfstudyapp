@@ -1,14 +1,10 @@
 package com.teamzmron.selfstudyapp.Helper
 
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.teamzmron.selfstudyapp.Adapters.AdjectiveAdapter
 import com.teamzmron.selfstudyapp.Adapters.VerbAdapter
-import com.teamzmron.selfstudyapp.Room.Entity.Adjective
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
-import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
 import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
 
 class VerbSwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val verbViewModel: VerbViewModel, adapter: VerbAdapter, dragDirs: Int, swipeDirs: Int)
@@ -42,7 +38,7 @@ class VerbSwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val verbViewModel:
         var pos = viewHolder.adapterPosition
         verbAdapter.notifyItemRemoved(pos)
 
-        verbViewModel.deleteVerbById(
+        verbViewModel.deleteVerb(
             Verb(
                 verbId = verbList[pos].verbId,
                 verbType = verbList[pos].verbType,

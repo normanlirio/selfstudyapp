@@ -2,16 +2,23 @@ package com.teamzmron.selfstudyapp.ui.Fragments.noun
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.NounAdapter
+import com.teamzmron.selfstudyapp.Helper.Constants
+import com.teamzmron.selfstudyapp.Helper.Constants.Companion.NOUN_DELETE_ID
+import com.teamzmron.selfstudyapp.Helper.Constants.Companion.NOUN_EDIT_ID
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
+import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
 import com.teamzmron.selfstudyapp.ui.Resource
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_noun_home.*
@@ -28,13 +35,12 @@ private const val ARG_PARAM2 = "param2"
  * Use the [NounHomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NounHomeFragment : DaggerFragment() {
+class NounHomeFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var nounViewModel: NounViewModel
-    private val TAG = "NounHomeFragment"
+    private val TAG = javaClass.simpleName
 
 
     @Inject
@@ -63,8 +69,6 @@ class NounHomeFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        nounViewModel = ViewModelProvider(this, providerFactory).get(NounViewModel::class.java)
-        Log.v("NounHomeFragment", "onActivityCreated: set onViewCreated!")
 
         subscribeObservers()
         initRecyclerView()
@@ -74,8 +78,8 @@ class NounHomeFragment : DaggerFragment() {
 
 
     private fun subscribeObservers() {
-        nounViewModel.getWordsFromRepo().removeObservers(viewLifecycleOwner)
-        nounViewModel.getWordsFromRepo().observe(viewLifecycleOwner, Observer {
+        nounViewModel.getNounsFromRepo().removeObservers(viewLifecycleOwner)
+        nounViewModel.getNounsFromRepo().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 when (it.status) {
                     Resource.Status.LOADING -> {
@@ -92,17 +96,59 @@ class NounHomeFragment : DaggerFragment() {
             }
         })
 
-
     }
 
     private fun initRecyclerView() {
-
+        nounAdapter.setContext(requireContext())
         recycler_nounhome.layoutManager = LinearLayoutManager(context)
         recycler_nounhome.adapter = nounAdapter
         registerForContextMenu(recycler_nounhome)
 
 
     }
+
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            NOUN_EDIT_ID -> {
+                Log.v(TAG, "onContextItemSelected: Edit ${nounAdapter.getNoun(item.order).english  }")
+            }
+           NOUN_DELETE_ID -> {
+                Log.v(TAG, "onContextItemSelected: Delete ${item.groupId}")
+                deleteNoun(nounAdapter.getNoun(item.order), item.order)
+
+            }
+        }
+        return super.onContextItemSelected(item)
+
+    }
+
+    private fun deleteNoun(noun : Noun, id: Int) {
+        nounViewModel.deleteNoun(noun)
+
+        nounViewModel.observeGetDeleteResult().removeObservers(this)
+        nounViewModel.observeGetDeleteResult().observe(this, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        Log.v("NounHomeFragment", "subscribeObservers Delete: Loading..")
+                    }
+                    Resource.Status.SUCCESS -> {
+                        Log.v("NounHomeFragment", "subscribeObservers Delete: ${id}")
+
+                        nounAdapter.notifyItemChanged(id)
+                        subscribeObservers()
+                        Log.v("NounHomeFragment", "subscribeObservers Delete: Success..")
+
+                    }
+                    Resource.Status.ERROR -> {
+                        Log.v("NounHomeFragment", "subscribeObservers Delete: Oops something went wrong. ${it.message}")
+                    }
+                }
+            }
+        })
+    }
+
 
     companion object {
         /**
@@ -122,60 +168,6 @@ class NounHomeFragment : DaggerFragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
-    }
-
-
-
-    override fun onCreateContextMenu(
-        menu: ContextMenu,
-        v: View,
-        menuInfo: ContextMenu.ContextMenuInfo?
-    ) {
-        super.onCreateContextMenu(menu, v, menuInfo)
-        if(v == recycler_nounhome) {
-            val inflater: MenuInflater =  requireActivity().menuInflater
-            inflater.inflate(R.menu.longclick_menu, menu)
-        }
-
-    }
-
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.edit -> {
-                Log.v(TAG, "onContextItemSelected: Edit ${nounAdapter.getNoun(item.groupId).english  }")
-            }
-            R.id.delete -> {
-                deleteNoun(nounAdapter.getNoun(item.groupId), item.groupId)
-
-
-                Log.v(TAG, "onContextItemSelected: Delete")
-            }
-        }
-        return super.onContextItemSelected(item)
-
-    }
-
-    private fun deleteNoun(noun : Noun, id: Int) {
-        nounViewModel.deleteNounById(noun)
-        nounAdapter.notifyItemChanged(id)
-        nounViewModel.getDeleteResult().removeObservers(this)
-        nounViewModel.getDeleteResult().observe(this, Observer {
-            if (it != null) {
-                when (it.status) {
-                    Resource.Status.LOADING -> {
-                        Log.v("NounHomeFragment", "subscribeObservers Delete: Loading..")
-                    }
-                    Resource.Status.SUCCESS -> {
-                        subscribeObservers()
-                        Log.v("NounHomeFragment", "subscribeObservers Delete: Success..")
-
-                    }
-                    Resource.Status.ERROR -> {
-                        Log.v("NounHomeFragment", "subscribeObservers Delete: Oops something went wrong. ${it.message}")
-                    }
-                }
-            }
-        })
     }
 
 

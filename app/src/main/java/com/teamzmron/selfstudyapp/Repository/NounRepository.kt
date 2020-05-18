@@ -10,24 +10,21 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 @MainScope
-class NounRepository(private val db: WordDatabase) {
+class NounRepository(private val db: WordDatabase)  : BaseRepository() {
     private val compositeDisposable = CompositeDisposable()
-    private var deleteResult : MediatorLiveData<Resource<Int>> = MediatorLiveData()
+    private var nounList: MediatorLiveData<Resource<List<Noun>>> = MediatorLiveData()
 
 
-    fun getDeleteResult() : LiveData<Resource<Int>> = deleteResult
+    fun getNounFromDB() : LiveData<Resource<List<Noun>>> {
 
-    fun getNounFromDB(): MediatorLiveData<Resource<List<Noun>>> {
-
-        var list = MediatorLiveData<Resource<List<Noun>>>()
         val source: LiveData<Resource<List<Noun>>> = LiveDataReactiveStreams.fromPublisher(
             db.nounDAO().getNoun()
                 .onErrorReturn {
                     var noun = Noun()
                     noun.id = -1
-                    var nounList = ArrayList<Noun>()
-                    nounList.add(noun)
-                    nounList
+                    var list = ArrayList<Noun>()
+                    list.add(noun)
+                    list
                 }
                 .map {
                     if (it.isNotEmpty()) {
@@ -40,11 +37,11 @@ class NounRepository(private val db: WordDatabase) {
                 .subscribeOn(Schedulers.io())
         )
 
-        list.addSource(source, Observer {
-            list.value = it
-            list.removeSource(source)
+        nounList.addSource(source, Observer {
+            nounList.value = it
+            nounList.removeSource(source)
         })
-        return list
+        return nounList
     }
 
     fun getNounByIdFromDB(id: Int): LiveData<Noun> {
@@ -62,9 +59,7 @@ class NounRepository(private val db: WordDatabase) {
         return list
     }
 
-    fun saveNounRepo(noun: Noun): MediatorLiveData<Resource<Long>> {
-        var result = MediatorLiveData<Resource<Long>>()
-
+    fun saveNounRepo(noun: Noun) {
         val source: LiveData<Resource<Long>> = LiveDataReactiveStreams.fromPublisher(
             db.nounDAO().insertNoun(noun)
                 .toFlowable()
@@ -82,11 +77,10 @@ class NounRepository(private val db: WordDatabase) {
                 .subscribeOn(Schedulers.io())
         )
 
-        result.addSource(source, Observer {
-            result.value = it
-            result.removeSource(source)
+        saveResult.addSource(source, Observer {
+            saveResult.value = it
+            saveResult.removeSource(source)
         })
-        return result
     }
 
     fun deleteNounRepo(noun: Noun)  {

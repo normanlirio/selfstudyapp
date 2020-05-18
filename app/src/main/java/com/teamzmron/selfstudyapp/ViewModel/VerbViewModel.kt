@@ -9,6 +9,10 @@ import javax.inject.Inject
 
 class VerbViewModel @Inject constructor(private val verbRepository: VerbRepository) : ViewModel() {
 
+    fun observeGetDeleteResult() : LiveData<Resource<Int>> = verbRepository.observeDeleteResult()
+
+    fun observeSaveResult() : LiveData<Resource<Long>> = verbRepository.observeSaveResult()
+
     fun getVerbsFromRepo(): LiveData<Resource<List<Verb>>> {
         return verbRepository.getVerbFromDB()
     }
@@ -17,8 +21,8 @@ class VerbViewModel @Inject constructor(private val verbRepository: VerbReposito
         return verbRepository.getVerbByIdFromDB(id)
     }
 
-    fun saveToDB(verb: Verb) : LiveData<Resource<Long>>{
-       return verbRepository.saveVerbRepo(verb)
+    fun saveToDB(verb: Verb) {
+        verbRepository.saveVerbRepo(verb)
     }
 
     fun updateVerb(verb: Verb) {
@@ -26,7 +30,7 @@ class VerbViewModel @Inject constructor(private val verbRepository: VerbReposito
     }
 
 
-    fun deleteVerbById(verb: Verb) {
+    fun deleteVerb(verb: Verb) {
         verbRepository.deleteVerbRepo(verb)
     }
 

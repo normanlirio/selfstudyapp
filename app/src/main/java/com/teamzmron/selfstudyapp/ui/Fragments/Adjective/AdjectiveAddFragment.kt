@@ -17,6 +17,7 @@ import com.teamzmron.selfstudyapp.Room.Entity.Adjective
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
+import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
 import com.teamzmron.selfstudyapp.ui.Resource
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_add_adjective.*
@@ -32,12 +33,10 @@ private const val ARG_PARAM2 = "param2"
  * Use the [AdjectiveAddFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AdjectiveAddFragment : DaggerFragment() {
+class AdjectiveAddFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
-    private lateinit var adjectiveViewModel: AdjectiveViewModel
 
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
@@ -61,7 +60,6 @@ class AdjectiveAddFragment : DaggerFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adjectiveViewModel = ViewModelProvider(this, providerFactory).get(AdjectiveViewModel::class.java)
 
         radio_i.isChecked = true
 
@@ -97,8 +95,8 @@ class AdjectiveAddFragment : DaggerFragment() {
     }
 
     private fun subscribeObservers(adjective: Adjective) {
-        adjectiveViewModel.saveToDB(adjective).removeObservers(viewLifecycleOwner)
-        adjectiveViewModel.saveToDB(adjective).observe(viewLifecycleOwner, Observer {
+        adjectiveViewModel.saveToDB(adjective)
+        adjectiveViewModel.observerSaveResult().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 when (it.status) {
                     Resource.Status.LOADING -> {

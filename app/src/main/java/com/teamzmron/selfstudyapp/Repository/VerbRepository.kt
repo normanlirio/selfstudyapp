@@ -17,19 +17,25 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class VerbRepository(private val db: WordDatabase) {
+class VerbRepository(private val db: WordDatabase) : BaseRepository() {
     private val compositeDisposable = CompositeDisposable()
+    private var verbList: MediatorLiveData<Resource<List<Verb>>> = MediatorLiveData()
+//    private var deleteResult : MediatorLiveData<Resource<Int>> = MediatorLiveData()
+//    private var saveResult: MediatorLiveData<Resource<Long>> = MediatorLiveData()
+//
+//    fun observeDeleteResult() : LiveData<Resource<Int>> = deleteResult
+//
+//    fun observeSaveResult() : LiveData<Resource<Long>> = saveResult
 
     fun getVerbFromDB(): MediatorLiveData<Resource<List<Verb>>> {
-        var list = MediatorLiveData<Resource<List<Verb>>>()
         val source: LiveData<Resource<List<Verb>>> = LiveDataReactiveStreams.fromPublisher(
             db.verbDao().getVerbs()
                 .onErrorReturn {
                     var verb = Verb()
                     verb.verbId = -1
-                    var verbList = ArrayList<Verb>()
-                    verbList.add(verb)
-                    verbList
+                    var list = ArrayList<Verb>()
+                    list.add(verb)
+                    list
                 }
                 .map {
                     if (it.isNotEmpty()) {
@@ -42,11 +48,11 @@ class VerbRepository(private val db: WordDatabase) {
                 .subscribeOn(Schedulers.io())
         )
 
-        list.addSource(source, Observer {
-            list.value = it
-            list.removeSource(source)
+        verbList.addSource(source, Observer {
+            verbList.value = it
+            verbList.removeSource(source)
         })
-        return list
+        return verbList
     }
 
     fun getVerbByIdFromDB(id: Int): MutableLiveData<Verb> {
@@ -64,8 +70,7 @@ class VerbRepository(private val db: WordDatabase) {
         return list
     }
 
-    fun saveVerbRepo(verb: Verb): MediatorLiveData<Resource<Long>> {
-        val result = MediatorLiveData<Resource<Long>>()
+    fun saveVerbRepo(verb: Verb) {
 
         val source: LiveData<Resource<Long>> = LiveDataReactiveStreams.fromPublisher(
             db.verbDao().insertVerb(verb)
@@ -84,24 +89,34 @@ class VerbRepository(private val db: WordDatabase) {
                 .subscribeOn(Schedulers.io())
         )
 
-        result.addSource(source, Observer {
-            result.value = it
-            result.removeSource(source)
+        saveResult.addSource(source, Observer {
+            saveResult.value = it
+            saveResult.removeSource(source)
         })
-        return result
+
     }
 
     fun deleteVerbRepo(verb: Verb) {
-        db.verbDao().deleteVerb(verb)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+        val source: LiveData<Resource<Int>> = LiveDataReactiveStreams.fromPublisher(
+            db.verbDao().deleteVerb(verb)
+                .toFlowable()
+                .onErrorReturn {
+                  -1
+                }
+                .map {
+                    if(it < 0) {
+                        Resource.error("Something went wrong", null)
+                    }
 
-            }, {
-                it.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
+                    Resource.success(it)
+                }
+                .subscribeOn(Schedulers.io())
+        )
+
+        deleteResult.addSource(source, Observer {
+            deleteResult.value = it
+            deleteResult.removeSource(source)
+        })
     }
 
 

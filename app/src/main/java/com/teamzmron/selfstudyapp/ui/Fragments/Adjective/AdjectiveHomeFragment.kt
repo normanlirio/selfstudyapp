@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
@@ -12,10 +13,15 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.AdjectiveAdapter
 import com.teamzmron.selfstudyapp.Helper.AdjectiveSwipeToDeleteHelper
+import com.teamzmron.selfstudyapp.Helper.Constants
+import com.teamzmron.selfstudyapp.Helper.Constants.Companion.ADJ_DELETE_ID
+import com.teamzmron.selfstudyapp.Helper.Constants.Companion.ADJ_EDIT_ID
 
 import com.teamzmron.selfstudyapp.R
+import com.teamzmron.selfstudyapp.Room.Entity.Adjective
 import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
+import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
 import com.teamzmron.selfstudyapp.ui.Resource
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_adjective_home.*
@@ -31,12 +37,11 @@ private const val ARG_PARAM2 = "param2"
  * Use the [AdjectiveHomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AdjectiveHomeFragment : DaggerFragment(), AdjectiveAdapter.OnAdjectiveClickListener {
+class AdjectiveHomeFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
-    private lateinit var adjectiveViewModel: AdjectiveViewModel
+    private val TAG = javaClass.simpleName
 
     @Inject
     lateinit var adapter: AdjectiveAdapter
@@ -63,10 +68,7 @@ class AdjectiveHomeFragment : DaggerFragment(), AdjectiveAdapter.OnAdjectiveClic
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        initViewModels()
         initRecyclerView()
-
         subscribeObservers()
     }
 
@@ -76,39 +78,66 @@ class AdjectiveHomeFragment : DaggerFragment(), AdjectiveAdapter.OnAdjectiveClic
             if (it != null) {
                 when (it.status) {
                     Resource.Status.LOADING -> {
-                        Log.v("VerbHomeFragment", "subscribeObservers: Loading..")
+                        Log.v(TAG, "subscribeObservers: Loading..")
                     }
                     Resource.Status.SUCCESS -> {
-                        Log.v("VerbHomeFragment", "subscribeObservers: Success..")
+                        Log.v(TAG, "subscribeObservers: Success..")
                         adapter.setAdjectives(it.data!!)
                     }
                     Resource.Status.ERROR -> {
-                        Log.v("VerbHomeFragment", "subscribeObservers: Oops something went wrong. ${it.message}")
+                        Log.v(TAG, "subscribeObservers: Oops something went wrong. ${it.message}")
                     }
                 }
             }
         })
     }
 
-    private fun initViewModels() {
-        adjectiveViewModel = ViewModelProvider(this, providerFactory).get(AdjectiveViewModel::class.java)
-    }
 
     private fun initRecyclerView() {
+
         recycler_adjhome.layoutManager = LinearLayoutManager(context)
         recycler_adjhome.adapter = adapter
-
-        var itemTouchHelper = ItemTouchHelper(
-            AdjectiveSwipeToDeleteHelper(
-                this,
-                adjectiveViewModel,
-                adapter, 0, ItemTouchHelper.RIGHT
-            )
-        )
-
-        itemTouchHelper.attachToRecyclerView(recycler_adjhome)
-        adapter.notifyDataSetChanged()
+        registerForContextMenu(recycler_adjhome)
     }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            ADJ_EDIT_ID -> {
+                Log.v(TAG, "onContextItemSelected: Edit ${adapter.getAdjective(item.order).english  }")
+            }
+           ADJ_DELETE_ID -> {
+                deleteAdjective(adapter.getAdjective(item.order), item.order)
+
+            }
+        }
+        return super.onContextItemSelected(item)
+
+    }
+
+    private fun deleteAdjective(adj : Adjective, id: Int) {
+        adjectiveViewModel.deleteAdjective(adj)
+
+        adjectiveViewModel.observeGetDeleteResult().removeObservers(this)
+        adjectiveViewModel.observeGetDeleteResult().observe(this, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        Log.v(TAG, "subscribeObservers Delete: Loading..")
+                    }
+                    Resource.Status.SUCCESS -> {
+                        adapter.notifyItemChanged(id)
+                        subscribeObservers()
+                        Log.v(TAG, "subscribeObservers Delete: Success..")
+
+                    }
+                    Resource.Status.ERROR -> {
+                        Log.v("NounHomeFragment", "subscribeObservers Delete: Oops something went wrong. ${it.message}")
+                    }
+                }
+            }
+        })
+    }
+
 
     companion object {
         /**
@@ -131,7 +160,4 @@ class AdjectiveHomeFragment : DaggerFragment(), AdjectiveAdapter.OnAdjectiveClic
             }
     }
 
-    override fun onAdjectiveClick(id: Int) {
-
-    }
 }

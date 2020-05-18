@@ -15,20 +15,20 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class AdjectiveRepository(private val db: WordDatabase) {
+class AdjectiveRepository(private val db: WordDatabase) : BaseRepository() {
     private val compositeDisposable = CompositeDisposable()
+    private var adjList: MediatorLiveData<Resource<List<Adjective>>> = MediatorLiveData()
 
 
-    fun getAdjectiveFromDB(): MediatorLiveData<Resource<List<Adjective>>> {
-        var list = MediatorLiveData<Resource<List<Adjective>>>()
+    fun getAdjectiveFromDB(): LiveData<Resource<List<Adjective>>> {
         val source: LiveData<Resource<List<Adjective>>> = LiveDataReactiveStreams.fromPublisher(
             db.adjDao().getAdjectives()
                 .onErrorReturn {
                     var adj = Adjective()
                     adj.adjId = -1
-                    var adjList = ArrayList<Adjective>()
-                    adjList.add(adj)
-                    adjList
+                    var list = ArrayList<Adjective>()
+                    list.add(adj)
+                    list
                 }
                 .map {
                     if (it.isNotEmpty()) {
@@ -41,11 +41,11 @@ class AdjectiveRepository(private val db: WordDatabase) {
                 .subscribeOn(Schedulers.io())
         )
 
-        list.addSource(source, Observer {
-            list.value = it
-            list.removeSource(source)
+        adjList.addSource(source, Observer {
+            adjList.value = it
+            adjList.removeSource(source)
         })
-        return list
+        return adjList
     }
 
     fun getAdjectiveByIdFromDB(id: Int): LiveData<Adjective> {
@@ -63,8 +63,7 @@ class AdjectiveRepository(private val db: WordDatabase) {
         return list
     }
 
-    fun saveAdjectiveRepo(adj: Adjective) : MediatorLiveData<Resource<Long>> {
-        var result = MediatorLiveData<Resource<Long>>()
+    fun saveAdjectiveRepo(adj: Adjective)  {
         val source: LiveData<Resource<Long>> = LiveDataReactiveStreams.fromPublisher(
             db.adjDao().insertAdjective(adj)
                 .toFlowable()
@@ -82,24 +81,34 @@ class AdjectiveRepository(private val db: WordDatabase) {
                 .subscribeOn(Schedulers.io())
         )
 
-        result.addSource(source, Observer {
-            result.value = it
-            result.removeSource(source)
+        saveResult.addSource(source, Observer {
+            saveResult.value = it
+            saveResult.removeSource(source)
         })
-        return result
+
     }
 
     fun deleteAdjectiveRepo(adj: Adjective) {
-        db.adjDao().deleteAdjective(adj)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+        val source: LiveData<Resource<Int>> = LiveDataReactiveStreams.fromPublisher(
+            db.adjDao().deleteAdjective(adj)
+                .toFlowable()
+                .onErrorReturn {
+                    -1
+                }
+                .map {
+                    if(it < 0) {
+                        Resource.error("Something went wrong", null)
+                    }
 
-            }, {
-                it.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
+                    Resource.success(it)
+                }
+                .subscribeOn(Schedulers.io())
+        )
+
+        deleteResult.addSource(source, Observer {
+            deleteResult.value = it
+            deleteResult.removeSource(source)
+        })
     }
 
 

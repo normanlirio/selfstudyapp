@@ -1,15 +1,11 @@
 package com.teamzmron.selfstudyapp.Helper
 
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.teamzmron.selfstudyapp.Adapters.AdjectiveAdapter
-import com.teamzmron.selfstudyapp.Adapters.NounAdapter
 import com.teamzmron.selfstudyapp.Room.Entity.Adjective
-import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
-import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 
 class AdjectiveSwipeToDeleteHelper(lifecycleOwner: LifecycleOwner, val adjectiveViewModel: AdjectiveViewModel, adapter: AdjectiveAdapter, dragDirs: Int, swipeDirs: Int)
      : ItemTouchHelper.SimpleCallback(
@@ -40,7 +36,7 @@ dragDirs, swipeDirs) {
         var pos = viewHolder.adapterPosition
         adjAdapter.notifyItemRemoved(pos)
 
-        adjectiveViewModel.deleteAdjectiveById(
+        adjectiveViewModel.deleteAdjective(
             Adjective(
                 adjId = adjList[pos].adjId,
                 adjType = adjList[pos].adjType,

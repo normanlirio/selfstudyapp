@@ -89,8 +89,9 @@ class NounAddFragment : BaseFragment() {
     }
 
     private fun subscribeObservers(noun : Noun) {
-        nounViewModel.saveToDB(noun).removeObservers(viewLifecycleOwner)
-        nounViewModel.saveToDB(noun).observe(viewLifecycleOwner, Observer {
+        nounViewModel.saveToDB(noun)
+        nounViewModel.observeSaveResult().removeObservers(viewLifecycleOwner)
+        nounViewModel.observeSaveResult().observe(viewLifecycleOwner, Observer {
 
                 when (it.status) {
                     Resource.Status.LOADING -> {

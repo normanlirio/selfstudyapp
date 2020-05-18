@@ -1,36 +1,36 @@
 package com.teamzmron.selfstudyapp.ViewModel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teamzmron.selfstudyapp.Repository.NounRepository
-import com.teamzmron.selfstudyapp.Room.Database.WordDatabase
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ui.Resource
 import javax.inject.Inject
 
 class NounViewModel @Inject constructor(private val nounRepository: NounRepository) : ViewModel() {
 
-    fun getDeleteResult() : LiveData<Resource<Int>> = nounRepository.getDeleteResult()
+    fun observeGetDeleteResult() : LiveData<Resource<Int>> = nounRepository.observeDeleteResult()
 
-    fun getWordsFromRepo(): LiveData<Resource<List<Noun>>> {
-        return nounRepository.getNounFromDB()
+    fun observeSaveResult() : LiveData<Resource<Long>> = nounRepository.observeSaveResult()
+
+    fun getNounsFromRepo()  : LiveData<Resource<List<Noun>>>{
+       return  nounRepository.getNounFromDB()
     }
 
-    fun getWordById(id: Int): LiveData<Noun> {
+    fun getNounById(id: Int): LiveData<Noun> {
         return nounRepository.getNounByIdFromDB(id)
     }
 
-    fun saveToDB(noun: Noun) : LiveData<Resource<Long>> {
-        return nounRepository.saveNounRepo(noun)
+    fun saveToDB(noun: Noun)  {
+       nounRepository.saveNounRepo(noun)
     }
 
-    fun updateWord(noun: Noun) {
+    fun updateNoun(noun: Noun) {
         nounRepository.updateNounRepo(noun)
     }
 
 
-    fun deleteNounById(noun: Noun)  {
+    fun deleteNoun(noun: Noun)  {
        nounRepository.deleteNounRepo(noun)
     }
 

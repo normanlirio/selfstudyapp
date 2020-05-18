@@ -11,6 +11,10 @@ import javax.inject.Inject
 
 class AdjectiveViewModel @Inject constructor(private val adjectiveRepository: AdjectiveRepository) : ViewModel() {
 
+    fun observerSaveResult() : LiveData<Resource<Long>> = adjectiveRepository.observeSaveResult()
+
+    fun observeGetDeleteResult() : LiveData<Resource<Int>> = adjectiveRepository.observeDeleteResult()
+
     fun getAdjectiveFromRepo(): LiveData<Resource<List<Adjective>>> {
         return adjectiveRepository.getAdjectiveFromDB()
     }
@@ -19,8 +23,8 @@ class AdjectiveViewModel @Inject constructor(private val adjectiveRepository: Ad
         return adjectiveRepository.getAdjectiveByIdFromDB(id)
     }
 
-    fun saveToDB(adj: Adjective) : LiveData<Resource<Long>> {
-      return  adjectiveRepository.saveAdjectiveRepo(adj)
+    fun saveToDB(adj: Adjective)  {
+      adjectiveRepository.saveAdjectiveRepo(adj)
     }
 
     fun updateAdjective(adj: Adjective) {
@@ -28,7 +32,7 @@ class AdjectiveViewModel @Inject constructor(private val adjectiveRepository: Ad
     }
 
 
-    fun deleteAdjectiveById(adj: Adjective) {
+    fun deleteAdjective(adj: Adjective) {
         adjectiveRepository.deleteAdjectiveRepo(adj)
     }
 

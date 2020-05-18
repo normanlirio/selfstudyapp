@@ -17,6 +17,7 @@ import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
+import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
 import com.teamzmron.selfstudyapp.ui.Resource
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_add_verb.*
@@ -33,12 +34,12 @@ private const val ARG_PARAM2 = "param2"
  * Use the [VerbAddFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class VerbAddFragment : DaggerFragment() {
+class VerbAddFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var verbViewModel: VerbViewModel
+
 
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
@@ -61,8 +62,6 @@ class VerbAddFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        verbViewModel = ViewModelProvider(this, providerFactory).get(VerbViewModel::class.java)
 
         radioButton_verb_u.isChecked = true
 
@@ -98,8 +97,9 @@ class VerbAddFragment : DaggerFragment() {
     }
 
     private fun subscribeObservers(verb : Verb) {
-        verbViewModel.saveToDB(verb).removeObservers(viewLifecycleOwner)
-        verbViewModel.saveToDB(verb).observe(viewLifecycleOwner, Observer {
+        verbViewModel.saveToDB(verb)
+        verbViewModel.observeSaveResult().removeObservers(viewLifecycleOwner)
+        verbViewModel.observeSaveResult().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 when (it.status) {
                     Resource.Status.LOADING -> {

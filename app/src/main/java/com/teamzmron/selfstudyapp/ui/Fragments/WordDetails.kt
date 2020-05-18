@@ -54,7 +54,7 @@ class WordDetails : Fragment() {
     private fun buttonActions(wordID: Int) {
         button_editVocabulary_save.setOnClickListener {
             goHome()
-            nounViewModel.updateWord(
+            nounViewModel.updateNoun(
                 Noun(
                     id = wordID,
                     japanese = editText_editVocabulary_addword.text.toString(),
@@ -73,7 +73,7 @@ class WordDetails : Fragment() {
     }
 
     private fun fillFormWithDetails(wordID: Int) {
-        nounViewModel.getWordById(wordID).observe(viewLifecycleOwner, Observer {
+        nounViewModel.getNounById(wordID).observe(viewLifecycleOwner, Observer {
             editText_editVocabulary_addword.setText(it.japanese)
             editText_editVocabulary_addEnglish.setText(it.english)
             editText_editVocabulary_hiragana.setText(it.hiragana)

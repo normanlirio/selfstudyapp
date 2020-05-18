@@ -3,21 +3,20 @@ package com.teamzmron.selfstudyapp.ui.Fragments.verb
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.VerbAdapter
-import com.teamzmron.selfstudyapp.Helper.VerbSwipeToDeleteHelper
+import com.teamzmron.selfstudyapp.Helper.Constants.Companion.VERB_DELETE_ID
+import com.teamzmron.selfstudyapp.Helper.Constants.Companion.VERB_EDIT_ID
 import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
+import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
 import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
 import com.teamzmron.selfstudyapp.ui.Resource
-import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_verb_home.*
 import javax.inject.Inject
 
@@ -32,10 +31,11 @@ private const val ARG_PARAM2 = "param2"
  * Use the [VerbHomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class VerbHomeFragment : BaseFragment(), VerbAdapter.OnVerbClickListener {
+class VerbHomeFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private val TAG = javaClass.simpleName
 
 
     @Inject
@@ -91,23 +91,53 @@ class VerbHomeFragment : BaseFragment(), VerbAdapter.OnVerbClickListener {
 
 
     private fun initRecyclerView() {
+        registerForContextMenu(recycler_verbhome)
         recycler_verbhome.layoutManager = LinearLayoutManager(context)
-
         recycler_verbhome.adapter = verbAdapter
 
-        var itemTouchHelper = ItemTouchHelper(
-            VerbSwipeToDeleteHelper(
-                this,
-                verbViewModel,
-                verbAdapter, 0, ItemTouchHelper.RIGHT
-            )
-        )
-
-        itemTouchHelper.attachToRecyclerView(recycler_verbhome)
-        verbAdapter.notifyDataSetChanged()
 
     }
 
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            VERB_EDIT_ID -> {
+                Log.v(TAG, "onContextItemSelected: Edit ${verbAdapter.getVerb(item.order).english  }")
+            }
+            VERB_DELETE_ID -> {
+                Log.v(TAG, "onContextItemSelected: Delete ${item.groupId}")
+                deleteNoun(verbAdapter.getVerb(item.order), item.order)
+
+            }
+        }
+        return super.onContextItemSelected(item)
+
+    }
+
+    private fun deleteNoun(verb : Verb, id: Int) {
+        verbViewModel.deleteVerb(verb)
+
+        verbViewModel.observeGetDeleteResult().removeObservers(this)
+        verbViewModel.observeGetDeleteResult().observe(this, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        Log.v(TAG, "subscribeObservers Delete: Loading..")
+                    }
+                    Resource.Status.SUCCESS -> {
+                        Log.v(TAG, "subscribeObservers Delete: ${id}")
+
+                        verbAdapter.notifyItemChanged(id)
+                        subscribeObservers()
+                        Log.v(TAG, "subscribeObservers Delete: Success..")
+
+                    }
+                    Resource.Status.ERROR -> {
+                        Log.v(TAG, "subscribeObservers Delete: Oops something went wrong. ${it.message}")
+                    }
+                }
+            }
+        })
+    }
 
     companion object {
         /**
@@ -129,7 +159,4 @@ class VerbHomeFragment : BaseFragment(), VerbAdapter.OnVerbClickListener {
             }
     }
 
-    override fun onVerbClick(id: Int) {
-
-    }
 }

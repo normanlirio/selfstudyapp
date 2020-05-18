@@ -37,6 +37,7 @@ open class BaseFragment : DaggerFragment() {
         super.onViewCreated(view, savedInstanceState)
         nounViewModel = ViewModelProvider(this, viewModelProviderFactory).get(NounViewModel::class.java)
         verbViewModel = ViewModelProvider(this, viewModelProviderFactory).get(VerbViewModel::class.java)
+        adjectiveViewModel = ViewModelProvider(this, viewModelProviderFactory).get(AdjectiveViewModel::class.java)
 
     }
 }

@@ -1,6 +1,7 @@
 package com.teamzmron.selfstudyapp.Adapters
 
 import android.content.Context
+import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,9 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import com.teamzmron.selfstudyapp.Helper.Constants
+import com.teamzmron.selfstudyapp.Helper.Constants.Companion.VERB_DELETE_ID
+import com.teamzmron.selfstudyapp.Helper.Constants.Companion.VERB_EDIT_ID
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
@@ -15,17 +19,7 @@ import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
 class VerbAdapter : RecyclerView.Adapter<VerbAdapter.VerbViewHolder>() {
 
     private var context: Context? = null
-    private var isAscendingAlpha = true
-    private var isAscendingTime = true
-
     private var verbList: ArrayList<Verb> = ArrayList()
-    private var clickListener: OnVerbClickListener? = null
-
-    interface OnVerbClickListener {
-        fun onVerbClick(id: Int)
-
-    }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerbViewHolder {
         return VerbViewHolder(
@@ -50,12 +44,13 @@ class VerbAdapter : RecyclerView.Adapter<VerbAdapter.VerbViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun setOnVerbClickListener(onVerbClickListener: OnVerbClickListener) {
-        this.clickListener = onVerbClickListener
+    fun getVerb(position: Int) : Verb {
+        return verbList[position]
     }
 
+
     inner class VerbViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
+        View.OnCreateContextMenuListener {
         var tvEnglish: TextView? = null
         var cvParent: CardView? = null
         var tvJapanese: TextView? = null
@@ -66,11 +61,19 @@ class VerbAdapter : RecyclerView.Adapter<VerbAdapter.VerbViewHolder>() {
             tvJapanese = itemView.findViewById(R.id.wordlist_japanese)
             cvParent = itemView.findViewById(R.id.cardView_wordlist_parent)
             tvType = itemView.findViewById(R.id.wordlist_verbtype)
-            itemView.setOnClickListener(this)
+            itemView.setOnCreateContextMenuListener(this)
         }
 
-        override fun onClick(p0: View?) {
-            clickListener!!.onVerbClick(verbList[adapterPosition].verbId!!)
+        override fun onCreateContextMenu(
+            menu: ContextMenu?,
+            p1: View?,
+            p2: ContextMenu.ContextMenuInfo?
+        ) {
+
+            menu!!.add(0, VERB_EDIT_ID, adapterPosition, "Edit")
+            menu.add(0, VERB_DELETE_ID, adapterPosition, "Delete")
+
+
         }
 
     }

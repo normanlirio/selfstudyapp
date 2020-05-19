@@ -13,5 +13,6 @@
     <string name="add_verb">Add Verb</string>
     <string name="add_adjective">Add Adjective</string>
     <string name="add_adj">Add Adjective</string>
+    <string name="edit_noun">Edit Noun</string>
 
 </resources>

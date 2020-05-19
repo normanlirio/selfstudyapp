@@ -5,6 +5,7 @@ import com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveHomeFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.Home
 import com.teamzmron.selfstudyapp.ui.Fragments.noun.NounAddFragment
+import com.teamzmron.selfstudyapp.ui.Fragments.noun.NounEditFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.noun.NounHomeFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbAddFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbHomeFragment
@@ -38,4 +39,7 @@ abstract class MainFragmentsModule {
 
     @ContributesAndroidInjector
     abstract fun contributeBaseFragment() : BaseFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeNounEditFragment() : NounEditFragment
 }

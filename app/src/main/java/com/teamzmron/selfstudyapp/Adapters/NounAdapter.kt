@@ -3,16 +3,13 @@ package com.teamzmron.selfstudyapp.Adapters
 import android.content.Context
 import android.util.Log
 import android.view.*
-import android.widget.AdapterView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.teamzmron.selfstudyapp.Helper.Constants
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.NOUN_DELETE_ID
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.NOUN_EDIT_ID
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
-import com.teamzmron.selfstudyapp.ui.activities.HomeActivity
 
 class NounAdapter : RecyclerView.Adapter<NounAdapter.WordsViewHolder>() {
 
@@ -22,7 +19,7 @@ class NounAdapter : RecyclerView.Adapter<NounAdapter.WordsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordsViewHolder {
         return WordsViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.wordslist, parent, false)
+                .inflate(R.layout.layout_noun_items, parent, false)
         )
     }
 

@@ -1,10 +1,7 @@
 package com.teamzmron.selfstudyapp.di.main
 
 import androidx.lifecycle.ViewModel
-import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
-import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
-import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
-import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
+import com.teamzmron.selfstudyapp.ViewModel.*
 import com.teamzmron.selfstudyapp.di.ViewModelKey
 import dagger.Binds
 import dagger.Module
@@ -32,4 +29,9 @@ abstract class MainViewModelsModule {
     @IntoMap
     @ViewModelKey(WordViewModel::class)
     abstract fun bindWordViewModel(viewModel : WordViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SharedViewModel::class)
+    abstract fun bindSharedViewModel(viewModel : SharedViewModel) : ViewModel
 }

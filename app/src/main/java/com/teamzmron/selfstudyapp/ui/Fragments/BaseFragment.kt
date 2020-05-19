@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
-import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
-import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
-import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
+import com.teamzmron.selfstudyapp.ViewModel.*
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -17,6 +15,8 @@ open class BaseFragment : DaggerFragment() {
      lateinit var nounViewModel: NounViewModel
      lateinit var adjectiveViewModel: AdjectiveViewModel
      lateinit var verbViewModel: VerbViewModel
+    val sharedViewModel: SharedViewModel by activityViewModels()
+
 
     @Inject
     lateinit var viewModelProviderFactory: ViewModelProviderFactory
@@ -38,6 +38,7 @@ open class BaseFragment : DaggerFragment() {
         nounViewModel = ViewModelProvider(this, viewModelProviderFactory).get(NounViewModel::class.java)
         verbViewModel = ViewModelProvider(this, viewModelProviderFactory).get(VerbViewModel::class.java)
         adjectiveViewModel = ViewModelProvider(this, viewModelProviderFactory).get(AdjectiveViewModel::class.java)
+
 
     }
 }

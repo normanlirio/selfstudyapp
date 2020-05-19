@@ -16,4 +16,5 @@ abstract class ActivityBuildersModule {
         modules = [MainFragmentsModule::class, MainViewModelsModule::class, MainModule::class]
     )
     abstract fun contributeHomeActivity() : HomeActivity
+
 }

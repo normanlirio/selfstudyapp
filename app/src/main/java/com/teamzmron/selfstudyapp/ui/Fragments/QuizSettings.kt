@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.ViewModel.QuizSettingsViewModel
 
 class QuizSettings : Fragment() {
 
@@ -16,7 +15,7 @@ class QuizSettings : Fragment() {
         fun newInstance() = QuizSettings()
     }
 
-    private lateinit var viewModel: QuizSettingsViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +26,7 @@ class QuizSettings : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(QuizSettingsViewModel::class.java)
+
         // TODO: Use the ViewModel
     }
 

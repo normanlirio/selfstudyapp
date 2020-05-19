@@ -8,19 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.NounAdapter
-import com.teamzmron.selfstudyapp.Helper.Constants
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.NOUN_DELETE_ID
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.NOUN_EDIT_ID
+import com.teamzmron.selfstudyapp.Helper.Utils
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
-import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
 import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
 import com.teamzmron.selfstudyapp.ui.Resource
-import dagger.android.support.DaggerFragment
+import com.teamzmron.selfstudyapp.ui.activities.HomeActivity
 import kotlinx.android.synthetic.main.fragment_noun_home.*
 import javax.inject.Inject
 
@@ -42,12 +40,14 @@ class NounHomeFragment : BaseFragment() {
 
     private val TAG = javaClass.simpleName
 
-
     @Inject
     lateinit var nounAdapter: NounAdapter
 
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
+
+    @Inject
+    lateinit var homeActivity: HomeActivity
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +73,8 @@ class NounHomeFragment : BaseFragment() {
         subscribeObservers()
         initRecyclerView()
 
+        homeActivity.unlockDrawer()
+
 
     }
 
@@ -90,7 +92,8 @@ class NounHomeFragment : BaseFragment() {
                         nounAdapter.setNouns(it.data!!)
                     }
                     Resource.Status.ERROR -> {
-                        Log.v("NounHomeFragment", "subscribeObservers: Oops something went wrong. ${it.message}")
+                        Log.v("NounHomeFragment","subscribeObservers: Oops something went wrong. ${it.message}"
+                        )
                     }
                 }
             }
@@ -104,18 +107,20 @@ class NounHomeFragment : BaseFragment() {
         recycler_nounhome.adapter = nounAdapter
         registerForContextMenu(recycler_nounhome)
 
-
     }
 
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        val noun = nounAdapter.getNoun(item.order)
+        sharedViewModel.setMutableNoun(noun)
+        when (item.itemId) {
             NOUN_EDIT_ID -> {
-                Log.v(TAG, "onContextItemSelected: Edit ${nounAdapter.getNoun(item.order).english  }")
+                Utils.navigateToOtherFragment(requireActivity(), R.id.nounEdit)
+                Log.v(TAG, "onContextItemSelected: Edit ${noun.english}")
             }
-           NOUN_DELETE_ID -> {
+            NOUN_DELETE_ID -> {
                 Log.v(TAG, "onContextItemSelected: Delete ${item.groupId}")
-                deleteNoun(nounAdapter.getNoun(item.order), item.order)
+                deleteNoun(noun, item.order)
 
             }
         }
@@ -123,7 +128,7 @@ class NounHomeFragment : BaseFragment() {
 
     }
 
-    private fun deleteNoun(noun : Noun, id: Int) {
+    private fun deleteNoun(noun: Noun, id: Int) {
         nounViewModel.deleteNoun(noun)
 
         nounViewModel.observeGetDeleteResult().removeObservers(this)
@@ -131,18 +136,20 @@ class NounHomeFragment : BaseFragment() {
             if (it != null) {
                 when (it.status) {
                     Resource.Status.LOADING -> {
-                        Log.v("NounHomeFragment", "subscribeObservers Delete: Loading..")
+                        Log.v(TAG, "subscribeObservers Delete: Loading..")
                     }
                     Resource.Status.SUCCESS -> {
-                        Log.v("NounHomeFragment", "subscribeObservers Delete: ${id}")
+                        Log.v(TAG, "subscribeObservers Delete: ${id}")
 
                         nounAdapter.notifyItemChanged(id)
                         subscribeObservers()
-                        Log.v("NounHomeFragment", "subscribeObservers Delete: Success..")
+                        Log.v(TAG, "subscribeObservers Delete: Success..")
 
                     }
                     Resource.Status.ERROR -> {
-                        Log.v("NounHomeFragment", "subscribeObservers Delete: Oops something went wrong. ${it.message}")
+                        Log.v(
+                            TAG,"subscribeObservers Delete: Oops something went wrong. ${it.message}"
+                        )
                     }
                 }
             }
@@ -169,8 +176,6 @@ class NounHomeFragment : BaseFragment() {
                 }
             }
     }
-
-
 
 
 }

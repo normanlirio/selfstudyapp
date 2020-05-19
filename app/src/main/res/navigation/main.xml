@@ -42,5 +42,10 @@
         android:name="com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveAddFragment"
         android:label="@string/add_adj"
         tools:layout="@layout/fragment_add_adjective" />
+    <fragment
+        android:id="@+id/nounEdit"
+        android:name="com.teamzmron.selfstudyapp.ui.Fragments.noun.NounEditFragment"
+        android:label="@string/edit_noun"
+        tools:layout="@layout/fragment_add_adjective" />
 
 </navigation>

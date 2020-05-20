@@ -1,10 +1,12 @@
 package com.teamzmron.selfstudyapp.ui.Fragments.noun
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -12,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.teamzmron.selfstudyapp.Adapters.NounAdapter
 import com.teamzmron.selfstudyapp.Helper.Utils
+import com.teamzmron.selfstudyapp.Helper.Utils.Companion.hideKeyboard
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.NounViewModel
@@ -68,10 +71,12 @@ class NounAddFragment : BaseFragment() {
             } else {
                 Toast.makeText(requireContext(), "All fields are required!", Toast.LENGTH_SHORT).show()
             }
+            it.hideKeyboard()
         }
 
         button_noun_clear.setOnClickListener {
             clearTextFields()
+            it.hideKeyboard()
         }
     }
 
@@ -92,7 +97,6 @@ class NounAddFragment : BaseFragment() {
         nounViewModel.saveToDB(noun)
         nounViewModel.observeSaveResult().removeObservers(viewLifecycleOwner)
         nounViewModel.observeSaveResult().observe(viewLifecycleOwner, Observer {
-
                 when (it.status) {
                     Resource.Status.LOADING -> {
                         Log.v("NounAddFragment", "subscribeObservers: Loading..")
@@ -143,6 +147,9 @@ class NounAddFragment : BaseFragment() {
         super.onDestroyView()
         clearTextFields()
     }
+
+
+
     companion object {
         /**
          * Use this factory method to create a new instance of

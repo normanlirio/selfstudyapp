@@ -9,6 +9,7 @@ import android.widget.RadioButton
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.teamzmron.selfstudyapp.Helper.Utils
+import com.teamzmron.selfstudyapp.Helper.Utils.Companion.hideKeyboard
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
@@ -81,10 +82,12 @@ class VerbEditFragment  : BaseFragment() {
     private fun buttonActions() {
         button_verb_edit_save.setOnClickListener {
           updateVerb()
+            it.hideKeyboard()
         }
 
         button_verb_edit_cancel.setOnClickListener {
             Utils.navigateToOtherFragment(requireActivity(), R.id.homeFragment)
+            it.hideKeyboard()
         }
     }
 

@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.teamzmron.selfstudyapp.Helper.Utils
+import com.teamzmron.selfstudyapp.Helper.Utils.Companion.hideKeyboard
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.ViewModel.SharedViewModel
@@ -76,11 +77,13 @@ class NounEditFragment : BaseFragment() {
 
         button_noun_edit_save.setOnClickListener {
             updateNoun()
+            it.hideKeyboard()
         }
 
 
         button_noun_edit_cancel.setOnClickListener {
             Utils.navigateToOtherFragment(requireActivity(), R.id.homeFragment)
+            it.hideKeyboard()
         }
     }
 

@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.teamzmron.selfstudyapp.Helper.Utils
+import com.teamzmron.selfstudyapp.Helper.Utils.Companion.hideKeyboard
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
@@ -71,11 +72,13 @@ class VerbAddFragment : BaseFragment() {
             } else {
                 Toast.makeText(requireContext(), "All fields are required!", Toast.LENGTH_SHORT).show()
             }
+            it.hideKeyboard()
 
         }
 
         button_verb_clear.setOnClickListener {
             clearTextFields()
+            it.hideKeyboard()
         }
     }
 

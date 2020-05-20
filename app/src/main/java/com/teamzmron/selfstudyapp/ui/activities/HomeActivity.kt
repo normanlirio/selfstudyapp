@@ -11,6 +11,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
 import com.teamzmron.selfstudyapp.Helper.Utils
+import com.teamzmron.selfstudyapp.Helper.Utils.Companion.hideKeyboard
 import com.teamzmron.selfstudyapp.R
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,7 +30,7 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     private fun init() {
-        var navController: NavController =
+        val navController: NavController =
             Navigation.findNavController(this,
                 R.id.nav_host_fragment
             )
@@ -51,6 +52,7 @@ class HomeActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         return when (item.itemId) {
 
             android.R.id.home -> {
+                drawer.hideKeyboard()
                 if(drawer.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true

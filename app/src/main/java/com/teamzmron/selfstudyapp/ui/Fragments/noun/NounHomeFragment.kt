@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.NounAdapter
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.NOUN_DELETE_ID
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.NOUN_EDIT_ID
+import com.teamzmron.selfstudyapp.Helper.Constants.Companion.NOUN_VIEW_ID
 import com.teamzmron.selfstudyapp.Helper.Utils
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
@@ -114,6 +115,9 @@ class NounHomeFragment : BaseFragment() {
         val noun = nounAdapter.getNoun(item.order)
         sharedViewModel.setMutableNoun(noun)
         when (item.itemId) {
+            NOUN_VIEW_ID -> {
+                Utils.navigateToOtherFragment(requireActivity(), R.id.nounView)
+            }
             NOUN_EDIT_ID -> {
                 Utils.navigateToOtherFragment(requireActivity(), R.id.nounEdit)
                 Log.v(TAG, "onContextItemSelected: Edit ${noun.english}")

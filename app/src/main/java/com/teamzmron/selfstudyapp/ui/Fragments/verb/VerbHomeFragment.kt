@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.VerbAdapter
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.VERB_DELETE_ID
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.VERB_EDIT_ID
+import com.teamzmron.selfstudyapp.Helper.Constants.Companion.VERB_VIEW_ID
 import com.teamzmron.selfstudyapp.Helper.Utils
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
@@ -103,6 +104,9 @@ class VerbHomeFragment : BaseFragment() {
         val verb = verbAdapter.getVerb(item.order)
         sharedViewModel.setMutableVerb(verb)
         when(item.itemId) {
+            VERB_VIEW_ID -> {
+                Utils.navigateToOtherFragment(requireActivity(), R.id.verbView)
+            }
             VERB_EDIT_ID -> {
                 Utils.navigateToOtherFragment(requireActivity(), R.id.verbEdit)
             }

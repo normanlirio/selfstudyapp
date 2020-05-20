@@ -29,5 +29,8 @@
     <string name="past">Past</string>
     <string name="past_negative">Past Negative</string>
     <string name="adjective_type">Adjective Type</string>
+    <string name="view_noun">View Noun</string>
+    <string name="view_adjective">View Adjective</string>
+    <string name="view_verb">View Verb</string>
 
 </resources>

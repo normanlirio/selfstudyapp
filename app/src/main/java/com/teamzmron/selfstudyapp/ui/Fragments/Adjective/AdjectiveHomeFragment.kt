@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.AdjectiveAdapter
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.ADJ_DELETE_ID
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.ADJ_EDIT_ID
+import com.teamzmron.selfstudyapp.Helper.Constants.Companion.ADJ_VIEW_ID
 import com.teamzmron.selfstudyapp.Helper.Utils
 
 import com.teamzmron.selfstudyapp.R
@@ -99,6 +100,9 @@ class AdjectiveHomeFragment : BaseFragment() {
         val adj = adapter.getAdjective(item.order)
         sharedViewModel.setMutableAdjective(adj)
         when(item.itemId) {
+            ADJ_VIEW_ID -> {
+                Utils.navigateToOtherFragment(requireActivity(), R.id.adjView)
+            }
             ADJ_EDIT_ID -> {
                 Log.v(TAG, "onContextItemSelected: Edit ${adapter.getAdjective(item.order).english  }")
                 Utils.navigateToOtherFragment(requireActivity(), R.id.adjEdit)

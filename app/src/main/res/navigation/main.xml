@@ -61,4 +61,22 @@
         tools:layout="@layout/fragment_edit_verb" />
 
 
+    <fragment
+        android:id="@+id/nounView"
+        android:name="com.teamzmron.selfstudyapp.ui.Fragments.noun.NounViewFragment"
+        android:label="@string/view_noun"
+        tools:layout="@layout/fragment_view_noun" />
+
+    <fragment
+        android:id="@+id/adjView"
+        android:name="com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveViewFragment"
+        android:label="@string/view_adjective"
+        tools:layout="@layout/fragment_view_adjective" />
+
+    <fragment
+        android:id="@+id/verbView"
+        android:name="com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbViewFragment"
+        android:label="@string/view_verb"
+        tools:layout="@layout/fragment_view_verb" />
+
 </navigation>

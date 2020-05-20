@@ -13,19 +13,19 @@
         android:id="@+id/nounList"
         android:name="com.teamzmron.selfstudyapp.ui.Fragments.noun.NounHomeFragment"
         android:label="@string/nounHomeList"
-        tools:layout="@layout/fragment_noun_home" />
+        tools:layout="@layout/fragment_home_noun" />
 
     <fragment
         android:id="@+id/verbList"
         android:name="com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbHomeFragment"
         android:label="@string/verbHomeList"
-        tools:layout="@layout/fragment_verb_home" />
+        tools:layout="@layout/fragment_home_verb" />
 
     <fragment
         android:id="@+id/adjList"
         android:name="com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveHomeFragment"
         android:label="@string/adjHomeList"
-        tools:layout="@layout/fragment_adjective_home" />
+        tools:layout="@layout/fragment_home_adjective" />
 
     <fragment
         android:id="@+id/nounAdd"

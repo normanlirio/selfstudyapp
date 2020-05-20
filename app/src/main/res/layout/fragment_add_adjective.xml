@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Negative"
+                    android:text="@string/negative"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -133,7 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Past"
+                    android:text="@string/past"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -150,7 +150,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Past Negative"
+                    android:text="@string/past_negative"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.teamzmron.selfstudyapp.Helper.Constants
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.VERB_DELETE_ID
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.VERB_EDIT_ID
+import com.teamzmron.selfstudyapp.Helper.Constants.Companion.VERB_VIEW_ID
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.ViewModel.VerbViewModel
@@ -70,7 +71,8 @@ class VerbAdapter : RecyclerView.Adapter<VerbAdapter.VerbViewHolder>() {
             p2: ContextMenu.ContextMenuInfo?
         ) {
 
-            menu!!.add(0, VERB_EDIT_ID, adapterPosition, "Edit")
+            menu!!.add(0, VERB_VIEW_ID, adapterPosition, "View")
+            menu.add(0, VERB_EDIT_ID, adapterPosition, "Edit")
             menu.add(0, VERB_DELETE_ID, adapterPosition, "Delete")
 
 

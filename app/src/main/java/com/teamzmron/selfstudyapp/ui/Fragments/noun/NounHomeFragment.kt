@@ -19,7 +19,7 @@ import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
 import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
 import com.teamzmron.selfstudyapp.ui.Resource
 import com.teamzmron.selfstudyapp.ui.activities.HomeActivity
-import kotlinx.android.synthetic.main.fragment_noun_home.*
+import kotlinx.android.synthetic.main.fragment_home_noun.*
 import javax.inject.Inject
 
 
@@ -64,7 +64,7 @@ class NounHomeFragment : BaseFragment() {
     ): View? {
         Log.v("NounHomeFragment", "onCreateView: set OnCreateView!")
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_noun_home, container, false)
+        return inflater.inflate(R.layout.fragment_home_noun, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

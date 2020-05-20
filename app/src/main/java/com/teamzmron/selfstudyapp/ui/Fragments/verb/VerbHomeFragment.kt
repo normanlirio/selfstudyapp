@@ -18,7 +18,7 @@ import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
 import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
 import com.teamzmron.selfstudyapp.ui.Resource
-import kotlinx.android.synthetic.main.fragment_verb_home.*
+import kotlinx.android.synthetic.main.fragment_home_verb.*
 import javax.inject.Inject
 
 
@@ -58,7 +58,7 @@ class VerbHomeFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_verb_home, container, false)
+        return inflater.inflate(R.layout.fragment_home_verb, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

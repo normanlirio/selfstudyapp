@@ -8,16 +8,14 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.teamzmron.selfstudyapp.Adapters.NounAdapter
 import com.teamzmron.selfstudyapp.Adapters.ViewPagerAdapter
+import com.teamzmron.selfstudyapp.R
+import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
+import com.teamzmron.selfstudyapp.ViewModel.WordViewModel
 import com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveHomeFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.noun.NounHomeFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbHomeFragment
-import com.teamzmron.selfstudyapp.R
-import com.teamzmron.selfstudyapp.ViewModel.*
 import com.teamzmron.selfstudyapp.ui.activities.HomeActivity
-import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_add_word.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
@@ -50,7 +48,8 @@ open class Home : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
+        //To be implemented in the future
+      //  setHasOptionsMenu(true)
         setUpViewpager()
         initViewModels()
 

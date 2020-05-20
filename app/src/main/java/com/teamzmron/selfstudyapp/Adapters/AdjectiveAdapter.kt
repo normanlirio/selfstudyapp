@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.ADJ_DELETE_ID
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.ADJ_EDIT_ID
+import com.teamzmron.selfstudyapp.Helper.Constants.Companion.ADJ_VIEW_ID
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Adjective
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
@@ -65,7 +66,8 @@ class AdjectiveAdapter : RecyclerView.Adapter<AdjectiveAdapter.AdjectiveViewHold
             p2: ContextMenu.ContextMenuInfo?
         ) {
 
-            menu!!.add(0, ADJ_EDIT_ID, adapterPosition, "Edit")
+            menu!!.add(0, ADJ_VIEW_ID, adapterPosition, "View")
+            menu.add(0, ADJ_EDIT_ID, adapterPosition, "Edit")
             menu.add(0, ADJ_DELETE_ID, adapterPosition, "Delete")
 
 

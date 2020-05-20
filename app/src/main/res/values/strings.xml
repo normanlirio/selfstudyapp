@@ -16,5 +16,18 @@
     <string name="edit_noun">Edit Noun</string>
     <string name="edit_adjective">Edit Adjective</string>
     <string name="edit_verb">Edit Verb</string>
+    <string name="japanese_word">Japanese Word</string>
+    <string name="english_word">English Word</string>
+    <string name="hiragana_katakana">Hiragana/Katakana</string>
+    <string name="kanji">Kanji</string>
+    <string name="masu_form">MASU-Form</string>
+    <string name="masu_form_past">MASU-Form Past</string>
+    <string name="masu_form_negative">MASU-Form Negative</string>
+    <string name="masu_form_past_negative">MASU-Form Past Negative</string>
+    <string name="verb_type">Verb Type</string>
+    <string name="negative">Negative</string>
+    <string name="past">Past</string>
+    <string name="past_negative">Past Negative</string>
+    <string name="adjective_type">Adjective Type</string>
 
 </resources>

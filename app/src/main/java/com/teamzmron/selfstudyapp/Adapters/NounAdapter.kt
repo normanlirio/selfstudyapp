@@ -8,6 +8,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.NOUN_DELETE_ID
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.NOUN_EDIT_ID
+import com.teamzmron.selfstudyapp.Helper.Constants.Companion.NOUN_VIEW_ID
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 
@@ -69,8 +70,8 @@ class NounAdapter : RecyclerView.Adapter<NounAdapter.WordsViewHolder>() {
             p1: View?,
             p2: ContextMenu.ContextMenuInfo?
         ) {
-
-            menu!!.add(0, NOUN_EDIT_ID, adapterPosition, "Edit")
+            menu!!.add(0, NOUN_VIEW_ID, adapterPosition, "View")
+            menu.add(0, NOUN_EDIT_ID, adapterPosition, "Edit")
             menu.add(0, NOUN_DELETE_ID, adapterPosition, "Delete")
 
 

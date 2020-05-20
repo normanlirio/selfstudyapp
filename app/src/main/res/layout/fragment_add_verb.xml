@@ -45,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Japanese Word:"
+                    android:text="@string/japanese_word"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -62,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="English Word:"
+                    android:text="@string/english_word"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -80,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Hiragana/Katakana"
+                    android:text="@string/hiragana_katakana"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -97,7 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Kanji"
+                    android:text="@string/kanji"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -114,7 +114,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="MASU-Form"
+                    android:text="@string/masu_form"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -131,7 +131,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="MASU-Form Past"
+                    android:text="@string/masu_form_past"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -148,7 +148,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="MASU-Form Negative"
+                    android:text="@string/masu_form_negative"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -165,7 +165,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="MASU-Form Past Negative"
+                    android:text="@string/masu_form_past_negative"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 

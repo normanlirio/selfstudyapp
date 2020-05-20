@@ -8,24 +8,18 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.AdjectiveAdapter
-import com.teamzmron.selfstudyapp.Helper.AdjectiveSwipeToDeleteHelper
-import com.teamzmron.selfstudyapp.Helper.Constants
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.ADJ_DELETE_ID
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.ADJ_EDIT_ID
 import com.teamzmron.selfstudyapp.Helper.Utils
 
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Adjective
-import com.teamzmron.selfstudyapp.ViewModel.AdjectiveViewModel
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
 import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
 import com.teamzmron.selfstudyapp.ui.Resource
-import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_adjective_home.*
+import kotlinx.android.synthetic.main.fragment_home_adjective.*
 import javax.inject.Inject
 
 // TODO: Rename parameter arguments, choose names that match
@@ -64,7 +58,7 @@ class AdjectiveHomeFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_adjective_home, container, false)
+        return inflater.inflate(R.layout.fragment_home_adjective, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

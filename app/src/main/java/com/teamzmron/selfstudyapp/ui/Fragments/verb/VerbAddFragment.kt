@@ -80,7 +80,7 @@ class VerbAddFragment : BaseFragment() {
     }
 
     private fun saveInputFromlayout() {
-        val verbType = if (getVerbType().contains("")) "u" else "ru"
+        val verbType = if (getVerbType().contains("う")) "u" else "ru"
         val verb = Verb(
             verbType = verbType,
             masu = editText_verb_masu.text.toString(),

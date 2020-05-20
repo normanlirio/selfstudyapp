@@ -46,6 +46,19 @@
         android:id="@+id/nounEdit"
         android:name="com.teamzmron.selfstudyapp.ui.Fragments.noun.NounEditFragment"
         android:label="@string/edit_noun"
-        tools:layout="@layout/fragment_add_adjective" />
+        tools:layout="@layout/fragment_edit_noun" />
+
+    <fragment
+        android:id="@+id/adjEdit"
+        android:name="com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveEditFragment"
+        android:label="@string/edit_adjective"
+        tools:layout="@layout/fragment_edit_adjective" />
+
+    <fragment
+        android:id="@+id/verbEdit"
+        android:name="com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbEditFragment"
+        android:label="@string/edit_verb"
+        tools:layout="@layout/fragment_edit_verb" />
+
 
 </navigation>

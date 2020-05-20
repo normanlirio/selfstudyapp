@@ -16,7 +16,7 @@ class NounRepository(private val db: WordDatabase)  : BaseRepository() {
 
 
     fun getNounFromDB() : LiveData<Resource<List<Noun>>> {
-
+        nounList.value = Resource.loading(null)
         val source: LiveData<Resource<List<Noun>>> = LiveDataReactiveStreams.fromPublisher(
             db.nounDAO().getNoun()
                 .onErrorReturn {
@@ -60,6 +60,7 @@ class NounRepository(private val db: WordDatabase)  : BaseRepository() {
     }
 
     fun saveNounRepo(noun: Noun) {
+        saveResult.value = Resource.loading(null)
         val source: LiveData<Resource<Long>> = LiveDataReactiveStreams.fromPublisher(
             db.nounDAO().insertNoun(noun)
                 .toFlowable()
@@ -108,16 +109,26 @@ class NounRepository(private val db: WordDatabase)  : BaseRepository() {
     }
 
     fun updateNounRepo(noun: Noun) {
-        db.nounDAO().updateNoun(noun)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+        updateresult.value = Resource.loading(null)
+        val source: LiveData<Resource<Int>> = LiveDataReactiveStreams.fromPublisher(
+            db.nounDAO().updateNoun(noun)
+                .toFlowable()
+                .onErrorReturn {
+                    -1
+                }
+                .map {
+                    if (it == -1) {
+                        Resource.error("Something went wrong", null)
+                    }
+                    Resource.success(it)
+                }
+                .subscribeOn(Schedulers.io())
 
-            }, {
-                it.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
+        )
+        updateresult.addSource(source, Observer {
+            updateresult.value = it
+            updateresult.removeSource(source)
+        })
     }
 
     fun onClearDisposable() {

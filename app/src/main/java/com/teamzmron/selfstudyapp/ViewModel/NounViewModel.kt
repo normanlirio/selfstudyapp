@@ -13,6 +13,8 @@ class NounViewModel @Inject constructor(private val nounRepository: NounReposito
 
     fun observeSaveResult() : LiveData<Resource<Long>> = nounRepository.observeSaveResult()
 
+    fun observeUpdateResult() : LiveData<Resource<Int>> = nounRepository.observeUpdateResult()
+
     fun getNounsFromRepo()  : LiveData<Resource<List<Noun>>>{
        return  nounRepository.getNounFromDB()
     }

@@ -1,6 +1,7 @@
 package com.teamzmron.selfstudyapp.di.main
 
 import com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveAddFragment
+import com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveEditFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.Adjective.AdjectiveHomeFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.Home
@@ -8,6 +9,7 @@ import com.teamzmron.selfstudyapp.ui.Fragments.noun.NounAddFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.noun.NounEditFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.noun.NounHomeFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbAddFragment
+import com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbEditFragment
 import com.teamzmron.selfstudyapp.ui.Fragments.verb.VerbHomeFragment
 
 import dagger.Module
@@ -42,4 +44,10 @@ abstract class MainFragmentsModule {
 
     @ContributesAndroidInjector
     abstract fun contributeNounEditFragment() : NounEditFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeAdjectiveEditFragment() : AdjectiveEditFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeVerbEditFragment() : VerbEditFragment
 }

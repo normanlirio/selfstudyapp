@@ -89,6 +89,7 @@ class AdjectiveRepository(private val db: WordDatabase) : BaseRepository() {
     }
 
     fun deleteAdjectiveRepo(adj: Adjective) {
+        deleteResult.value = Resource.loading(null)
         val source: LiveData<Resource<Int>> = LiveDataReactiveStreams.fromPublisher(
             db.adjDao().deleteAdjective(adj)
                 .toFlowable()
@@ -113,16 +114,27 @@ class AdjectiveRepository(private val db: WordDatabase) : BaseRepository() {
 
 
     fun updateAdjectiveRepo(adj: Adjective) {
-        db.adjDao().updateAdjective(adj)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe ({
+        updateresult.value = Resource.loading(null)
+        val source: LiveData<Resource<Int>> = LiveDataReactiveStreams.fromPublisher(
+            db.adjDao().updateAdjective(adj)
+                .toFlowable()
+                .onErrorReturn {
+                    -1
+                }
+                .map {
+                    if(it < 0) {
+                        Resource.error("Something went wrong", null)
+                    }
 
-            }, {
-                it.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
+                    Resource.success(it)
+                }
+                .subscribeOn(Schedulers.io())
+        )
+
+        updateresult.addSource(source, Observer {
+            updateresult.value = it
+            updateresult.removeSource(source)
+        })
     }
 
     fun onClearDisposable() {

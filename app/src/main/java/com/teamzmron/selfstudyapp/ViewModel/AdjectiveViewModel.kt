@@ -15,6 +15,8 @@ class AdjectiveViewModel @Inject constructor(private val adjectiveRepository: Ad
 
     fun observeGetDeleteResult() : LiveData<Resource<Int>> = adjectiveRepository.observeDeleteResult()
 
+    fun observeUpdateResult() : LiveData<Resource<Int>> = adjectiveRepository.observeUpdateResult()
+
     fun getAdjectiveFromRepo(): LiveData<Resource<List<Adjective>>> {
         return adjectiveRepository.getAdjectiveFromDB()
     }

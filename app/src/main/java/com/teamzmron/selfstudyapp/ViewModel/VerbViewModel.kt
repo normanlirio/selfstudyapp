@@ -13,6 +13,8 @@ class VerbViewModel @Inject constructor(private val verbRepository: VerbReposito
 
     fun observeSaveResult() : LiveData<Resource<Long>> = verbRepository.observeSaveResult()
 
+    fun observeUpdateResult() : LiveData<Resource<Int>> = verbRepository.observeUpdateResult()
+
     fun getVerbsFromRepo(): LiveData<Resource<List<Verb>>> {
         return verbRepository.getVerbFromDB()
     }

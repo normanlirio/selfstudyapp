@@ -20,14 +20,9 @@ import javax.inject.Inject
 class VerbRepository(private val db: WordDatabase) : BaseRepository() {
     private val compositeDisposable = CompositeDisposable()
     private var verbList: MediatorLiveData<Resource<List<Verb>>> = MediatorLiveData()
-//    private var deleteResult : MediatorLiveData<Resource<Int>> = MediatorLiveData()
-//    private var saveResult: MediatorLiveData<Resource<Long>> = MediatorLiveData()
-//
-//    fun observeDeleteResult() : LiveData<Resource<Int>> = deleteResult
-//
-//    fun observeSaveResult() : LiveData<Resource<Long>> = saveResult
 
     fun getVerbFromDB(): MediatorLiveData<Resource<List<Verb>>> {
+        verbList.value = Resource.loading(null)
         val source: LiveData<Resource<List<Verb>>> = LiveDataReactiveStreams.fromPublisher(
             db.verbDao().getVerbs()
                 .onErrorReturn {
@@ -71,7 +66,7 @@ class VerbRepository(private val db: WordDatabase) : BaseRepository() {
     }
 
     fun saveVerbRepo(verb: Verb) {
-
+    saveResult.value = Resource.loading(null)
         val source: LiveData<Resource<Long>> = LiveDataReactiveStreams.fromPublisher(
             db.verbDao().insertVerb(verb)
                 .toFlowable()
@@ -97,6 +92,7 @@ class VerbRepository(private val db: WordDatabase) : BaseRepository() {
     }
 
     fun deleteVerbRepo(verb: Verb) {
+        deleteResult.value = Resource.loading(null)
         val source: LiveData<Resource<Int>> = LiveDataReactiveStreams.fromPublisher(
             db.verbDao().deleteVerb(verb)
                 .toFlowable()
@@ -121,16 +117,27 @@ class VerbRepository(private val db: WordDatabase) : BaseRepository() {
 
 
     fun updateVerbRepo(verb: Verb) {
-        db.verbDao().updateVerb(verb)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe ({
+        updateresult.value = Resource.loading(null)
+        val source: LiveData<Resource<Int>> = LiveDataReactiveStreams.fromPublisher(
+            db.verbDao().updateVerb(verb)
+                .toFlowable()
+                .onErrorReturn {
+                    -1
+                }
+                .map {
+                    if(it < 0) {
+                        Resource.error("Something went wrong", null)
+                    }
 
-            }, {
-                it.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
+                    Resource.success(it)
+                }
+                .subscribeOn(Schedulers.io())
+        )
+
+        updateresult.addSource(source, Observer {
+            updateresult.value = it
+            updateresult.removeSource(source)
+        })
     }
 
     fun onClearDisposable() {

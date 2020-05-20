@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamzmron.selfstudyapp.Adapters.VerbAdapter
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.VERB_DELETE_ID
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.VERB_EDIT_ID
+import com.teamzmron.selfstudyapp.Helper.Utils
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
@@ -99,14 +100,14 @@ class VerbHomeFragment : BaseFragment() {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
+        val verb = verbAdapter.getVerb(item.order)
+        sharedViewModel.setMutableVerb(verb)
         when(item.itemId) {
             VERB_EDIT_ID -> {
-                Log.v(TAG, "onContextItemSelected: Edit ${verbAdapter.getVerb(item.order).english  }")
+                Utils.navigateToOtherFragment(requireActivity(), R.id.verbEdit)
             }
             VERB_DELETE_ID -> {
-                Log.v(TAG, "onContextItemSelected: Delete ${item.groupId}")
                 deleteNoun(verbAdapter.getVerb(item.order), item.order)
-
             }
         }
         return super.onContextItemSelected(item)

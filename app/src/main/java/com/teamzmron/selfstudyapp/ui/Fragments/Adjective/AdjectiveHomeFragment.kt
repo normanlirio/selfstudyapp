@@ -16,6 +16,7 @@ import com.teamzmron.selfstudyapp.Helper.AdjectiveSwipeToDeleteHelper
 import com.teamzmron.selfstudyapp.Helper.Constants
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.ADJ_DELETE_ID
 import com.teamzmron.selfstudyapp.Helper.Constants.Companion.ADJ_EDIT_ID
+import com.teamzmron.selfstudyapp.Helper.Utils
 
 import com.teamzmron.selfstudyapp.R
 import com.teamzmron.selfstudyapp.Room.Entity.Adjective
@@ -101,9 +102,12 @@ class AdjectiveHomeFragment : BaseFragment() {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
+        val adj = adapter.getAdjective(item.order)
+        sharedViewModel.setMutableAdjective(adj)
         when(item.itemId) {
             ADJ_EDIT_ID -> {
                 Log.v(TAG, "onContextItemSelected: Edit ${adapter.getAdjective(item.order).english  }")
+                Utils.navigateToOtherFragment(requireActivity(), R.id.adjEdit)
             }
            ADJ_DELETE_ID -> {
                 deleteAdjective(adapter.getAdjective(item.order), item.order)

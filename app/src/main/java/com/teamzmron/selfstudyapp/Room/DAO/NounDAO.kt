@@ -10,6 +10,9 @@ interface NounDAO {
     @Insert(onConflict = REPLACE)
     fun insertNoun(noun : Noun) : Single<Long>
 
+    @Insert(onConflict = REPLACE)
+    fun insertInitialNoun(noun : Noun)
+
     @Query("SELECT * from noun ORDER BY english ASC")
     fun getNoun() : Flowable<List<Noun>>
 

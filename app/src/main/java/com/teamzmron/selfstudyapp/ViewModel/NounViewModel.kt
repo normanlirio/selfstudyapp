@@ -19,9 +19,6 @@ class NounViewModel @Inject constructor(private val nounRepository: NounReposito
        return  nounRepository.getNounFromDB()
     }
 
-    fun getNounById(id: Int): LiveData<Noun> {
-        return nounRepository.getNounByIdFromDB(id)
-    }
 
     fun saveToDB(noun: Noun)  {
        nounRepository.saveNounRepo(noun)

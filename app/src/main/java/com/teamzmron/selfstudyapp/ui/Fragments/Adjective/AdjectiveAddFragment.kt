@@ -106,6 +106,8 @@ class AdjectiveAddFragment : BaseFragment() {
                         Log.v("NounAddFragment", "subscribeObservers: Loading..")
                     }
                     Resource.Status.SUCCESS -> {
+                        Utils.showDialog(requireContext(), "Noun successfully saved.", "OK")
+                        editText_adj_japaneseWord.requestFocus()
                         clearTextFields()
                         Log.v("NounAddFragment", "subscribeObservers: Success.. ${it.data}")
 

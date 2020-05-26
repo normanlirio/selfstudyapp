@@ -21,6 +21,7 @@ import com.teamzmron.selfstudyapp.ViewModel.ViewModelProviderFactory
 import com.teamzmron.selfstudyapp.ui.Fragments.BaseFragment
 import com.teamzmron.selfstudyapp.ui.Resource
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.fragment_add_noun.*
 import kotlinx.android.synthetic.main.fragment_add_verb.*
 import javax.inject.Inject
 
@@ -109,6 +110,8 @@ class VerbAddFragment : BaseFragment() {
                         Log.v("NounAddFragment", "subscribeObservers: Loading..")
                     }
                     Resource.Status.SUCCESS -> {
+                        Utils.showDialog(requireContext(), "Noun successfully saved.", "OK")
+                        editText_verb_japaneseWord.requestFocus()
                         clearTextFields()
                         Log.v("NounAddFragment", "subscribeObservers: Success.. ${it.data}")
 

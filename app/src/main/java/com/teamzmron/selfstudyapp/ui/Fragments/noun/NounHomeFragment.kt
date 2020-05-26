@@ -73,9 +73,7 @@ class NounHomeFragment : BaseFragment() {
 
         subscribeObservers()
         initRecyclerView()
-
         homeActivity.unlockDrawer()
-
 
     }
 
@@ -86,14 +84,14 @@ class NounHomeFragment : BaseFragment() {
             if (it != null) {
                 when (it.status) {
                     Resource.Status.LOADING -> {
-                        Log.v("NounHomeFragment", "subscribeObservers: Loading..")
+                        Log.v(TAG, "subscribeObservers: Loading..")
                     }
                     Resource.Status.SUCCESS -> {
-                        Log.v("NounHomeFragment", "subscribeObservers: Success..")
+                        Log.v(TAG, "subscribeObservers: Success..")
                         nounAdapter.setNouns(it.data!!)
                     }
                     Resource.Status.ERROR -> {
-                        Log.v("NounHomeFragment","subscribeObservers: Oops something went wrong. ${it.message}"
+                        Log.v(TAG,"subscribeObservers: Oops something went wrong. ${it.message}"
                         )
                     }
                 }
@@ -114,21 +112,25 @@ class NounHomeFragment : BaseFragment() {
     override fun onContextItemSelected(item: MenuItem): Boolean {
         val noun = nounAdapter.getNoun(item.order)
         sharedViewModel.setMutableNoun(noun)
-        when (item.itemId) {
+      return  when (item.itemId) {
             NOUN_VIEW_ID -> {
                 Utils.navigateToOtherFragment(requireActivity(), R.id.nounView)
+                true
             }
             NOUN_EDIT_ID -> {
                 Utils.navigateToOtherFragment(requireActivity(), R.id.nounEdit)
-                Log.v(TAG, "onContextItemSelected: Edit ${noun.english}")
+                true
             }
             NOUN_DELETE_ID -> {
-                Log.v(TAG, "onContextItemSelected: Delete ${item.groupId}")
                 deleteNoun(noun, item.order)
-
+                true
             }
-        }
-        return super.onContextItemSelected(item)
+
+          else -> {
+              return super.onContextItemSelected(item)
+          }
+      }
+
 
     }
 

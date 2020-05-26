@@ -103,7 +103,8 @@ class NounAddFragment : BaseFragment() {
                     }
                     Resource.Status.SUCCESS -> {
                         clearTextFields()
-
+                        Utils.showDialog(requireContext(), "Noun successfully saved.", "OK")
+                        editText_noun_japanese.requestFocus()
                         Log.v("NounAddFragment", "subscribeObservers: Success.. ${it.data}")
 
                     }

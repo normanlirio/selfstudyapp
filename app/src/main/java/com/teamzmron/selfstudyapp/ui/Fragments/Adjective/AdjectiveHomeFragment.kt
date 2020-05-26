@@ -99,20 +99,24 @@ class AdjectiveHomeFragment : BaseFragment() {
     override fun onContextItemSelected(item: MenuItem): Boolean {
         val adj = adapter.getAdjective(item.order)
         sharedViewModel.setMutableAdjective(adj)
-        when(item.itemId) {
+        return when(item.itemId) {
             ADJ_VIEW_ID -> {
                 Utils.navigateToOtherFragment(requireActivity(), R.id.adjView)
+                true
             }
             ADJ_EDIT_ID -> {
-                Log.v(TAG, "onContextItemSelected: Edit ${adapter.getAdjective(item.order).english  }")
                 Utils.navigateToOtherFragment(requireActivity(), R.id.adjEdit)
+                true
             }
            ADJ_DELETE_ID -> {
                 deleteAdjective(adapter.getAdjective(item.order), item.order)
-
+               true
+            }
+            else -> {
+                return super.onContextItemSelected(item)
             }
         }
-        return super.onContextItemSelected(item)
+
 
     }
 

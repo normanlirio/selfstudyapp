@@ -76,14 +76,14 @@ class VerbHomeFragment : BaseFragment() {
             if (it != null) {
                 when (it.status) {
                     Resource.Status.LOADING -> {
-                        Log.v("VerbHomeFragment", "subscribeObservers: Loading..")
+                        Log.v(TAG, "subscribeObservers: Loading..")
                     }
                     Resource.Status.SUCCESS -> {
-                        Log.v("VerbHomeFragment", "subscribeObservers: Success..")
+                        Log.v(TAG, "subscribeObservers: Success..")
                         verbAdapter.setVerbs(it.data!!)
                     }
                     Resource.Status.ERROR -> {
-                        Log.v("VerbHomeFragment", "subscribeObservers: Oops something went wrong. ${it.message}")
+                        Log.v(TAG, "subscribeObservers: Oops something went wrong. ${it.message}")
                     }
                 }
             }
@@ -103,22 +103,28 @@ class VerbHomeFragment : BaseFragment() {
     override fun onContextItemSelected(item: MenuItem): Boolean {
         val verb = verbAdapter.getVerb(item.order)
         sharedViewModel.setMutableVerb(verb)
-        when(item.itemId) {
+        return when(item.itemId) {
             VERB_VIEW_ID -> {
                 Utils.navigateToOtherFragment(requireActivity(), R.id.verbView)
+                true
             }
             VERB_EDIT_ID -> {
                 Utils.navigateToOtherFragment(requireActivity(), R.id.verbEdit)
+                true
             }
             VERB_DELETE_ID -> {
-                deleteNoun(verbAdapter.getVerb(item.order), item.order)
+                deleteVerb(verbAdapter.getVerb(item.order), item.order)
+                true
+            }
+            else -> {
+                return super.onContextItemSelected(item)
             }
         }
-        return super.onContextItemSelected(item)
+
 
     }
 
-    private fun deleteNoun(verb : Verb, id: Int) {
+    private fun deleteVerb(verb : Verb, id: Int) {
         verbViewModel.deleteVerb(verb)
 
         verbViewModel.observeGetDeleteResult().removeObservers(this)

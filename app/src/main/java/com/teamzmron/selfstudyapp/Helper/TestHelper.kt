@@ -15,7 +15,7 @@ class TestHelper  {
         }
 
         fun insertInitialNoun() : Noun {
-            return Noun(0, "watashi", "i", "わたし", "", Utils.getTimeStamp() )
+            return Noun(0, "watashi", "i", "わたし", "私", Utils.getTimeStamp() )
         }
 
         fun insertInitialVerb() : Verb {

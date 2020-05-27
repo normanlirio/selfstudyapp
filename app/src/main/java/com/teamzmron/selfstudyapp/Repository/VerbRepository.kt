@@ -1,43 +1,58 @@
 package com.teamzmron.selfstudyapp.Repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.LiveDataReactiveStreams
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.teamzmron.selfstudyapp.Room.Database.WordDatabase
+
+import com.teamzmron.selfstudyapp.Room.Entity.Adjective
 import com.teamzmron.selfstudyapp.Room.Entity.Noun
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
 import com.teamzmron.selfstudyapp.SelfStudyApplication
+import com.teamzmron.selfstudyapp.ui.Resource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class VerbRepository {
+class VerbRepository(private val db: WordDatabase) : BaseRepository() {
     private val compositeDisposable = CompositeDisposable()
-    private fun getDBInstance(): WordDatabase {
-        return WordDatabase.getDatabasenIstance(SelfStudyApplication.getAppContext())
-    }
+    private var verbList: MediatorLiveData<Resource<List<Verb>>> = MediatorLiveData()
 
-    fun getVerbRepositoryInstance(): VerbRepository {
-        return VerbRepository()
-    }
+    fun getVerbFromDB(): MediatorLiveData<Resource<List<Verb>>> {
+        verbList.value = Resource.loading(null)
+        val source: LiveData<Resource<List<Verb>>> = LiveDataReactiveStreams.fromPublisher(
+            db.verbDao().getVerbs()
+                .onErrorReturn {
+                    var verb = Verb()
+                    verb.verbId = -1
+                    var list = ArrayList<Verb>()
+                    list.add(verb)
+                    list
+                }
+                .map {
+                    if (it.isNotEmpty()) {
+                        if (it[0].verbId == -1) {
+                            Resource.error("Something went wrong", null)
+                        }
+                    }
+                    Resource.success(it)
+                }
+                .subscribeOn(Schedulers.io())
+        )
 
-    fun getVerbFromDB(): MutableLiveData<List<Verb>> {
-        var list = MutableLiveData<List<Verb>>()
-        getDBInstance().verbDao().getVerbs()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                list.postValue(it)
-            }, { exception ->
-                exception.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
-        return list
+        verbList.addSource(source, Observer {
+            verbList.value = it
+            verbList.removeSource(source)
+        })
+        return verbList
     }
 
     fun getVerbByIdFromDB(id: Int): MutableLiveData<Verb> {
         var list = MutableLiveData<Verb>()
-        getDBInstance().verbDao().getVerbById(id)
+        db.verbDao().getVerbById(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -50,47 +65,79 @@ class VerbRepository {
         return list
     }
 
-    fun saveVerbRepo(verb: Verb): MutableLiveData<Long> {
-        val result = MutableLiveData<Long>()
-        getDBInstance().verbDao().insertVerb(verb)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                result.postValue(it)
-            }, {
+    fun saveVerbRepo(verb: Verb) {
+    saveResult.value = Resource.loading(null)
+        val source: LiveData<Resource<Long>> = LiveDataReactiveStreams.fromPublisher(
+            db.verbDao().insertVerb(verb)
+                .toFlowable()
+                .onErrorReturn {
+                    val errorLong = (-1).toLong()
+                    errorLong
+                }
+                .map {
+                    if(it < 0) {
+                        Resource.error("Something went wrong", null)
+                    }
 
-                it.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
-        return result
+                    Resource.success(it)
+                }
+                .subscribeOn(Schedulers.io())
+        )
+
+        saveResult.addSource(source, Observer {
+            saveResult.value = it
+            saveResult.removeSource(source)
+        })
+
     }
 
     fun deleteVerbRepo(verb: Verb) {
-        getDBInstance().verbDao().deleteVerb(verb)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+        deleteResult.value = Resource.loading(null)
+        val source: LiveData<Resource<Int>> = LiveDataReactiveStreams.fromPublisher(
+            db.verbDao().deleteVerb(verb)
+                .toFlowable()
+                .onErrorReturn {
+                  -1
+                }
+                .map {
+                    if(it < 0) {
+                        Resource.error("Something went wrong", null)
+                    }
 
-            }, {
-                it.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
+                    Resource.success(it)
+                }
+                .subscribeOn(Schedulers.io())
+        )
+
+        deleteResult.addSource(source, Observer {
+            deleteResult.value = it
+            deleteResult.removeSource(source)
+        })
     }
 
 
     fun updateVerbRepo(verb: Verb) {
-        getDBInstance().verbDao().updateVerb(verb)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe ({
+        updateresult.value = Resource.loading(null)
+        val source: LiveData<Resource<Int>> = LiveDataReactiveStreams.fromPublisher(
+            db.verbDao().updateVerb(verb)
+                .toFlowable()
+                .onErrorReturn {
+                    -1
+                }
+                .map {
+                    if(it < 0) {
+                        Resource.error("Something went wrong", null)
+                    }
 
-            }, {
-                it.localizedMessage
-            }).let {
-                compositeDisposable.add(it)
-            }
+                    Resource.success(it)
+                }
+                .subscribeOn(Schedulers.io())
+        )
+
+        updateresult.addSource(source, Observer {
+            updateresult.value = it
+            updateresult.removeSource(source)
+        })
     }
 
     fun onClearDisposable() {

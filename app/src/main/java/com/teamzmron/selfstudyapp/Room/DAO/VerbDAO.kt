@@ -12,6 +12,9 @@ interface VerbDAO  {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertVerb(verb : Verb) : Single<Long>
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertInitialVerb(verb : Verb)
+
     @Query("SELECT * from verb ORDER BY english ASC")
     fun getVerbs() : Flowable<List<Verb>>
 

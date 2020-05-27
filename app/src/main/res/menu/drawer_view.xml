@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+            <group android:checkableBehavior="none">
+                <item
+                    android:id="@+id/navNounAdd"
+                    android:title="@string/add_noun" />
+                <item
+                    android:id="@+id/navVerbAdd"
+                    android:title="@string/add_verb" />
+                <item
+                    android:id="@+id/navAdjAdd"
+                    android:title="@string/add_adjective" />
+            </group>
+
+</menu>

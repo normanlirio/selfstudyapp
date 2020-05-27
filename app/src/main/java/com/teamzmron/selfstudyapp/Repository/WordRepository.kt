@@ -12,7 +12,7 @@ class WordRepository {
 
     private val compositeDisposable = CompositeDisposable()
     private fun getDBInstance(): WordDatabase {
-        return WordDatabase.getDatabasenIstance(SelfStudyApplication.getAppContext())
+        return WordDatabase.getDatabaseInstance(SelfStudyApplication.getAppContext())
     }
 
     fun getWordRepoInstance(): WordRepository {

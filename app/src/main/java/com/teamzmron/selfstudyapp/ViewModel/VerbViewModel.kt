@@ -4,36 +4,37 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.teamzmron.selfstudyapp.Repository.VerbRepository
 import com.teamzmron.selfstudyapp.Room.Entity.Verb
+import com.teamzmron.selfstudyapp.ui.Resource
+import javax.inject.Inject
 
-class VerbViewModel : ViewModel() {
+class VerbViewModel @Inject constructor(private val verbRepository: VerbRepository) : ViewModel() {
 
-    private fun getVerbRepoInstance() : VerbRepository {
-        return VerbRepository().getVerbRepositoryInstance()
+    fun observeGetDeleteResult() : LiveData<Resource<Int>> = verbRepository.observeDeleteResult()
+
+    fun observeSaveResult() : LiveData<Resource<Long>> = verbRepository.observeSaveResult()
+
+    fun observeUpdateResult() : LiveData<Resource<Int>> = verbRepository.observeUpdateResult()
+
+    fun getVerbsFromRepo(): LiveData<Resource<List<Verb>>> {
+        return verbRepository.getVerbFromDB()
     }
 
-    fun getVerbsFromRepo(): LiveData<List<Verb>> {
-        return getVerbRepoInstance().getVerbFromDB()
-    }
 
-    fun getVerbById(id: Int): LiveData<Verb> {
-        return getVerbRepoInstance().getVerbByIdFromDB(id)
-    }
-
-    fun saveToDB(verb: Verb) : LiveData<Long>{
-       return getVerbRepoInstance().saveVerbRepo(verb)
+    fun saveToDB(verb: Verb) {
+        verbRepository.saveVerbRepo(verb)
     }
 
     fun updateVerb(verb: Verb) {
-        getVerbRepoInstance().updateVerbRepo(verb)
+        verbRepository.updateVerbRepo(verb)
     }
 
 
-    fun deleteVerbById(verb: Verb) {
-        getVerbRepoInstance().deleteVerbRepo(verb)
+    fun deleteVerb(verb: Verb) {
+        verbRepository.deleteVerbRepo(verb)
     }
 
     override fun onCleared() {
-        getVerbRepoInstance().onClearDisposable()
+        verbRepository.onClearDisposable()
         super.onCleared()
     }
 

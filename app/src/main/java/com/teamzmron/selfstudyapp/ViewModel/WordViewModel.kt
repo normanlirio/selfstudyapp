@@ -3,8 +3,9 @@ package com.teamzmron.selfstudyapp.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.teamzmron.selfstudyapp.Repository.WordRepository
+import javax.inject.Inject
 
-class WordViewModel : ViewModel() {
+class WordViewModel @Inject constructor() : ViewModel() {
     private fun getWordRepoInstance() : WordRepository {
         return WordRepository().getWordRepoInstance()
     }

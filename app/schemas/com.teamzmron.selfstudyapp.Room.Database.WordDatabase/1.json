@@ -1,0 +1,278 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "bca7d50b8ddbd43f73bb3bf1b82029ee",
+    "entities": [
+      {
+        "tableName": "noun",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `japanese` TEXT, `english` TEXT, `hiragana` TEXT, `kanji` TEXT, `timestamp` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "japanese",
+            "columnName": "japanese",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "english",
+            "columnName": "english",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hiragana",
+            "columnName": "hiragana",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "kanji",
+            "columnName": "kanji",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "verb",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `type` TEXT, `masu` TEXT, `masupast` TEXT, `masunegative` TEXT, `masupastnegative` TEXT, `englishWord` TEXT NOT NULL, `japaneseWord` TEXT NOT NULL, `hiraganaForm` TEXT NOT NULL, `kanjiForm` TEXT NOT NULL, `currentTimestamp` TEXT NOT NULL, `japanese` TEXT, `english` TEXT, `hiragana` TEXT, `kanji` TEXT, `timestamp` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "verbId",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "verbType",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "masu",
+            "columnName": "masu",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "masuPast",
+            "columnName": "masupast",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "masuNegative",
+            "columnName": "masunegative",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "masuPastNegative",
+            "columnName": "masupastnegative",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "englishWord",
+            "columnName": "englishWord",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "japaneseWord",
+            "columnName": "japaneseWord",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hiraganaForm",
+            "columnName": "hiraganaForm",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kanjiForm",
+            "columnName": "kanjiForm",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentTimestamp",
+            "columnName": "currentTimestamp",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "japanese",
+            "columnName": "japanese",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "english",
+            "columnName": "english",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hiragana",
+            "columnName": "hiragana",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "kanji",
+            "columnName": "kanji",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "adjective",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `type` TEXT, `negative` TEXT, `past` TEXT, `pastnegative` TEXT, `englishWord` TEXT NOT NULL, `japaneseWord` TEXT NOT NULL, `hiraganaForm` TEXT NOT NULL, `kanjiForm` TEXT NOT NULL, `currentTimestamp` TEXT NOT NULL, `japanese` TEXT, `english` TEXT, `hiragana` TEXT, `kanji` TEXT, `timestamp` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "adjId",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "adjType",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "adjNegative",
+            "columnName": "negative",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "adjPast",
+            "columnName": "past",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "adjPastNegative",
+            "columnName": "pastnegative",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "englishWord",
+            "columnName": "englishWord",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "japaneseWord",
+            "columnName": "japaneseWord",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hiraganaForm",
+            "columnName": "hiraganaForm",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kanjiForm",
+            "columnName": "kanjiForm",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentTimestamp",
+            "columnName": "currentTimestamp",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "japanese",
+            "columnName": "japanese",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "english",
+            "columnName": "english",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hiragana",
+            "columnName": "hiragana",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "kanji",
+            "columnName": "kanji",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bca7d50b8ddbd43f73bb3bf1b82029ee')"
+    ]
+  }
+}

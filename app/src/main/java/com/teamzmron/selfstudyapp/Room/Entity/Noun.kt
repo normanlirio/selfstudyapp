@@ -9,9 +9,9 @@ class Noun(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id") var id:Int ? = null,
 
-    japanese: String,
-    english: String,
-    hiragana: String,
-    kanji: String,
-    timestamp: String
+    japanese: String = "",
+    english: String= "",
+    hiragana: String= "",
+    kanji: String= "",
+    timestamp: String= ""
 ) : BaseWord(japanese, english, hiragana, kanji, timestamp)

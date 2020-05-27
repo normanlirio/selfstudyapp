@@ -11,6 +11,9 @@ interface AdjectiveDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAdjective(adjective : Adjective) : Single<Long>
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertInitialAdjective(adjective : Adjective)
+
     @Query("SELECT * from adjective ORDER BY english ASC")
     fun getAdjectives() : Flowable<List<Adjective>>
 

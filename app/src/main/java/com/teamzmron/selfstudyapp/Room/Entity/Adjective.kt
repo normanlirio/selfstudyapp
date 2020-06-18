@@ -2,6 +2,7 @@ package com.teamzmron.selfstudyapp.Room.Entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "adjective")
@@ -28,4 +29,30 @@ data class Adjective(
     var kanjiForm: String = "",
     var currentTimestamp : String = ""
 
-) : BaseWord(japaneseWord, englishWord, hiraganaForm, kanjiForm, currentTimestamp)
+) : BaseWord(japaneseWord, englishWord, hiraganaForm, kanjiForm, currentTimestamp) {
+
+    @Ignore
+    constructor(adj: Adjective) : this(
+        adjId = adj.adjId,
+        adjType = adj.adjType,
+        adjNegative = adj.adjNegative,
+        adjPast = adj.adjPast,
+        adjPastNegative = adj.adjPastNegative,
+        englishWord = adj.englishWord,
+        japaneseWord = adj.japaneseWord,
+        hiraganaForm = adj.hiraganaForm,
+        kanjiForm = adj.kanjiForm,
+        currentTimestamp = adj.currentTimestamp
+    )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Adjective
+
+        return adjId == other.adjId && englishWord == other.englishWord && japaneseWord == other.japaneseWord && hiraganaForm == other.hiraganaForm && kanjiForm == other.kanjiForm
+                && adjPast == other.adjPast && adjPast == other.adjPast && adjPastNegative == other.adjPastNegative && adjNegative == other.adjNegative && adjType == other.adjType
+    }
+
+}

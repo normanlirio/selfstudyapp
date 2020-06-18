@@ -14,8 +14,9 @@ class NounRepository(private val db: WordDatabase)  : BaseRepository() {
     private val compositeDisposable = CompositeDisposable()
     private var nounList: MediatorLiveData<Resource<List<Noun>>> = MediatorLiveData()
 
+    fun observeNounList() : LiveData<Resource<List<Noun>>> = nounList
 
-    fun getNounFromDB() : LiveData<Resource<List<Noun>>> {
+    fun getNounFromDB()  {
         nounList.value = Resource.loading(null)
         val source: LiveData<Resource<List<Noun>>> = LiveDataReactiveStreams.fromPublisher(
             db.nounDAO().getNoun()
@@ -41,7 +42,6 @@ class NounRepository(private val db: WordDatabase)  : BaseRepository() {
             nounList.value = it
             nounList.removeSource(source)
         })
-        return nounList
     }
 
     fun getNounByIdFromDB(id: Int): LiveData<Noun> {
@@ -85,26 +85,31 @@ class NounRepository(private val db: WordDatabase)  : BaseRepository() {
     }
 
     fun deleteNounRepo(noun: Noun)  {
-        deleteResult.value = Resource.loading(null)
-        val source: LiveData<Resource<Int>> = LiveDataReactiveStreams.fromPublisher(
-            db.nounDAO().deleteNoun(noun)
-                .toFlowable()
-                .onErrorReturn {
-                    -1
-                }
-                .map {
-                    if (it == -1) {
-                        Resource.error("Something went wrong", null)
+        try {
+            deleteResult.value = Resource.loading(null)
+            val source: LiveData<Resource<Int>> = LiveDataReactiveStreams.fromPublisher(
+                db.nounDAO().deleteNoun(noun)
+                    .toFlowable()
+                    .onErrorReturn {
+                        -1
                     }
-                    Resource.success(it)
-                }
-                .subscribeOn(Schedulers.io())
+                    .map {
+                        if (it == -1) {
+                            Resource.error("Something went wrong", null)
+                        }
+                        Resource.success(it)
+                    }
+                    .subscribeOn(Schedulers.io())
 
-        )
-        deleteResult.addSource(source, Observer {
-            deleteResult.value = it
-            deleteResult.removeSource(source)
-        })
+            )
+            deleteResult.addSource(source, Observer {
+                deleteResult.value = it
+                deleteResult.removeSource(source)
+            })
+        } catch (e: Exception) {
+            throw Exception("DELETE FAILURE")
+        }
+
 
     }
 

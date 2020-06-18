@@ -2,6 +2,7 @@ package com.teamzmron.selfstudyapp.Room.Entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 
@@ -31,4 +32,30 @@ data class Verb (
     var kanjiForm: String = "",
     var currentTimestamp : String = ""
 
-) : BaseWord( japaneseWord, englishWord, hiraganaForm, kanjiForm, currentTimestamp)
+) : BaseWord( japaneseWord, englishWord, hiraganaForm, kanjiForm, currentTimestamp) {
+
+    @Ignore
+    constructor(verb: Verb) : this(verbId =verb.verbId,
+        verbType = verb.verbType,
+        masu =verb.masu,
+        masuPast = verb.masuPast,
+        masuNegative = verb.masuNegative,
+        masuPastNegative = verb.masuPastNegative,
+        englishWord = verb.englishWord,
+        japaneseWord = verb.japaneseWord,
+        hiraganaForm = verb.hiraganaForm,
+        kanjiForm = verb.kanjiForm,
+        currentTimestamp = verb.currentTimestamp)
+
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Verb
+
+        return verbId == other.verbId && englishWord == other.englishWord && japaneseWord == other.japaneseWord && hiraganaForm == other.hiraganaForm && kanjiForm == other.kanjiForm && masu == other.masu &&
+                masuPast == other.masuPast && masuNegative == other.masuPast && masuPastNegative == other.masuPastNegative
+    }
+
+}

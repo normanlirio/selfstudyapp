@@ -42,15 +42,24 @@ abstract class WordDatabase : RoomDatabase()  {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
                             Executors.newSingleThreadExecutor().execute {
-                                getDatabaseInstance(mContext).nounDAO().insertInitialNoun(TestHelper.insertInitialNoun())
+                                TestHelper.insertInitialNoun().forEach {
+                                    getDatabaseInstance(mContext).nounDAO().insertInitialNoun(it)
+                                }
+
                             }
 
                             Executors.newSingleThreadExecutor().execute {
-                                getDatabaseInstance(mContext).verbDao().insertInitialVerb(TestHelper.insertInitialVerb())
+                                TestHelper.insertInitialVerb().forEach {
+                                    getDatabaseInstance(mContext).verbDao().insertInitialVerb(it)
+                                }
+
                             }
 
                             Executors.newSingleThreadExecutor().execute {
-                                getDatabaseInstance(mContext).adjDao().insertInitialAdjective(TestHelper.insertInitiaAdjective())
+                                TestHelper.insertInitiaAdjective().forEach {
+                                    getDatabaseInstance(mContext).adjDao().insertInitialAdjective(it)
+                                }
+
                             }
 
                         }

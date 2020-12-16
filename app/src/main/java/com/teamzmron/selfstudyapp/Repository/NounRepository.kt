@@ -14,9 +14,8 @@ class NounRepository(private val db: WordDatabase)  : BaseRepository() {
     private val compositeDisposable = CompositeDisposable()
     private var nounList: MediatorLiveData<Resource<List<Noun>>> = MediatorLiveData()
 
-    fun observeNounList() : LiveData<Resource<List<Noun>>> = nounList
 
-    fun getNounFromDB()  {
+    fun getNounFromDB() : LiveData<Resource<List<Noun>>> {
         nounList.value = Resource.loading(null)
         val source: LiveData<Resource<List<Noun>>> = LiveDataReactiveStreams.fromPublisher(
             db.nounDAO().getNoun()
@@ -39,9 +38,12 @@ class NounRepository(private val db: WordDatabase)  : BaseRepository() {
         )
 
         nounList.addSource(source, Observer {
-            nounList.value = it
             nounList.removeSource(source)
+            nounList.value = it
+
         })
+
+        return nounList
     }
 
     fun getNounByIdFromDB(id: Int): LiveData<Noun> {

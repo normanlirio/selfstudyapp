@@ -15,8 +15,8 @@ class NounViewModel @Inject constructor(private val nounRepository: NounReposito
 
     fun observeUpdateResult() : LiveData<Resource<Int>> = nounRepository.observeUpdateResult()
 
-    fun getNounsFromRepo()  : LiveData<Resource<List<Noun>>>{
-       return  nounRepository.getNounFromDB()
+    fun getNounsFromRepo() : LiveData<Resource<List<Noun>>>{
+      return nounRepository.getNounFromDB()
     }
 
 
